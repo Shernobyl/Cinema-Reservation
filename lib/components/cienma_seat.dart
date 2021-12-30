@@ -6,8 +6,12 @@ class CienmaSeat extends StatefulWidget {
   bool isReserved;
 
   bool isSelected;
-
-  CienmaSeat({Key? key, this.isSelected = false, this.isReserved = false})
+  int index;
+  CienmaSeat(
+      {Key? key,
+      this.isSelected = false,
+      this.isReserved = false,
+      this.index = 0})
       : super(key: key);
 
   @override

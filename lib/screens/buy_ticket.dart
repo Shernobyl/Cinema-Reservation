@@ -4,10 +4,15 @@ import 'package:movies_app_flutter/components/cienma_seat.dart';
 import 'package:movies_app_flutter/components/show_time.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 
-class BuyTicket extends StatelessWidget {
+class BuyTicket extends StatefulWidget {
   final title;
-
   const BuyTicket(this.title, {Key? key}) : super(key: key);
+
+  @override
+  _BuyTicketState createState() => _BuyTicketState();
+}
+
+class _BuyTicketState extends State<BuyTicket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +45,7 @@ class BuyTicket extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 32),
                 child: SizedBox(
                   child: Text(
-                    title,
+                    widget.title,
                     style: kTitleTicketsTextStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -161,7 +166,7 @@ class BuyTicket extends StatelessWidget {
               ),
               Center(child: Image.asset('images/screen.png')),
               Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -169,191 +174,47 @@ class BuyTicket extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        CienmaSeat(index: 0),
+                        CienmaSeat(index: 1),
                         SizedBox(
                           width: (MediaQuery.of(context).size.width / 20),
                         ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20) * 2,
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
+                        CienmaSeat(index: 2),
+                        CienmaSeat(index: 3),
                       ],
                     ),
                     // Second Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20) * 2,
-                        ),
-                        CienmaSeat(
-                          isReserved: true,
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
+                        CienmaSeat(index: 4),
+                        CienmaSeat(index: 5),
+                        CienmaSeat(index: 6),
+                        CienmaSeat(index: 7),
+                        CienmaSeat(index: 8),
                       ],
                     ),
                     // Third  Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20) * 2,
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(
-                          isReserved: true,
-                        ),
-                        CienmaSeat(
-                          isReserved: true,
-                        ),
+                        CienmaSeat(index: 9),
+                        CienmaSeat(index: 10),
+                        CienmaSeat(index: 11),
+                        CienmaSeat(index: 12),
+                        CienmaSeat(index: 13),
                       ],
                     ),
                     // 4TH Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20) * 2,
-                        ),
-                        CienmaSeat(
-                          isReserved: true,
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                      ],
-                    ),
-                    // 5TH Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20) * 2,
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                      ],
-                    ),
-                    // 6TH Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20) * 2,
-                        ),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                      ],
-                    ),
-                    // final Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
-                        CienmaSeat(),
+                        CienmaSeat(index: 14),
+                        CienmaSeat(index: 15),
+                        CienmaSeat(index: 16),
+                        CienmaSeat(index: 17),
+                        CienmaSeat(index: 18),
+                        CienmaSeat(index: 19),
                       ],
                     ),
                   ],
