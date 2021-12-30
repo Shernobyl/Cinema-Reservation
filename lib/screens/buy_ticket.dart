@@ -13,6 +13,7 @@ class BuyTicket extends StatefulWidget {
 }
 
 class _BuyTicketState extends State<BuyTicket> {
+  List<int> pickedItems = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
