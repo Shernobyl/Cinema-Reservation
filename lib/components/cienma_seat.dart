@@ -7,11 +7,14 @@ class CienmaSeat extends StatefulWidget {
 
   bool isSelected;
   int index;
+  Function(int) onSelectParam;
+
   CienmaSeat(
       {Key? key,
       this.isSelected = false,
       this.isReserved = false,
-      this.index = 0})
+      this.index = 0,
+      required this.onSelectParam})
       : super(key: key);
 
   @override
@@ -27,6 +30,7 @@ class _CienmaSeatState extends State<CienmaSeat> {
       onTap: () {
         setState(() {
           !widget.isReserved ? widget.isSelected = !widget.isSelected : null;
+          widget.onSelectParam(widget.index);
         });
       },
       child: Container(

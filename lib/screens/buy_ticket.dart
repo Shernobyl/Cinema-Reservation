@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:movies_app_flutter/components/calendar_day.dart';
 import 'package:movies_app_flutter/components/cienma_seat.dart';
@@ -13,7 +15,17 @@ class BuyTicket extends StatefulWidget {
 }
 
 class _BuyTicketState extends State<BuyTicket> {
+  String price = '0';
   List<int> pickedItems = [];
+
+  onSelectParam(index) {
+    if (pickedItems.contains(index)) {
+      pickedItems.remove(index);
+    } else {
+      pickedItems.add(index);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +33,8 @@ class _BuyTicketState extends State<BuyTicket> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: .0, left: .0),
@@ -169,54 +181,67 @@ class _BuyTicketState extends State<BuyTicket> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // First Seat Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CienmaSeat(index: 0),
-                        CienmaSeat(index: 1),
-                        SizedBox(
-                          width: (MediaQuery.of(context).size.width / 20),
-                        ),
-                        CienmaSeat(index: 2),
-                        CienmaSeat(index: 3),
-                      ],
+                    Container(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: 50,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return CienmaSeat(
+                                index: index,
+                                onSelectParam: onSelectParam,
+                              );
+                            }),
+                      ),
                     ),
                     // Second Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CienmaSeat(index: 4),
-                        CienmaSeat(index: 5),
-                        CienmaSeat(index: 6),
-                        CienmaSeat(index: 7),
-                        CienmaSeat(index: 8),
-                      ],
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            return CienmaSeat(
+                              index: index + 5,
+                              onSelectParam: onSelectParam,
+                            );
+                          }),
                     ),
                     // Third  Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CienmaSeat(index: 9),
-                        CienmaSeat(index: 10),
-                        CienmaSeat(index: 11),
-                        CienmaSeat(index: 12),
-                        CienmaSeat(index: 13),
-                      ],
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return CienmaSeat(
+                              index: index + 10,
+                              onSelectParam: onSelectParam,
+                            );
+                          }),
                     ),
                     // 4TH Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CienmaSeat(index: 14),
-                        CienmaSeat(index: 15),
-                        CienmaSeat(index: 16),
-                        CienmaSeat(index: 17),
-                        CienmaSeat(index: 18),
-                        CienmaSeat(index: 19),
-                      ],
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return CienmaSeat(
+                              index: index + 15,
+                              onSelectParam: onSelectParam,
+                            );
+                          }),
                     ),
                   ],
                 ),
@@ -224,10 +249,10 @@ class _BuyTicketState extends State<BuyTicket> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 25.0),
                     child: Text(
-                      '30\$',
+                      '$price',
                       style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -241,7 +266,10 @@ class _BuyTicketState extends State<BuyTicket> {
                         color: kActionColor,
                         borderRadius:
                             BorderRadius.only(topLeft: Radius.circular(25.0))),
-                    child: const InkWell(
+                    child: InkWell(
+                        onTap: () {
+                          print(pickedItems);
+                        },
                         child: Text('Pay',
                             style: TextStyle(
                                 color: Colors.white,

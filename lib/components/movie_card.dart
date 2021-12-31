@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
@@ -12,7 +10,11 @@ class MovieCard extends StatelessWidget {
   final bool active;
 
   const MovieCard(
-      {Key? key, required this.title, required this.imageLink, required this.callBack, required this.active})
+      {Key? key,
+      required this.title,
+      required this.imageLink,
+      required this.callBack,
+      required this.active})
       : super(key: key);
 
   @override
@@ -25,7 +27,9 @@ class MovieCard extends StatelessWidget {
           child: InkWell(
             onTap: callBack as void Function()?,
             child: SizedBox(
-              width: active ? MediaQuery.of(context).size.width / 3 : MediaQuery.of(context).size.width / 4,
+              width: active
+                  ? MediaQuery.of(context).size.width / 3
+                  : MediaQuery.of(context).size.width / 4,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25.0),
                 child: Image.network(imageLink),
