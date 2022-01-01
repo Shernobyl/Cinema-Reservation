@@ -4,6 +4,9 @@ import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'package:email_validator/email_validator.dart';
+import 'dart:convert';
+import '../services/auth_user.dart';
+
 
 enum EnumEmail { valid, invalid }
 enum EnumError { show, hide }
@@ -33,7 +36,7 @@ class _signupState extends State<signup> {
   EnumError errorPassword = EnumError.hide;
   EnumError errorFirstName = EnumError.hide;
   EnumError errorLastName = EnumError.hide;
-  EnumError errorAge = EnumError.hide;
+  EnumError errorUserName = EnumError.hide;
   bool _hiddenText = true;
 
   String email_validation = "";
@@ -42,6 +45,9 @@ class _signupState extends State<signup> {
   String lastName = "";
   String passwordErrorText = "";
   String emailErrorText = "";
+  String userName="";
+  String role="customer";
+
 
   bool checkBoxValue = false;
   bool checkBoxRed = false;
@@ -141,10 +147,32 @@ class _signupState extends State<signup> {
     }
   }
 
+   void UserNameChecking() {
+    if (userName?.isNotEmpty ?? false) {
+      if (userName.contains(" ")) {
+        setState(
+          () {
+            errorUserName = EnumError.show;
+          },
+        );
+      } else {
+        setState(() {
+          errorUserName = EnumError.hide;
+        });
+      }
+    } else if (userName?.isEmpty ?? true) {
+      setState(
+        () {
+          errorUserName = EnumError.show;
+        },
+      );
+    }
+  }
+
   /// Checks if the last name text box empty
   void lastNameChecking() {
     if (lastName?.isNotEmpty ?? false) {
-           if (lastName.contains(" ")) {
+      if (lastName.contains(" ")) {
         setState(
           () {
             errorLastName = EnumError.show;
@@ -267,10 +295,10 @@ class _signupState extends State<signup> {
         ),
         TextField(
           onChanged: (valueFirstName) {
-            // firstName = valueFirstName;
+            userName = valueFirstName;
           },
           decoration: InputDecoration(
-            // errorText: (errorFirstName == EnumError.show) ? "Required" : null,
+            errorText: (errorUserName == EnumError.show) ? "Required" : null,
             labelText: 'User name',
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -337,13 +365,54 @@ class _signupState extends State<signup> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("Manager"),
+            Checkbox(
+              checkColor: Colors.white,
+              fillColor: MaterialStateProperty.resolveWith(getColor),
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             TextButton(
-                onPressed: () {
+                onPressed: () async {
                   emailChecking();
                   firstNameChecking();
                   lastNameChecking();
-
                   passwordChecking();
+                  UserNameChecking();
+                  if (errorEmail == EnumError.hide &&
+                      errorFirstName == EnumError.hide &&
+                      errorLastName == EnumError.hide &&
+                      errorPassword == EnumError.hide &&
+                      errorUserName==EnumError.hide
+                      ) {
+
+                        if (isChecked)
+                        {
+                          role="manager";
+                        }
+
+                        var res=await signUp(userName,email_validation,firstName,password_validation,lastName,role);
+
+                        if (res.data["status"]=="success"){
+
+                        Navigator.pop(context);
+
+                        }
+
+                        print(res.data["status"]);
+
+
+
+                      }
                 },
                 child: Text("Sign Up")),
           ],

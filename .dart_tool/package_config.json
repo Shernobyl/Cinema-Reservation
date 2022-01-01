@@ -68,6 +68,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "dio",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/dio-4.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "email_validator",
       "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/email_validator-2.0.1",
       "packageUri": "lib/",
@@ -344,7 +350,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-01-01T11:13:24.918102Z",
+  "generated": "2022-01-01T19:15:04.643386Z",
   "generator": "pub",
   "generatorVersion": "2.15.1"
 }
