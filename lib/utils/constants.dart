@@ -64,7 +64,7 @@ final kHomeScreenButtonTextStyle = TextStyle(
 );
 
 final kBoldTitleTextStyle = TextStyle(
-  fontSize: 8.sp,
+  fontSize: 10.sp,
   fontWeight: FontWeight.bold,
   shadows: kTextShadow,
 );
@@ -83,6 +83,11 @@ final kDrawerDescTextStyle = TextStyle(
   fontSize: 6.sp,
   color: kDrawerTextColor,
   height: 0.19.h,
+);
+
+final kDateTextStyle = TextStyle(
+  fontSize: 6.sp,
+  color: kDrawerTextColor,
 );
 
 final kAppBarTitleTextStyle = TextStyle(

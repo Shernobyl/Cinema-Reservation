@@ -102,29 +102,32 @@ class MovieCard extends StatelessWidget {
                             Expanded(
                               child: Wrap(
                                 children: [
-                                  Text("${moviePreview.title} ",
-                                      style: kBoldTitleTextStyle),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 18.0),
+                                    child: Text("${moviePreview.title} ",
+                                        style: kBoldTitleTextStyle),
+                                  ),
                                   Text(
                                       (moviePreview.year == "")
                                           ? ""
-                                          : "(${moviePreview.year})",
-                                      style: kTitleTextStyle),
+                                          : "${moviePreview.year}",
+                                      style: kDateTextStyle),
                                   Text(
                                       (moviePreview.startDate == "")
                                           ? ""
-                                          : "(Start Date:${moviePreview.startDate})",
-                                      style: kSubTitleCardBoxTextStyle),
+                                          : "Start Date:${moviePreview.startDate}",
+                                      style: kDateTextStyle),
                                   Text(
                                       (moviePreview.endDate == "")
                                           ? ""
-                                          : "(End Date:${moviePreview.endDate})",
-                                      style: kSubTitleCardBoxTextStyle),
+                                          : "End Date:${moviePreview.endDate}",
+                                      style: kDateTextStyle),
                                 ],
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 1.5.w),
+                        SizedBox(height: 0.0.w),
                         Text(
                           moviePreview.overview,
                           style: kSubTitleCardBoxTextStyle,

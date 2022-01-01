@@ -140,6 +140,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               style: kSmallTitleTextStyle),
                         ),
                       ),
+                      SizedBox(height: 1.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.h),
                         child: Text(
@@ -148,6 +149,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               fontSize: 16.sp, color: Color(0xFFC9C9C9)),
                         ),
                       ),
+                      SizedBox(height: 1.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.h),
                         child: Text(

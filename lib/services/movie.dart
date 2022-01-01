@@ -54,7 +54,7 @@ class MovieModel {
             endDate: item["endTime"],
             seats: item["seats"].cast<bool>(),
             screeningRoom: item["screeningRoom"],
-            overview: " ",
+            overview: item["overview"],
           ),
           themeColor: themeColor,
         ),
