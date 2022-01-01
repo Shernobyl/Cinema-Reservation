@@ -16,7 +16,6 @@ import 'package:movies_app_flutter/widgets/movie_card_container.dart';
 import 'package:movies_app_flutter/widgets/shadowless_floating_button.dart';
 import 'package:movies_app_flutter/widgets/beauty_textfield.dart';
 import 'package:movies_app_flutter/components/red_rounded_action_button.dart';
-
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 
@@ -44,12 +43,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
-    _movieCards = (bottomBarIndex == 1)
-        ? await movieModel.getMovies(
-            moviesType: MoviePageType.values[activeInnerPageIndex!],
-            themeColor: themeColor!)
-        : await movieModel.getFavorites(
-            themeColor: themeColor!, bottomBarIndex: bottomBarIndex);
+    _movieCards = await movieModel.getMovies(
+        moviesType: MoviePageType.values[activeInnerPageIndex!],
+        themeColor: themeColor!);
     setState(() {
       scrollTop.scrollToTop(_scrollController!);
       showBackToTopButton = false;

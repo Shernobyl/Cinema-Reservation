@@ -20,38 +20,55 @@ class MovieModel {
     return data;
   }
 
+  Future _postReserveSeat(
+      {required String url, required List<int> seatsReserved}) async {
+    NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
+    var data = await networkHelper.postReserveSeat(seatsReserved);
+    return data;
+  }
+
   Future<List<MovieCard>> getMovies({
     required MoviePageType moviesType,
     required Color themeColor,
   }) async {
     List<MovieCard> temp = [];
-    String mTypString =
-        moviesType.toString().substring(14, moviesType.toString().length);
 
     var data = await _getData(
-      url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
+      // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
+      url: 'https://immense-beyond-51451.herokuapp.com/movie/',
     );
 
-    for (var item in data["results"]) {
+    for (var item in data["data"]) {
+      print(item["title"]);
+      print(item["date"].toString());
+      print(item["_id"]);
       temp.add(
         MovieCard(
           moviePreview: MoviePreview(
-            isFavorite:
-                await isMovieInFavorites(movieID: item["id"].toString()),
-            year: (item["release_date"].toString().length > 4)
-                ? item["release_date"].toString().substring(0, 4)
-                : "",
-            imageUrl: "$kThemoviedbImageURL${item["poster_path"]}",
+            year: item["date"].toString(),
+            imageUrl:
+                "https://lumiere-a.akamaihd.net/v1/images/usa_spider-man_fgt_ironspider_n_2754fed6.jpeg?region=0%2C0%2C634%2C357",
             title: item["title"],
-            id: item["id"].toString(),
-            rating: item["vote_average"].toDouble(),
-            overview: item["overview"],
+            id: item["_id"],
+            startDate: item["startTime"],
+            endDate: item["endTime"],
+            seats: item["seats"].cast<bool>(),
+            screeningRoom: item["screeningRoom"],
+            overview: " ",
           ),
           themeColor: themeColor,
         ),
       );
     }
     return Future.value(temp);
+  }
+
+  Future<String> reserveSeats(List<int> seatsReserved) async {
+    var data = await _postReserveSeat(
+        // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
+        url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
+        seatsReserved: seatsReserved);
+    return data;
   }
 
   Future<List<MovieCard>> searchMovies({
@@ -70,16 +87,17 @@ class MovieModel {
         temp.add(
           MovieCard(
             moviePreview: MoviePreview(
-              isFavorite:
-                  await isMovieInFavorites(movieID: item["id"].toString()),
               year: (item["release_date"].toString().length > 4)
                   ? item["release_date"].toString().substring(0, 4)
                   : "",
               imageUrl: "https://image.tmdb.org/t/p/w500${item["poster_path"]}",
               title: item["title"],
               id: item["id"].toString(),
-              rating: item["vote_average"].toDouble(),
               overview: item["overview"],
+              startDate: "",
+              endDate: "endTime",
+              seats: item["seats"].cast<bool>(),
+              screeningRoom: item["screeningRoom"],
             ),
             themeColor: themeColor,
           ),
@@ -94,8 +112,7 @@ class MovieModel {
 
   Future<MovieDetails> getMovieDetails({required String movieID}) async {
     var data = await _getData(
-      url:
-          '$kThemoviedbURL/$movieID?api_key=${secret.themoviedbApi}&language=en-US',
+      url: 'https://immense-beyond-51451.herokuapp.com/movie/$movieID',
     );
 
     List<String> temp = [];
@@ -117,39 +134,5 @@ class MovieModel {
         overview: data["overview"],
       ),
     );
-  }
-
-  Future<List<MovieCard>> getFavorites(
-      {required Color themeColor, required int bottomBarIndex}) async {
-    List<MovieCard> temp = [];
-    List<String> favoritesID = await getFavoritesID();
-    for (var item in favoritesID) {
-      if (item != "") {
-        var data = await _getData(
-          url:
-              '$kThemoviedbURL/$item?api_key=${secret.themoviedbApi}&language=en-US',
-        );
-
-        temp.add(
-          MovieCard(
-            contentLoadedFromPage: bottomBarIndex,
-            themeColor: themeColor,
-            moviePreview: MoviePreview(
-              isFavorite:
-                  await isMovieInFavorites(movieID: data["id"].toString()),
-              year: (data["release_date"].toString().length > 4)
-                  ? data["release_date"].toString().substring(0, 4)
-                  : "",
-              imageUrl: "https://image.tmdb.org/t/p/w500${data["poster_path"]}",
-              title: data["title"],
-              id: data["id"].toString(),
-              rating: data["vote_average"].toDouble(),
-              overview: data["overview"],
-            ),
-          ),
-        );
-      }
-    }
-    return temp;
   }
 }

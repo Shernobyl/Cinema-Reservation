@@ -6,8 +6,6 @@ import 'package:movies_app_flutter/services/movie.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/widgets/custom_loading_spin_kit_ring.dart';
 import 'package:sizer/sizer.dart';
-import 'package:movies_app_flutter/utils/star_calculator.dart'
-    as starCalculator;
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'package:movies_app_flutter/utils/toast_alert.dart' as alert;
 import 'package:movies_app_flutter/components/red_rounded_action_button.dart';
@@ -16,67 +14,40 @@ import 'package:movies_app_flutter/utils/navi.dart' as navi;
 
 class DetailsScreen extends StatefulWidget {
   final String id;
+  final String name;
+  final String overview;
+  final String startDate;
+  final String endDate;
+  final String? imgurl;
+  final List<bool> seats;
+  final String screeningRoom;
   final Color themeColor;
-  DetailsScreen({required this.id, required this.themeColor});
+  DetailsScreen(
+      {required this.id,
+      required this.themeColor,
+      required this.name,
+      required this.overview,
+      required this.startDate,
+      required this.endDate,
+      required this.imgurl,
+      required this.screeningRoom,
+      required this.seats});
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
-
-  Future<MovieDetails> getMovieDetails() async {
-    MovieModel movieModel = MovieModel();
-    MovieDetails temp = await movieModel.getMovieDetails(movieID: id);
-    return temp;
-  }
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  MovieDetails? movieDetails;
-  List<Widget>? stars;
   bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
-    () async {
-      MovieDetails temp = await widget.getMovieDetails();
-      List<Widget> temp2 =
-          starCalculator.getStars(rating: temp.rating, starSize: 15.sp);
-
-      setState(() {
-        isFavorite = temp.isFavorite;
-        movieDetails = temp;
-        stars = temp2;
-      });
-    }();
-  }
-
-  saveFavorite() async {
-    if (await file.addFavorite(movieID: widget.id)) {
-      alert.toastAlert(
-        message: kFavoriteAddedText,
-        themeColor: widget.themeColor,
-      );
-    }
-    setState(() {
-      isFavorite = true;
-    });
-  }
-
-  removeFavorite() async {
-    if (await file.removeFavorite(movieID: widget.id)) {
-      alert.toastAlert(
-        message: kFavoriteRemovedText,
-        themeColor: widget.themeColor,
-      );
-    }
-    setState(() {
-      isFavorite = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (stars == null)
+      body: (widget.name == "")
           ? CustomLoadingSpinKitRing(loadingColor: widget.themeColor)
           : CustomScrollView(
               slivers: [
@@ -101,9 +72,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       padding: EdgeInsets.only(right: 3.w),
                       child: IconButton(
                         onPressed: () {
-                          setState(() {
-                            (!isFavorite) ? saveFavorite() : removeFavorite();
-                          });
+                          print('editing');
                         },
                         icon: Icon(Icons.edit),
                       ),
@@ -122,7 +91,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 loadingColor: widget.themeColor),
                           ),
                         ),
-                        imageUrl: movieDetails!.backgroundURL,
+                        imageUrl: widget.imgurl!,
                         errorWidget: (context, url, error) => SafeArea(
                           child: Container(
                             height: 22.h,
@@ -135,92 +104,66 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                 ),
                 SliverFillRemaining(
-                  child: Column(
+                  child: ListView(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 4.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.h),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "${movieDetails!.title} ",
-                                  style: kDetailScreenBoldTitle,
-                                ),
-                                Text(
-                                  (movieDetails!.year == "")
-                                      ? ""
-                                      : "(${movieDetails!.year})",
-                                  style: kDetailScreenRegularTitle,
-                                ),
-                                Spacer(),
-                                RedRoundedActionButton(
-                                  text: 'BUY TICKET',
-                                  callback: () async {
-                                    await navi.newScreen(
-                                        context: context,
-                                        newScreen: () => BuyTicket(
-                                              movieDetails?.title,
-                                            ));
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 3.h),
-                          SingleChildScrollView(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3.h),
-                              child:
-                                  Row(children: movieDetails!.getGenresList()),
-                            ),
-                          ),
-                          SizedBox(height: 1.h),
-                        ],
+                      SizedBox(
+                        height: 4.h,
                       ),
-                      if (movieDetails!.overview != "")
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 3.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 1.h,
-                                    left: 1.h,
-                                    bottom: 1.h,
-                                  ),
-                                  child: Container(
-                                    child: Text(kStoryLineTitleText,
-                                        style: kSmallTitleTextStyle),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 1.h,
-                                        left: 1.h,
-                                        top: 1.h,
-                                        bottom: 1.h),
-                                    child: Text(
-                                      movieDetails!.overview,
-                                      style: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: Color(0xFFC9C9C9)),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.h),
+                        child: Row(
+                          children: [
+                            Text(
+                              "${widget.name} ",
+                              style: kDetailScreenBoldTitle,
                             ),
-                          ),
+                            Spacer(),
+                            RedRoundedActionButton(
+                              text: 'BUY TICKET',
+                              callback: () async {
+                                await navi.newScreen(
+                                    context: context,
+                                    newScreen: () => BuyTicket(
+                                        widget.name,
+                                        int.parse(widget.screeningRoom),
+                                        widget.seats));
+                              },
+                            ),
+                          ],
                         ),
+                      ),
+                      SizedBox(height: 3.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.h),
+                        child: Container(
+                          child: Text(kStoryLineTitleText,
+                              style: kSmallTitleTextStyle),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.h),
+                        child: Text(
+                          widget.overview,
+                          style: TextStyle(
+                              fontSize: 16.sp, color: Color(0xFFC9C9C9)),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.h),
+                        child: Text(
+                          "Start Time: " + widget.startDate.toString(),
+                          style: TextStyle(
+                              fontSize: 16.sp, color: Color(0xFFC9C9C9)),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.h),
+                        child: Text(
+                          "End Time: " + widget.endDate.toString(),
+                          style: TextStyle(
+                              fontSize: 16.sp, color: Color(0xFFC9C9C9)),
+                        ),
+                      ),
                     ],
                   ),
                 ),

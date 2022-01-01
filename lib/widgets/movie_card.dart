@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app_flutter/model/movie_preview.dart';
 import 'package:movies_app_flutter/screens/details_screen.dart';
-import 'package:movies_app_flutter/utils/star_calculator.dart'
-    as starCalculator;
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'custom_loading_spin_kit_ring.dart';
@@ -28,6 +26,13 @@ class MovieCard extends StatelessWidget {
             context: context,
             newScreen: () => DetailsScreen(
                   id: moviePreview.id,
+                  name: moviePreview.title,
+                  overview: moviePreview.overview,
+                  startDate: moviePreview.startDate,
+                  endDate: moviePreview.endDate,
+                  imgurl: moviePreview.imageUrl,
+                  seats: moviePreview.seats,
+                  screeningRoom: moviePreview.screeningRoom,
                   themeColor: themeColor,
                 ));
         if (contentLoadedFromPage != null)
@@ -104,15 +109,19 @@ class MovieCard extends StatelessWidget {
                                           ? ""
                                           : "(${moviePreview.year})",
                                       style: kTitleTextStyle),
+                                  Text(
+                                      (moviePreview.startDate == "")
+                                          ? ""
+                                          : "(Start Date:${moviePreview.startDate})",
+                                      style: kSubTitleCardBoxTextStyle),
+                                  Text(
+                                      (moviePreview.endDate == "")
+                                          ? ""
+                                          : "(End Date:${moviePreview.endDate})",
+                                      style: kSubTitleCardBoxTextStyle),
                                 ],
                               ),
                             ),
-                            if (moviePreview.isFavorite)
-                              Icon(
-                                Icons.bookmark_sharp,
-                                size: 15.sp,
-                                color: kInactiveButtonColor,
-                              ),
                           ],
                         ),
                         SizedBox(height: 1.5.w),
