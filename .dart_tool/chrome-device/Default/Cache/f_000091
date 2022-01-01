@@ -1,18 +1,28 @@
-define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/flutter/src/foundation/object.dart'], (function load__packages__flutter__src__widgets__async_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__flutter__src__foundation__object$46dart) {
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/flutter/src/animation/animation_controller.dart', 'packages/flutter/src/animation/listener_helpers.dart', 'packages/flutter/src/animation/curves.dart', 'packages/vector_math/vector_math_64.dart', 'packages/flutter/src/painting/fractional_offset.dart', 'packages/flutter/src/rendering/custom_paint.dart'], (function load__packages__flutter_spinkit__src__ring_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__flutter__src__animation__animation_controller$46dart, packages__flutter__src__animation__listener_helpers$46dart, packages__flutter__src__animation__curves$46dart, packages__vector_math__vector_math_64$46dart, packages__flutter__src__painting__fractional_offset$46dart, packages__flutter__src__rendering__custom_paint$46dart) {
   'use strict';
   const core = dart_sdk.core;
-  const async = dart_sdk.async;
-  const _internal = dart_sdk._internal;
   const ui = dart_sdk.ui;
+  const _internal = dart_sdk._internal;
+  const math = dart_sdk.math;
   const dart = dart_sdk.dart;
   const dartx = dart_sdk.dartx;
   const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
-  const object = packages__flutter__src__foundation__object$46dart.src__foundation__object;
-  var async$ = Object.create(dart.library);
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const ticker_provider = packages__flutter__src__widgets__widget_span$46dart.src__widgets__ticker_provider;
+  const animation_controller = packages__flutter__src__animation__animation_controller$46dart.src__animation__animation_controller;
+  const tween = packages__flutter__src__animation__listener_helpers$46dart.src__animation__tween;
+  const animations = packages__flutter__src__animation__listener_helpers$46dart.src__animation__animations;
+  const animation = packages__flutter__src__animation__listener_helpers$46dart.src__animation__animation;
+  const curves = packages__flutter__src__animation__curves$46dart.src__animation__curves;
+  const vector_math_64 = packages__vector_math__vector_math_64$46dart.vector_math_64;
+  const fractional_offset = packages__flutter__src__painting__fractional_offset$46dart.src__painting__fractional_offset;
+  const custom_paint = packages__flutter__src__rendering__custom_paint$46dart.src__rendering__custom_paint;
+  var ring = Object.create(dart.library);
   dart._checkModuleNullSafetyMode(true);
-  var T$ = {
-    VoidTovoid: () => (T$.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
-    ObjectAndStackTraceToNull: () => (T$.ObjectAndStackTraceToNull = dart.constFn(dart.fnType(core.Null, [core.Object, core.StackTrace])))()
+  var T = {
+    VoidTovoid: () => (T.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
+    TweenOfdouble: () => (T.TweenOfdouble = dart.constFn(tween.Tween$(core.double)))()
   };
   const CT = Object.create({
     _: () => (C, CT)
@@ -20,592 +30,461 @@ define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/f
   dart.defineLazy(CT, {
     get C0() {
       return C[0] = dart.const({
-        __proto__: async$.ConnectionState.prototype,
-        [_name$]: "ConnectionState.none",
-        index: 0
-      });
-    },
-    get C1() {
-      return C[1] = dart.const({
-        __proto__: async$.ConnectionState.prototype,
-        [_name$]: "ConnectionState.waiting",
-        index: 1
+        __proto__: core.Duration.prototype,
+        [Duration__duration]: 1200000
       });
     },
     get C2() {
       return C[2] = dart.const({
-        __proto__: async$.ConnectionState.prototype,
-        [_name$]: "ConnectionState.active",
-        index: 2
+        __proto__: curves._Linear.prototype
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: curves.Interval.prototype,
+        [Interval_curve]: C[2] || CT.C2,
+        [Interval_end]: 1,
+        [Interval_begin]: 0
       });
     },
     get C3() {
       return C[3] = dart.const({
-        __proto__: async$.ConnectionState.prototype,
-        [_name$]: "ConnectionState.done",
-        index: 3
+        __proto__: curves.Interval.prototype,
+        [Interval_curve]: C[2] || CT.C2,
+        [Interval_end]: 1,
+        [Interval_begin]: 0.5
       });
-    },
-    get C4() {
-      return C[4] = dart.constList([C[0] || CT.C0, C[1] || CT.C1, C[2] || CT.C2, C[3] || CT.C3], async$.ConnectionState);
     },
     get C5() {
       return C[5] = dart.const({
-        __proto__: core._StringStackTrace.prototype,
-        [_StringStackTrace__stackTrace]: ""
+        __proto__: ring.SpinKitRingCurve.prototype
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: curves.Interval.prototype,
+        [Interval_curve]: C[5] || CT.C5,
+        [Interval_end]: 1,
+        [Interval_begin]: 0
+      });
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "foregroundPainter",
+        [_Location_column]: 13,
+        [_Location_line]: 63,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.constList([C[8] || CT.C8], widget_inspector._Location);
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[7] || CT.C7,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 62,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-5.1.0/lib/src/ring.dart"
+      });
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "size",
+        [_Location_column]: 11,
+        [_Location_line]: 61,
+        [_Location_file]: null
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 62,
+        [_Location_file]: null
+      });
+    },
+    get C10() {
+      return C[10] = dart.constList([C[11] || CT.C11, C[12] || CT.C12], widget_inspector._Location);
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[10] || CT.C10,
+        [_Location_name]: null,
+        [_Location_column]: 25,
+        [_Location_line]: 60,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-5.1.0/lib/src/ring.dart"
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "transform",
+        [_Location_column]: 9,
+        [_Location_line]: 58,
+        [_Location_file]: null
+      });
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "alignment",
+        [_Location_column]: 9,
+        [_Location_line]: 59,
+        [_Location_file]: null
+      });
+    },
+    get C17() {
+      return C[17] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 60,
+        [_Location_file]: null
+      });
+    },
+    get C14() {
+      return C[14] = dart.constList([C[15] || CT.C15, C[16] || CT.C16, C[17] || CT.C17], widget_inspector._Location);
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[14] || CT.C14,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 57,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-5.1.0/lib/src/ring.dart"
+      });
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 57,
+        [_Location_file]: null
+      });
+    },
+    get C19() {
+      return C[19] = dart.constList([C[20] || CT.C20], widget_inspector._Location);
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[19] || CT.C19,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 56,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-5.1.0/lib/src/ring.dart"
       });
     }
   }, false);
-  var C = Array(6).fill(void 0);
-  var I = [
-    "package:flutter/src/widgets/async.dart",
-    "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/packages/flutter/lib/src/widgets/async.dart"
-  ];
-  var stream$ = dart.privateName(async$, "StreamBuilderBase.stream");
-  const _is_StreamBuilderBase_default = Symbol('_is_StreamBuilderBase_default');
-  async$.StreamBuilderBase$ = dart.generic((T, S) => {
-    var _StreamBuilderBaseStateOfT$S = () => (_StreamBuilderBaseStateOfT$S = dart.constFn(async$._StreamBuilderBaseState$(T, S)))();
-    class StreamBuilderBase extends framework.StatefulWidget {
-      get stream() {
-        return this[stream$];
-      }
-      set stream(value) {
-        super.stream = value;
-      }
-      afterConnected(current) {
-        S.as(current);
-        return current;
-      }
-      afterError(current, error, stackTrace) {
-        S.as(current);
-        return current;
-      }
-      afterDone(current) {
-        S.as(current);
-        return current;
-      }
-      afterDisconnected(current) {
-        S.as(current);
-        return current;
-      }
-      createState() {
-        return new (_StreamBuilderBaseStateOfT$S()).new();
-      }
+  var C = Array(21).fill(void 0);
+  var I = ["package:flutter_spinkit/src/ring.dart"];
+  var color$ = dart.privateName(ring, "SpinKitRing.color");
+  var size$ = dart.privateName(ring, "SpinKitRing.size");
+  var lineWidth$ = dart.privateName(ring, "SpinKitRing.lineWidth");
+  var duration$ = dart.privateName(ring, "SpinKitRing.duration");
+  var controller$ = dart.privateName(ring, "SpinKitRing.controller");
+  var Duration__duration = dart.privateName(core, "Duration._duration");
+  ring.SpinKitRing = class SpinKitRing extends framework.StatefulWidget {
+    get color() {
+      return this[color$];
     }
-    (StreamBuilderBase.new = function(opts) {
-      let key = opts && 'key' in opts ? opts.key : null;
-      let stream = opts && 'stream' in opts ? opts.stream : null;
-      let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
-      this[stream$] = stream;
-      StreamBuilderBase.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
-      ;
-    }).prototype = StreamBuilderBase.prototype;
-    dart.addTypeTests(StreamBuilderBase);
-    StreamBuilderBase.prototype[_is_StreamBuilderBase_default] = true;
-    dart.addTypeCaches(StreamBuilderBase);
-    dart.setMethodSignature(StreamBuilderBase, () => ({
-      __proto__: dart.getMethods(StreamBuilderBase.__proto__),
-      afterConnected: dart.fnType(S, [dart.nullable(core.Object)]),
-      afterError: dart.fnType(S, [dart.nullable(core.Object), core.Object, core.StackTrace]),
-      afterDone: dart.fnType(S, [dart.nullable(core.Object)]),
-      afterDisconnected: dart.fnType(S, [dart.nullable(core.Object)]),
-      createState: dart.fnType(framework.State$(async$.StreamBuilderBase$(T, S)), [])
-    }));
-    dart.setLibraryUri(StreamBuilderBase, I[0]);
-    dart.setFieldSignature(StreamBuilderBase, () => ({
-      __proto__: dart.getFields(StreamBuilderBase.__proto__),
-      stream: dart.finalFieldType(dart.nullable(async.Stream$(T)))
-    }));
-    return StreamBuilderBase;
-  });
-  async$.StreamBuilderBase = async$.StreamBuilderBase$();
-  dart.addTypeTests(async$.StreamBuilderBase, _is_StreamBuilderBase_default);
-  var _subscription = dart.privateName(async$, "_subscription");
-  var ___StreamBuilderBaseState__summary = dart.privateName(async$, "_#_StreamBuilderBaseState#_summary");
-  var ___StreamBuilderBaseState__summary_isSet = dart.privateName(async$, "_#_StreamBuilderBaseState#_summary#isSet");
-  var _summary = dart.privateName(async$, "_summary");
-  var _subscribe = dart.privateName(async$, "_subscribe");
-  var _unsubscribe = dart.privateName(async$, "_unsubscribe");
-  const _is__StreamBuilderBaseState_default = Symbol('_is__StreamBuilderBaseState_default');
-  async$._StreamBuilderBaseState$ = dart.generic((T, S) => {
-    var StreamBuilderBaseOfT$S = () => (StreamBuilderBaseOfT$S = dart.constFn(async$.StreamBuilderBase$(T, S)))();
-    var TTovoid = () => (TTovoid = dart.constFn(dart.fnType(dart.void, [T])))();
-    class _StreamBuilderBaseState extends framework.State$(async$.StreamBuilderBase$(T, S)) {
-      get [_summary]() {
-        let t0;
-        return this[___StreamBuilderBaseState__summary_isSet] ? (t0 = this[___StreamBuilderBaseState__summary], t0) : dart.throw(new _internal.LateError.fieldNI("_summary"));
-      }
-      set [_summary](t0) {
-        this[___StreamBuilderBaseState__summary_isSet] = true;
-        this[___StreamBuilderBaseState__summary] = t0;
-      }
-      initState() {
-        super.initState();
-        this[_summary] = this.widget.initial();
-        this[_subscribe]();
-      }
-      didUpdateWidget(oldWidget) {
-        StreamBuilderBaseOfT$S().as(oldWidget);
-        super.didUpdateWidget(oldWidget);
-        if (!dart.equals(oldWidget.stream, this.widget.stream)) {
-          if (this[_subscription] != null) {
-            this[_unsubscribe]();
-            this[_summary] = this.widget.afterDisconnected(this[_summary]);
-          }
-          this[_subscribe]();
-        }
-      }
-      build(context) {
-        return this.widget.build(context, this[_summary]);
-      }
-      dispose() {
-        this[_unsubscribe]();
-        super.dispose();
-      }
-      [_subscribe]() {
-        if (this.widget.stream != null) {
-          this[_subscription] = dart.nullCheck(this.widget.stream).listen(dart.fn(data => {
-            this.setState(dart.fn(() => {
-              this[_summary] = this.widget.afterData(this[_summary], data);
-            }, T$.VoidTovoid()));
-          }, TTovoid()), {onError: dart.fn((error, stackTrace) => {
-              this.setState(dart.fn(() => {
-                this[_summary] = this.widget.afterError(this[_summary], error, stackTrace);
-              }, T$.VoidTovoid()));
-            }, T$.ObjectAndStackTraceToNull()), onDone: dart.fn(() => {
-              this.setState(dart.fn(() => {
-                this[_summary] = this.widget.afterDone(this[_summary]);
-              }, T$.VoidTovoid()));
-            }, T$.VoidTovoid())});
-          this[_summary] = this.widget.afterConnected(this[_summary]);
-        }
-      }
-      [_unsubscribe]() {
-        if (this[_subscription] != null) {
-          dart.nullCheck(this[_subscription]).cancel();
-          this[_subscription] = null;
-        }
-      }
+    set color(value) {
+      super.color = value;
     }
-    (_StreamBuilderBaseState.new = function() {
-      this[_subscription] = null;
-      this[___StreamBuilderBaseState__summary] = null;
-      this[___StreamBuilderBaseState__summary_isSet] = false;
-      _StreamBuilderBaseState.__proto__.new.call(this);
-      ;
-    }).prototype = _StreamBuilderBaseState.prototype;
-    dart.addTypeTests(_StreamBuilderBaseState);
-    _StreamBuilderBaseState.prototype[_is__StreamBuilderBaseState_default] = true;
-    dart.addTypeCaches(_StreamBuilderBaseState);
-    dart.setMethodSignature(_StreamBuilderBaseState, () => ({
-      __proto__: dart.getMethods(_StreamBuilderBaseState.__proto__),
-      build: dart.fnType(framework.Widget, [framework.BuildContext]),
-      [_subscribe]: dart.fnType(dart.void, []),
-      [_unsubscribe]: dart.fnType(dart.void, [])
-    }));
-    dart.setGetterSignature(_StreamBuilderBaseState, () => ({
-      __proto__: dart.getGetters(_StreamBuilderBaseState.__proto__),
-      [_summary]: S
-    }));
-    dart.setSetterSignature(_StreamBuilderBaseState, () => ({
-      __proto__: dart.getSetters(_StreamBuilderBaseState.__proto__),
-      [_summary]: S
-    }));
-    dart.setLibraryUri(_StreamBuilderBaseState, I[0]);
-    dart.setFieldSignature(_StreamBuilderBaseState, () => ({
-      __proto__: dart.getFields(_StreamBuilderBaseState.__proto__),
-      [_subscription]: dart.fieldType(dart.nullable(async.StreamSubscription$(T))),
-      [___StreamBuilderBaseState__summary]: dart.fieldType(dart.nullable(S)),
-      [___StreamBuilderBaseState__summary_isSet]: dart.fieldType(core.bool)
-    }));
-    return _StreamBuilderBaseState;
-  });
-  async$._StreamBuilderBaseState = async$._StreamBuilderBaseState$();
-  dart.addTypeTests(async$._StreamBuilderBaseState, _is__StreamBuilderBaseState_default);
-  var _name$ = dart.privateName(async$, "_name");
-  async$.ConnectionState = class ConnectionState extends core.Object {
-    toString() {
-      return this[_name$];
+    get size() {
+      return this[size$];
+    }
+    set size(value) {
+      super.size = value;
+    }
+    get lineWidth() {
+      return this[lineWidth$];
+    }
+    set lineWidth(value) {
+      super.lineWidth = value;
+    }
+    get duration() {
+      return this[duration$];
+    }
+    set duration(value) {
+      super.duration = value;
+    }
+    get controller() {
+      return this[controller$];
+    }
+    set controller(value) {
+      super.controller = value;
+    }
+    createState() {
+      return new ring._SpinKitRingState.new();
     }
   };
-  (async$.ConnectionState.new = function(index, _name) {
-    this.index = index;
-    this[_name$] = _name;
+  (ring.SpinKitRing.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let color = opts && 'color' in opts ? opts.color : null;
+    let lineWidth = opts && 'lineWidth' in opts ? opts.lineWidth : 7;
+    let size = opts && 'size' in opts ? opts.size : 50;
+    let duration = opts && 'duration' in opts ? opts.duration : C[0] || CT.C0;
+    let controller = opts && 'controller' in opts ? opts.controller : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[color$] = color;
+    this[lineWidth$] = lineWidth;
+    this[size$] = size;
+    this[duration$] = duration;
+    this[controller$] = controller;
+    ring.SpinKitRing.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
     ;
-  }).prototype = async$.ConnectionState.prototype;
-  dart.addTypeTests(async$.ConnectionState);
-  dart.addTypeCaches(async$.ConnectionState);
-  dart.setLibraryUri(async$.ConnectionState, I[0]);
-  dart.setFieldSignature(async$.ConnectionState, () => ({
-    __proto__: dart.getFields(async$.ConnectionState.__proto__),
-    index: dart.finalFieldType(core.int),
-    [_name$]: dart.finalFieldType(core.String)
+  }).prototype = ring.SpinKitRing.prototype;
+  dart.addTypeTests(ring.SpinKitRing);
+  dart.addTypeCaches(ring.SpinKitRing);
+  dart.setMethodSignature(ring.SpinKitRing, () => ({
+    __proto__: dart.getMethods(ring.SpinKitRing.__proto__),
+    createState: dart.fnType(ring._SpinKitRingState, [])
   }));
-  dart.defineExtensionMethods(async$.ConnectionState, ['toString']);
-  async$.ConnectionState.none = C[0] || CT.C0;
-  async$.ConnectionState.waiting = C[1] || CT.C1;
-  async$.ConnectionState.active = C[2] || CT.C2;
-  async$.ConnectionState.done = C[3] || CT.C3;
-  async$.ConnectionState.values = C[4] || CT.C4;
-  var connectionState$ = dart.privateName(async$, "AsyncSnapshot.connectionState");
-  var data$ = dart.privateName(async$, "AsyncSnapshot.data");
-  var error$ = dart.privateName(async$, "AsyncSnapshot.error");
-  var stackTrace$ = dart.privateName(async$, "AsyncSnapshot.stackTrace");
-  var _StringStackTrace__stackTrace = dart.privateName(core, "_StringStackTrace._stackTrace");
-  const _is_AsyncSnapshot_default = Symbol('_is_AsyncSnapshot_default');
-  async$.AsyncSnapshot$ = dart.generic(T => {
-    var AsyncSnapshotOfT = () => (AsyncSnapshotOfT = dart.constFn(async$.AsyncSnapshot$(T)))();
-    class AsyncSnapshot extends core.Object {
-      get connectionState() {
-        return this[connectionState$];
-      }
-      set connectionState(value) {
-        super.connectionState = value;
-      }
-      get data() {
-        return this[data$];
-      }
-      set data(value) {
-        super.data = value;
-      }
-      get error() {
-        return this[error$];
-      }
-      set error(value) {
-        super.error = value;
-      }
-      get stackTrace() {
-        return this[stackTrace$];
-      }
-      set stackTrace(value) {
-        super.stackTrace = value;
-      }
-      get requireData() {
-        if (this.hasData) return dart.nullCheck(this.data);
-        if (this.hasError) dart.throw(dart.nullCheck(this.error));
-        dart.throw(new core.StateError.new("Snapshot has neither data nor error"));
-      }
-      inState(state) {
-        return new (AsyncSnapshotOfT()).__(state, this.data, this.error, this.stackTrace);
-      }
-      get hasData() {
-        return this.data != null;
-      }
-      get hasError() {
-        return this.error != null;
-      }
-      toString() {
-        return object.objectRuntimeType(this, "AsyncSnapshot") + "(" + dart.str(this.connectionState) + ", " + dart.str(this.data) + ", " + dart.str(this.error) + ", " + dart.str(this.stackTrace) + ")";
-      }
-      _equals(other) {
-        if (other == null) return false;
-        if (this === other) return true;
-        return AsyncSnapshotOfT().is(other) && other.connectionState === this.connectionState && dart.equals(other.data, this.data) && dart.equals(other.error, this.error) && dart.equals(other.stackTrace, this.stackTrace);
-      }
-      get hashCode() {
-        return ui.hashValues(this.connectionState, this.data, this.error);
-      }
+  dart.setLibraryUri(ring.SpinKitRing, I[0]);
+  dart.setFieldSignature(ring.SpinKitRing, () => ({
+    __proto__: dart.getFields(ring.SpinKitRing.__proto__),
+    color: dart.finalFieldType(ui.Color),
+    size: dart.finalFieldType(core.double),
+    lineWidth: dart.finalFieldType(core.double),
+    duration: dart.finalFieldType(core.Duration),
+    controller: dart.finalFieldType(dart.nullable(animation_controller.AnimationController))
+  }));
+  var ___SpinKitRingState__controller = dart.privateName(ring, "_#_SpinKitRingState#_controller");
+  var ___SpinKitRingState__animation1 = dart.privateName(ring, "_#_SpinKitRingState#_animation1");
+  var ___SpinKitRingState__animation2 = dart.privateName(ring, "_#_SpinKitRingState#_animation2");
+  var ___SpinKitRingState__animation3 = dart.privateName(ring, "_#_SpinKitRingState#_animation3");
+  var _controller = dart.privateName(ring, "_controller");
+  var _animation1 = dart.privateName(ring, "_animation1");
+  var _animation2 = dart.privateName(ring, "_animation2");
+  var _animation3 = dart.privateName(ring, "_animation3");
+  var Interval_curve = dart.privateName(curves, "Interval.curve");
+  var Interval_end = dart.privateName(curves, "Interval.end");
+  var Interval_begin = dart.privateName(curves, "Interval.begin");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  const State_SingleTickerProviderStateMixin$36 = class State_SingleTickerProviderStateMixin extends framework.State$(ring.SpinKitRing) {};
+  (State_SingleTickerProviderStateMixin$36.new = function() {
+    ticker_provider.SingleTickerProviderStateMixin$(ring.SpinKitRing)[dart.mixinNew].call(this);
+    State_SingleTickerProviderStateMixin$36.__proto__.new.call(this);
+  }).prototype = State_SingleTickerProviderStateMixin$36.prototype;
+  dart.applyMixin(State_SingleTickerProviderStateMixin$36, ticker_provider.SingleTickerProviderStateMixin$(ring.SpinKitRing));
+  ring._SpinKitRingState = class _SpinKitRingState extends State_SingleTickerProviderStateMixin$36 {
+    get [_controller]() {
+      let t0;
+      t0 = this[___SpinKitRingState__controller];
+      return t0 == null ? dart.throw(new _internal.LateError.fieldNI("_controller")) : t0;
     }
-    (AsyncSnapshot.__ = function(connectionState, data, error, stackTrace) {
-      this[connectionState$] = connectionState;
-      this[data$] = data;
-      this[error$] = error;
-      this[stackTrace$] = stackTrace;
-      if (!(connectionState !== null)) dart.assertFailed(null, I[1], 207, 14, "connectionState != null");
-      if (!!(data != null && error != null)) dart.assertFailed(null, I[1], 208, 14, "!(data != null && error != null)");
-      if (!(stackTrace == null || error != null)) dart.assertFailed(null, I[1], 209, 14, "stackTrace == null || error != null");
-      ;
-    }).prototype = AsyncSnapshot.prototype;
-    (AsyncSnapshot.nothing = function() {
-      AsyncSnapshot.__.call(this, async$.ConnectionState.none, null, null, null);
-    }).prototype = AsyncSnapshot.prototype;
-    (AsyncSnapshot.waiting = function() {
-      AsyncSnapshot.__.call(this, async$.ConnectionState.waiting, null, null, null);
-    }).prototype = AsyncSnapshot.prototype;
-    (AsyncSnapshot.withData = function(state, data) {
-      AsyncSnapshot.__.call(this, state, data, null, null);
-    }).prototype = AsyncSnapshot.prototype;
-    (AsyncSnapshot.withError = function(state, error, stackTrace = C[5] || CT.C5) {
-      AsyncSnapshot.__.call(this, state, null, error, stackTrace);
-    }).prototype = AsyncSnapshot.prototype;
-    dart.addTypeTests(AsyncSnapshot);
-    AsyncSnapshot.prototype[_is_AsyncSnapshot_default] = true;
-    dart.addTypeCaches(AsyncSnapshot);
-    dart.setMethodSignature(AsyncSnapshot, () => ({
-      __proto__: dart.getMethods(AsyncSnapshot.__proto__),
-      inState: dart.fnType(async$.AsyncSnapshot$(T), [async$.ConnectionState])
-    }));
-    dart.setGetterSignature(AsyncSnapshot, () => ({
-      __proto__: dart.getGetters(AsyncSnapshot.__proto__),
-      requireData: T,
-      hasData: core.bool,
-      hasError: core.bool
-    }));
-    dart.setLibraryUri(AsyncSnapshot, I[0]);
-    dart.setFieldSignature(AsyncSnapshot, () => ({
-      __proto__: dart.getFields(AsyncSnapshot.__proto__),
-      connectionState: dart.finalFieldType(async$.ConnectionState),
-      data: dart.finalFieldType(dart.nullable(T)),
-      error: dart.finalFieldType(dart.nullable(core.Object)),
-      stackTrace: dart.finalFieldType(dart.nullable(core.StackTrace))
-    }));
-    dart.defineExtensionMethods(AsyncSnapshot, ['toString', '_equals']);
-    dart.defineExtensionAccessors(AsyncSnapshot, ['hashCode']);
-    return AsyncSnapshot;
-  });
-  async$.AsyncSnapshot = async$.AsyncSnapshot$();
-  dart.addTypeTests(async$.AsyncSnapshot, _is_AsyncSnapshot_default);
-  var builder$ = dart.privateName(async$, "StreamBuilder.builder");
-  var initialData$ = dart.privateName(async$, "StreamBuilder.initialData");
-  const _is_StreamBuilder_default = Symbol('_is_StreamBuilder_default');
-  async$.StreamBuilder$ = dart.generic(T => {
-    var AsyncSnapshotOfT = () => (AsyncSnapshotOfT = dart.constFn(async$.AsyncSnapshot$(T)))();
-    class StreamBuilder extends async$.StreamBuilderBase$(T, async$.AsyncSnapshot$(T)) {
-      get builder() {
-        return this[builder$];
-      }
-      set builder(value) {
-        super.builder = value;
-      }
-      get initialData() {
-        return this[initialData$];
-      }
-      set initialData(value) {
-        super.initialData = value;
-      }
-      initial() {
-        return this.initialData == null ? new (AsyncSnapshotOfT()).nothing() : new (AsyncSnapshotOfT()).withData(async$.ConnectionState.none, T.as(this.initialData));
-      }
-      afterConnected(current) {
-        AsyncSnapshotOfT().as(current);
-        return current.inState(async$.ConnectionState.waiting);
-      }
-      afterData(current, data) {
-        AsyncSnapshotOfT().as(current);
-        T.as(data);
-        return new (AsyncSnapshotOfT()).withData(async$.ConnectionState.active, data);
-      }
-      afterError(current, error, stackTrace) {
-        AsyncSnapshotOfT().as(current);
-        return new (AsyncSnapshotOfT()).withError(async$.ConnectionState.active, error, stackTrace);
-      }
-      afterDone(current) {
-        AsyncSnapshotOfT().as(current);
-        return current.inState(async$.ConnectionState.done);
-      }
-      afterDisconnected(current) {
-        AsyncSnapshotOfT().as(current);
-        return current.inState(async$.ConnectionState.none);
-      }
-      build(context, currentSummary) {
-        let t2, t1;
-        AsyncSnapshotOfT().as(currentSummary);
-        t1 = context;
-        t2 = currentSummary;
-        return this.builder(t1, t2);
-      }
+    set [_controller](t0) {
+      this[___SpinKitRingState__controller] = t0;
     }
-    (StreamBuilder.new = function(opts) {
-      let key = opts && 'key' in opts ? opts.key : null;
-      let initialData = opts && 'initialData' in opts ? opts.initialData : null;
-      let stream = opts && 'stream' in opts ? opts.stream : null;
-      let builder = opts && 'builder' in opts ? opts.builder : null;
-      let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
-      this[initialData$] = initialData;
-      this[builder$] = builder;
-      if (!(builder !== null)) dart.assertFailed(null, I[1], 502, 15, "builder != null");
-      StreamBuilder.__proto__.new.call(this, {key: key, stream: stream, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
-      ;
-    }).prototype = StreamBuilder.prototype;
-    dart.addTypeTests(StreamBuilder);
-    StreamBuilder.prototype[_is_StreamBuilder_default] = true;
-    dart.addTypeCaches(StreamBuilder);
-    dart.setMethodSignature(StreamBuilder, () => ({
-      __proto__: dart.getMethods(StreamBuilder.__proto__),
-      initial: dart.fnType(async$.AsyncSnapshot$(T), []),
-      afterData: dart.fnType(async$.AsyncSnapshot$(T), [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      build: dart.fnType(framework.Widget, [framework.BuildContext, dart.nullable(core.Object)])
-    }));
-    dart.setLibraryUri(StreamBuilder, I[0]);
-    dart.setFieldSignature(StreamBuilder, () => ({
-      __proto__: dart.getFields(StreamBuilder.__proto__),
-      builder: dart.finalFieldType(dart.fnType(framework.Widget, [framework.BuildContext, async$.AsyncSnapshot$(T)])),
-      initialData: dart.finalFieldType(dart.nullable(T))
-    }));
-    return StreamBuilder;
-  });
-  async$.StreamBuilder = async$.StreamBuilder$();
-  dart.addTypeTests(async$.StreamBuilder, _is_StreamBuilder_default);
-  var future$ = dart.privateName(async$, "FutureBuilder.future");
-  var builder$0 = dart.privateName(async$, "FutureBuilder.builder");
-  var initialData$0 = dart.privateName(async$, "FutureBuilder.initialData");
-  const _is_FutureBuilder_default = Symbol('_is_FutureBuilder_default');
-  async$.FutureBuilder$ = dart.generic(T => {
-    var _FutureBuilderStateOfT = () => (_FutureBuilderStateOfT = dart.constFn(async$._FutureBuilderState$(T)))();
-    class FutureBuilder extends framework.StatefulWidget {
-      get future() {
-        return this[future$];
-      }
-      set future(value) {
-        super.future = value;
-      }
-      get builder() {
-        return this[builder$0];
-      }
-      set builder(value) {
-        super.builder = value;
-      }
-      get initialData() {
-        return this[initialData$0];
-      }
-      set initialData(value) {
-        super.initialData = value;
-      }
-      createState() {
-        return new (_FutureBuilderStateOfT()).new();
-      }
+    get [_animation1]() {
+      let t1;
+      t1 = this[___SpinKitRingState__animation1];
+      return t1 == null ? dart.throw(new _internal.LateError.fieldNI("_animation1")) : t1;
     }
-    (FutureBuilder.new = function(opts) {
-      let key = opts && 'key' in opts ? opts.key : null;
-      let future = opts && 'future' in opts ? opts.future : null;
-      let initialData = opts && 'initialData' in opts ? opts.initialData : null;
-      let builder = opts && 'builder' in opts ? opts.builder : null;
-      let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
-      this[future$] = future;
-      this[initialData$0] = initialData;
-      this[builder$0] = builder;
-      if (!(builder !== null)) dart.assertFailed(null, I[1], 697, 15, "builder != null");
-      FutureBuilder.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
-      ;
-    }).prototype = FutureBuilder.prototype;
-    dart.addTypeTests(FutureBuilder);
-    FutureBuilder.prototype[_is_FutureBuilder_default] = true;
-    dart.addTypeCaches(FutureBuilder);
-    dart.setMethodSignature(FutureBuilder, () => ({
-      __proto__: dart.getMethods(FutureBuilder.__proto__),
-      createState: dart.fnType(framework.State$(async$.FutureBuilder$(T)), [])
-    }));
-    dart.setLibraryUri(FutureBuilder, I[0]);
-    dart.setFieldSignature(FutureBuilder, () => ({
-      __proto__: dart.getFields(FutureBuilder.__proto__),
-      future: dart.finalFieldType(dart.nullable(async.Future$(T))),
-      builder: dart.finalFieldType(dart.fnType(framework.Widget, [framework.BuildContext, async$.AsyncSnapshot$(T)])),
-      initialData: dart.finalFieldType(dart.nullable(T))
-    }));
-    return FutureBuilder;
-  });
-  async$.FutureBuilder = async$.FutureBuilder$();
-  dart.addTypeTests(async$.FutureBuilder, _is_FutureBuilder_default);
-  var _activeCallbackIdentity = dart.privateName(async$, "_activeCallbackIdentity");
-  var ___FutureBuilderState__snapshot = dart.privateName(async$, "_#_FutureBuilderState#_snapshot");
-  var _snapshot = dart.privateName(async$, "_snapshot");
-  const _is__FutureBuilderState_default = Symbol('_is__FutureBuilderState_default');
-  async$._FutureBuilderState$ = dart.generic(T => {
-    var AsyncSnapshotOfT = () => (AsyncSnapshotOfT = dart.constFn(async$.AsyncSnapshot$(T)))();
-    var FutureBuilderOfT = () => (FutureBuilderOfT = dart.constFn(async$.FutureBuilder$(T)))();
-    var BuildContextAndAsyncSnapshotOfTToWidget = () => (BuildContextAndAsyncSnapshotOfTToWidget = dart.constFn(dart.fnType(framework.Widget, [framework.BuildContext, AsyncSnapshotOfT()])))();
-    var TToNull = () => (TToNull = dart.constFn(dart.fnType(core.Null, [T])))();
-    class _FutureBuilderState extends framework.State$(async$.FutureBuilder$(T)) {
-      get [_snapshot]() {
-        let t1;
-        t1 = this[___FutureBuilderState__snapshot];
-        return t1 == null ? dart.throw(new _internal.LateError.fieldNI("_snapshot")) : t1;
-      }
-      set [_snapshot](t1) {
-        this[___FutureBuilderState__snapshot] = t1;
-      }
-      initState() {
-        super.initState();
-        this[_snapshot] = this.widget.initialData == null ? new (AsyncSnapshotOfT()).nothing() : new (AsyncSnapshotOfT()).withData(async$.ConnectionState.none, T.as(this.widget.initialData));
-        this[_subscribe]();
-      }
-      didUpdateWidget(oldWidget) {
-        FutureBuilderOfT().as(oldWidget);
-        super.didUpdateWidget(oldWidget);
-        if (!dart.equals(oldWidget.future, this.widget.future)) {
-          if (this[_activeCallbackIdentity] != null) {
-            this[_unsubscribe]();
-            this[_snapshot] = this[_snapshot].inState(async$.ConnectionState.none);
-          }
-          this[_subscribe]();
-        }
-      }
-      build(context) {
-        let t4, t3, t2;
-        t2 = this.widget;
-        t3 = context;
-        t4 = this[_snapshot];
-        return BuildContextAndAsyncSnapshotOfTToWidget().as(t2.builder)(t3, t4);
-      }
-      dispose() {
-        this[_unsubscribe]();
-        super.dispose();
-      }
-      [_subscribe]() {
-        if (this.widget.future != null) {
-          let callbackIdentity = new core.Object.new();
-          this[_activeCallbackIdentity] = callbackIdentity;
-          dart.nullCheck(this.widget.future).then(dart.void, dart.fn(data => {
-            if (dart.equals(this[_activeCallbackIdentity], callbackIdentity)) {
-              this.setState(dart.fn(() => {
-                this[_snapshot] = new (AsyncSnapshotOfT()).withData(async$.ConnectionState.done, data);
-              }, T$.VoidTovoid()));
-            }
-          }, TToNull()), {onError: dart.fn((error, stackTrace) => {
-              if (dart.equals(this[_activeCallbackIdentity], callbackIdentity)) {
-                this.setState(dart.fn(() => {
-                  this[_snapshot] = new (AsyncSnapshotOfT()).withError(async$.ConnectionState.done, error, stackTrace);
-                }, T$.VoidTovoid()));
-              }
-            }, T$.ObjectAndStackTraceToNull())});
-          this[_snapshot] = this[_snapshot].inState(async$.ConnectionState.waiting);
-        }
-      }
-      [_unsubscribe]() {
-        this[_activeCallbackIdentity] = null;
-      }
+    set [_animation1](t1) {
+      this[___SpinKitRingState__animation1] = t1;
     }
-    (_FutureBuilderState.new = function() {
-      this[_activeCallbackIdentity] = null;
-      this[___FutureBuilderState__snapshot] = null;
-      _FutureBuilderState.__proto__.new.call(this);
-      ;
-    }).prototype = _FutureBuilderState.prototype;
-    dart.addTypeTests(_FutureBuilderState);
-    _FutureBuilderState.prototype[_is__FutureBuilderState_default] = true;
-    dart.addTypeCaches(_FutureBuilderState);
-    dart.setMethodSignature(_FutureBuilderState, () => ({
-      __proto__: dart.getMethods(_FutureBuilderState.__proto__),
-      build: dart.fnType(framework.Widget, [framework.BuildContext]),
-      [_subscribe]: dart.fnType(dart.void, []),
-      [_unsubscribe]: dart.fnType(dart.void, [])
-    }));
-    dart.setGetterSignature(_FutureBuilderState, () => ({
-      __proto__: dart.getGetters(_FutureBuilderState.__proto__),
-      [_snapshot]: async$.AsyncSnapshot$(T)
-    }));
-    dart.setSetterSignature(_FutureBuilderState, () => ({
-      __proto__: dart.getSetters(_FutureBuilderState.__proto__),
-      [_snapshot]: async$.AsyncSnapshot$(T)
-    }));
-    dart.setLibraryUri(_FutureBuilderState, I[0]);
-    dart.setFieldSignature(_FutureBuilderState, () => ({
-      __proto__: dart.getFields(_FutureBuilderState.__proto__),
-      [_activeCallbackIdentity]: dart.fieldType(dart.nullable(core.Object)),
-      [___FutureBuilderState__snapshot]: dart.fieldType(dart.nullable(async$.AsyncSnapshot$(T)))
-    }));
-    return _FutureBuilderState;
-  });
-  async$._FutureBuilderState = async$._FutureBuilderState$();
-  dart.addTypeTests(async$._FutureBuilderState, _is__FutureBuilderState_default);
-  dart.trackLibraries("packages/flutter/src/widgets/async.dart", {
-    "package:flutter/src/widgets/async.dart": async$
+    get [_animation2]() {
+      let t2;
+      t2 = this[___SpinKitRingState__animation2];
+      return t2 == null ? dart.throw(new _internal.LateError.fieldNI("_animation2")) : t2;
+    }
+    set [_animation2](t2) {
+      this[___SpinKitRingState__animation2] = t2;
+    }
+    get [_animation3]() {
+      let t3;
+      t3 = this[___SpinKitRingState__animation3];
+      return t3 == null ? dart.throw(new _internal.LateError.fieldNI("_animation3")) : t3;
+    }
+    set [_animation3](t3) {
+      this[___SpinKitRingState__animation3] = t3;
+    }
+    initState() {
+      let t4, t4$;
+      super.initState();
+      this[_controller] = (t4$ = (t4 = this.widget.controller, t4 == null ? new animation_controller.AnimationController.new({vsync: this, duration: this.widget.duration}) : t4), (() => {
+        t4$.addListener(dart.fn(() => this.setState(dart.fn(() => {
+        }, T.VoidTovoid())), T.VoidTovoid()));
+        t4$.repeat();
+        return t4$;
+      })());
+      this[_animation1] = new (T.TweenOfdouble()).new({begin: 0.0, end: 1.0}).animate(new animations.CurvedAnimation.new({parent: this[_controller], curve: C[1] || CT.C1}));
+      this[_animation2] = new (T.TweenOfdouble()).new({begin: -2 / 3, end: 1 / 2}).animate(new animations.CurvedAnimation.new({parent: this[_controller], curve: C[3] || CT.C3}));
+      this[_animation3] = new (T.TweenOfdouble()).new({begin: 0.25, end: 5 / 6}).animate(new animations.CurvedAnimation.new({parent: this[_controller], curve: C[4] || CT.C4}));
+    }
+    dispose() {
+      if (this.widget.controller == null) {
+        this[_controller].dispose();
+      }
+      super.dispose();
+    }
+    build(context) {
+      let t4;
+      return new basic.Center.new({child: new basic.Transform.new({transform: (t4 = vector_math_64.Matrix4.identity(), (() => {
+            t4.rotateZ(this[_animation1].value * 5 * 3.141592653589793 / 6);
+            return t4;
+          })()), alignment: fractional_offset.FractionalOffset.center, child: new basic.SizedBox.fromSize({size: new ui.Size.square(this.widget.size), child: new basic.CustomPaint.new({foregroundPainter: new ring.RingPainter.new({paintWidth: this.widget.lineWidth, trackColor: this.widget.color, progressPercent: this[_animation3].value, startAngle: 3.141592653589793 * this[_animation2].value}), $creationLocationd_0dea112b090073317d4: C[6] || CT.C6}), $creationLocationd_0dea112b090073317d4: C[9] || CT.C9}), $creationLocationd_0dea112b090073317d4: C[13] || CT.C13}), $creationLocationd_0dea112b090073317d4: C[18] || CT.C18});
+    }
+  };
+  (ring._SpinKitRingState.new = function() {
+    this[___SpinKitRingState__controller] = null;
+    this[___SpinKitRingState__animation1] = null;
+    this[___SpinKitRingState__animation2] = null;
+    this[___SpinKitRingState__animation3] = null;
+    ring._SpinKitRingState.__proto__.new.call(this);
+    ;
+  }).prototype = ring._SpinKitRingState.prototype;
+  dart.addTypeTests(ring._SpinKitRingState);
+  dart.addTypeCaches(ring._SpinKitRingState);
+  dart.setMethodSignature(ring._SpinKitRingState, () => ({
+    __proto__: dart.getMethods(ring._SpinKitRingState.__proto__),
+    build: dart.fnType(framework.Widget, [framework.BuildContext])
+  }));
+  dart.setGetterSignature(ring._SpinKitRingState, () => ({
+    __proto__: dart.getGetters(ring._SpinKitRingState.__proto__),
+    [_controller]: animation_controller.AnimationController,
+    [_animation1]: animation.Animation$(core.double),
+    [_animation2]: animation.Animation$(core.double),
+    [_animation3]: animation.Animation$(core.double)
+  }));
+  dart.setSetterSignature(ring._SpinKitRingState, () => ({
+    __proto__: dart.getSetters(ring._SpinKitRingState.__proto__),
+    [_controller]: animation_controller.AnimationController,
+    [_animation1]: animation.Animation$(core.double),
+    [_animation2]: animation.Animation$(core.double),
+    [_animation3]: animation.Animation$(core.double)
+  }));
+  dart.setLibraryUri(ring._SpinKitRingState, I[0]);
+  dart.setFieldSignature(ring._SpinKitRingState, () => ({
+    __proto__: dart.getFields(ring._SpinKitRingState.__proto__),
+    [___SpinKitRingState__controller]: dart.fieldType(dart.nullable(animation_controller.AnimationController)),
+    [___SpinKitRingState__animation1]: dart.fieldType(dart.nullable(animation.Animation$(core.double))),
+    [___SpinKitRingState__animation2]: dart.fieldType(dart.nullable(animation.Animation$(core.double))),
+    [___SpinKitRingState__animation3]: dart.fieldType(dart.nullable(animation.Animation$(core.double)))
+  }));
+  var paintWidth$ = dart.privateName(ring, "RingPainter.paintWidth");
+  var trackPaint = dart.privateName(ring, "RingPainter.trackPaint");
+  var trackColor$ = dart.privateName(ring, "RingPainter.trackColor");
+  var progressPercent$ = dart.privateName(ring, "RingPainter.progressPercent");
+  var startAngle$ = dart.privateName(ring, "RingPainter.startAngle");
+  ring.RingPainter = class RingPainter extends custom_paint.CustomPainter {
+    get paintWidth() {
+      return this[paintWidth$];
+    }
+    set paintWidth(value) {
+      super.paintWidth = value;
+    }
+    get trackPaint() {
+      return this[trackPaint];
+    }
+    set trackPaint(value) {
+      super.trackPaint = value;
+    }
+    get trackColor() {
+      return this[trackColor$];
+    }
+    set trackColor(value) {
+      super.trackColor = value;
+    }
+    get progressPercent() {
+      return this[progressPercent$];
+    }
+    set progressPercent(value) {
+      super.progressPercent = value;
+    }
+    get startAngle() {
+      return this[startAngle$];
+    }
+    set startAngle(value) {
+      super.startAngle = value;
+    }
+    paint(canvas, size) {
+      let center = new ui.Offset.new(size.width / 2, size.height / 2);
+      let radius = (math.min(core.double, size.width, size.height) - this.paintWidth) / 2;
+      canvas.drawArc(new ui.Rect.fromCircle({center: center, radius: radius}), dart.nullCheck(this.startAngle), 2 * 3.141592653589793 * dart.nullCheck(this.progressPercent), false, this.trackPaint);
+    }
+    shouldRepaint(oldDelegate) {
+      custom_paint.CustomPainter.as(oldDelegate);
+      return true;
+    }
+  };
+  (ring.RingPainter.new = function(opts) {
+    let t4;
+    let paintWidth = opts && 'paintWidth' in opts ? opts.paintWidth : null;
+    let progressPercent = opts && 'progressPercent' in opts ? opts.progressPercent : null;
+    let startAngle = opts && 'startAngle' in opts ? opts.startAngle : null;
+    let trackColor = opts && 'trackColor' in opts ? opts.trackColor : null;
+    this[paintWidth$] = paintWidth;
+    this[progressPercent$] = progressPercent;
+    this[startAngle$] = startAngle;
+    this[trackColor$] = trackColor;
+    this[trackPaint] = (t4 = ui.Paint.new(), (() => {
+      t4.color = trackColor;
+      t4.style = ui.PaintingStyle.stroke;
+      t4.strokeWidth = paintWidth;
+      t4.strokeCap = ui.StrokeCap.square;
+      return t4;
+    })());
+    ring.RingPainter.__proto__.new.call(this);
+    ;
+  }).prototype = ring.RingPainter.prototype;
+  dart.addTypeTests(ring.RingPainter);
+  dart.addTypeCaches(ring.RingPainter);
+  dart.setMethodSignature(ring.RingPainter, () => ({
+    __proto__: dart.getMethods(ring.RingPainter.__proto__),
+    paint: dart.fnType(dart.void, [ui.Canvas, ui.Size]),
+    shouldRepaint: dart.fnType(core.bool, [dart.nullable(core.Object)])
+  }));
+  dart.setLibraryUri(ring.RingPainter, I[0]);
+  dart.setFieldSignature(ring.RingPainter, () => ({
+    __proto__: dart.getFields(ring.RingPainter.__proto__),
+    paintWidth: dart.finalFieldType(core.double),
+    trackPaint: dart.finalFieldType(ui.Paint),
+    trackColor: dart.finalFieldType(ui.Color),
+    progressPercent: dart.finalFieldType(dart.nullable(core.double)),
+    startAngle: dart.finalFieldType(dart.nullable(core.double))
+  }));
+  ring.SpinKitRingCurve = class SpinKitRingCurve extends curves.Curve {
+    transform(t) {
+      return t <= 0.5 ? 2 * t : 2 * (1 - t);
+    }
+  };
+  (ring.SpinKitRingCurve.new = function() {
+    ring.SpinKitRingCurve.__proto__.new.call(this);
+    ;
+  }).prototype = ring.SpinKitRingCurve.prototype;
+  dart.addTypeTests(ring.SpinKitRingCurve);
+  dart.addTypeCaches(ring.SpinKitRingCurve);
+  dart.setLibraryUri(ring.SpinKitRingCurve, I[0]);
+  dart.trackLibraries("packages/flutter_spinkit/src/ring.dart", {
+    "package:flutter_spinkit/src/ring.dart": ring
   }, {
-  }, '{"version":3,"sourceRoot":"","sources":["async.dart"],"names":[],"mappings":"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","file":"../../../../../../../../../../packages/flutter/src/widgets/async.dart.lib.js"}');
+  }, '{"version":3,"sourceRoot":"","sources":["ring.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAcc;;;;;;IACC;;;;;;IACA;;;;;;IACE;;;;;;IACY;;;;;;;AAGQ;IAAmB;;;QAf/C;QACS;QACT;QACA;QACA;QACA;;IAJS;IACT;IACA;IACA;IACA;AACF,oDAAW,GAAG;;EAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAaK;;IAAW;;AAAX;IAAW;;;AACb;;IAAW;;AAAX;IAAW;;;AACX;;IAAW;;AAAX;IAAW;;;AACX;;IAAW;;AAAX;IAAW;;;AAIf,MAAX;AAIM,MAFZ,4BAAiC,KAAlB,AAAO,wBAAA,aAAc,yDAA2B,gBAAgB,AAAO,8BAArD;AAC7B,wBAAY,cAAM,cAAS;;AAC3B;;;AAEqG,MADzG,oBAAc,AACT,oCADsB,UAAU,cACxB,4CAAwB;AAEoE,MADzG,oBAAc,AACT,oCADsB,AAAG,CAAF,IAAI,QAAQ,AAAE,IAAE,YAC/B,4CAAwB;AAEyE,MAD9G,oBAAc,AACT,oCADsB,WAAW,AAAE,IAAE,YAC7B,4CAAwB;IACvC;;AAIE,UAAI,AAAO,AAAW;AACC,QAArB,AAAY;;AAEC,MAAT;IACR;UAG0B;;AACxB,YAAO,8BACE,6EACc;AAAY,uBAAS,AAAY,AAAO,AAAI,AAAK,0BAAP,wBAAS;;4BAC1C,kDACZ,mCACH,mBAAO,AAAO,0BAClB,8CACc,sCACL,AAAO,mCACP,AAAO,oCACF,AAAY,qCACd,oBAAE,AAAY;IAMzC;;;4CA/CyB;4CACF;4CACA;4CACA;;;EA6CzB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAce;;;;;;IACD;;;;;;IACA;;;;;;IACE;;;;;;IACA;;;;;;UAGI,QAAa;AACvB,mBAAS,kBAAO,AAAK,AAAM,IAAP,SAAS,GAAG,AAAK,AAAO,IAAR,UAAU;AAC9C,mBAAqD,CAA3C,AAA6B,sBAAzB,AAAK,IAAD,QAAQ,AAAK,IAAD,WAAW,mBAAc;AAO5D,MAND,AAAO,MAAD,SACC,gCAAmB,MAAM,UAAU,MAAM,IACpC,eAAV,kBACA,AAAE,AAAK,wBAAiB,eAAf,uBACT,OACA;IAEJ;;oCAGiC;AAAgB;IAAI;;;;QA9BrC;QACT;QACA;QACS;IAHA;IACT;IACA;IACS;IACA,yCAAE;AACR,iBAAQ,UAAU;AAClB,iBAAsB;AACtB,uBAAc,UAAU;AACxB,qBAAsB;;;AAThC;;EASsC;;;;;;;;;;;;;;;;;;cA6Bd;AAAM,YAAC,AAAE,EAAD,IAAI,MAAO,AAAE,IAAE,CAAC,GAAG,AAAE,KAAG,AAAE,IAAE,CAAC;IAAC;;;AAHxD;;EAAkB","file":"../../../../../../../../../../../packages/flutter_spinkit/src/ring.dart.lib.js"}');
   // Exports:
   return {
-    src__widgets__async: async$
+    src__ring: ring
   };
 }));
 
-//# sourceMappingURL=async.dart.lib.js.map
+//# sourceMappingURL=ring.dart.lib.js.map

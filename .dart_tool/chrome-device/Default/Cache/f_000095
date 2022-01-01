@@ -1,298 +1,440 @@
-define(['dart_sdk'], (function load__packages__collection__src__canonicalized_map_dart(dart_sdk) {
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/flutter/src/widgets/implicit_animations.dart', 'packages/flutter/src/rendering/layer.dart', 'packages/flutter/src/material/constants.dart', 'packages/flutter/src/painting/box_decoration.dart', 'packages/flutter/src/painting/decoration_image.dart', 'packages/flutter/src/painting/box_fit.dart', 'packages/flutter/src/painting/box_border.dart', 'packages/flutter/src/widgets/icon_theme.dart', 'packages/flutter/src/painting/_network_image_web.dart'], (function load__packages__flutter__src__material__circle_avatar_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__flutter__src__material__icon_button$46dart, packages__flutter__src__widgets__implicit_animations$46dart, packages__flutter__src__rendering__layer$46dart, packages__flutter__src__material__constants$46dart, packages__flutter__src__painting__box_decoration$46dart, packages__flutter__src__painting__decoration_image$46dart, packages__flutter__src__painting__box_fit$46dart, packages__flutter__src__painting__box_border$46dart, packages__flutter__src__widgets__icon_theme$46dart, packages__flutter__src__painting___network_image_web$46dart) {
   'use strict';
   const core = dart_sdk.core;
-  const _js_helper = dart_sdk._js_helper;
-  const collection = dart_sdk.collection;
+  const ui = dart_sdk.ui;
   const dart = dart_sdk.dart;
   const dartx = dart_sdk.dartx;
-  var canonicalized_map = Object.create(dart.library);
-  var $_get = dartx._get;
-  var $_set = dartx._set;
-  var $forEach = dartx.forEach;
-  var $map = dartx.map;
-  var $addEntries = dartx.addEntries;
-  var $cast = dartx.cast;
-  var $clear = dartx.clear;
-  var $containsKey = dartx.containsKey;
-  var $values = dartx.values;
-  var $any = dartx.any;
-  var $entries = dartx.entries;
-  var $isEmpty = dartx.isEmpty;
-  var $isNotEmpty = dartx.isNotEmpty;
-  var $length = dartx.length;
-  var $putIfAbsent = dartx.putIfAbsent;
-  var $remove = dartx.remove;
-  var $removeWhere = dartx.removeWhere;
-  var $update = dartx.update;
-  var $updateAll = dartx.updateAll;
-  var $addAll = dartx.addAll;
-  var $containsValue = dartx.containsValue;
-  var $keys = dartx.keys;
+  const debug = packages__flutter__src__widgets__widget_span$46dart.src__widgets__debug;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const media_query = packages__flutter__src__widgets__widget_span$46dart.src__widgets__media_query;
+  const text = packages__flutter__src__widgets__widget_span$46dart.src__widgets__text;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const theme$ = packages__flutter__src__material__icon_button$46dart.src__material__theme;
+  const theme_data = packages__flutter__src__material__icon_button$46dart.src__material__theme_data;
+  const implicit_animations = packages__flutter__src__widgets__implicit_animations$46dart.src__widgets__implicit_animations;
+  const box = packages__flutter__src__rendering__layer$46dart.src__rendering__box;
+  const constants = packages__flutter__src__material__constants$46dart.src__material__constants;
+  const box_decoration = packages__flutter__src__painting__box_decoration$46dart.src__painting__box_decoration;
+  const decoration_image = packages__flutter__src__painting__decoration_image$46dart.src__painting__decoration_image;
+  const box_fit = packages__flutter__src__painting__box_fit$46dart.src__painting__box_fit;
+  const box_border = packages__flutter__src__painting__box_border$46dart.src__painting__box_border;
+  const icon_theme = packages__flutter__src__widgets__icon_theme$46dart.src__widgets__icon_theme;
+  const image_provider = packages__flutter__src__painting___network_image_web$46dart.src__painting__image_provider;
+  var circle_avatar = Object.create(dart.library);
   dart._checkModuleNullSafetyMode(true);
   const CT = Object.create({
     _: () => (C, CT)
   });
-  var I = ["package:collection/src/canonicalized_map.dart"];
-  var _base = dart.privateName(canonicalized_map, "_base");
-  var _canonicalize = dart.privateName(canonicalized_map, "_canonicalize");
-  var _isValidKeyFn = dart.privateName(canonicalized_map, "_isValidKeyFn");
-  var _isValidKey = dart.privateName(canonicalized_map, "_isValidKey");
-  const _is_CanonicalizedMap_default = Symbol('_is_CanonicalizedMap_default');
-  canonicalized_map.CanonicalizedMap$ = dart.generic((C, K, V) => {
-    var LinkedMapOfC$MapEntryOfK$V = () => (LinkedMapOfC$MapEntryOfK$V = dart.constFn(_js_helper.LinkedMap$(C, MapEntryOfK$V())))();
-    var MapEntryOfC$MapEntryOfK$V = () => (MapEntryOfC$MapEntryOfK$V = dart.constFn(core.MapEntry$(C, MapEntryOfK$V())))();
-    var MapEntryOfK$VToMapEntryOfC$MapEntryOfK$V = () => (MapEntryOfK$VToMapEntryOfC$MapEntryOfK$V = dart.constFn(dart.fnType(MapEntryOfC$MapEntryOfK$V(), [MapEntryOfK$V()])))();
-    var MapEntryOfC$MapEntryOfK$VToMapEntryOfK$V = () => (MapEntryOfC$MapEntryOfK$VToMapEntryOfK$V = dart.constFn(dart.fnType(MapEntryOfK$V(), [MapEntryOfC$MapEntryOfK$V()])))();
-    var CAndMapEntryOfK$VTovoid = () => (CAndMapEntryOfK$VTovoid = dart.constFn(dart.fnType(dart.void, [C, MapEntryOfK$V()])))();
-    var CAndMapEntryOfK$VTobool = () => (CAndMapEntryOfK$VTobool = dart.constFn(dart.fnType(core.bool, [C, MapEntryOfK$V()])))();
-    var CAndMapEntryOfK$VToMapEntryOfK$V = () => (CAndMapEntryOfK$VToMapEntryOfK$V = dart.constFn(dart.fnType(MapEntryOfK$V(), [C, MapEntryOfK$V()])))();
-    var MapEntryOfK$V = () => (MapEntryOfK$V = dart.constFn(core.MapEntry$(K, V)))();
-    var MapOfK$V = () => (MapOfK$V = dart.constFn(core.Map$(K, V)))();
-    var KAndVTovoid = () => (KAndVTovoid = dart.constFn(dart.fnType(dart.void, [K, V])))();
-    var IterableOfMapEntryOfK$V = () => (IterableOfMapEntryOfK$V = dart.constFn(core.Iterable$(MapEntryOfK$V())))();
-    var MapEntryOfK$VTobool = () => (MapEntryOfK$VTobool = dart.constFn(dart.fnType(core.bool, [MapEntryOfK$V()])))();
-    var MapEntryOfK$VToK = () => (MapEntryOfK$VToK = dart.constFn(dart.fnType(K, [MapEntryOfK$V()])))();
-    var VoidToMapEntryOfK$V = () => (VoidToMapEntryOfK$V = dart.constFn(dart.fnType(MapEntryOfK$V(), [])))();
-    var MapEntryOfK$VToMapEntryOfK$V = () => (MapEntryOfK$VToMapEntryOfK$V = dart.constFn(dart.fnType(MapEntryOfK$V(), [MapEntryOfK$V()])))();
-    var KAndVToV = () => (KAndVToV = dart.constFn(dart.fnType(V, [K, V])))();
-    var MapEntryOfK$VToV = () => (MapEntryOfK$VToV = dart.constFn(dart.fnType(V, [MapEntryOfK$V()])))();
-    var VoidToV = () => (VoidToV = dart.constFn(dart.fnType(V, [])))();
-    var VToV = () => (VToV = dart.constFn(dart.fnType(V, [V])))();
-    var VoidToNV = () => (VoidToNV = dart.constFn(dart.nullable(VoidToV())))();
-    class CanonicalizedMap extends core.Object {
-      _get(key) {
-        let t0;
-        if (!this[_isValidKey](key)) return null;
-        let pair = this[_base][$_get]((t0 = K.as(key), this[_canonicalize](t0)));
-        return pair == null ? null : pair.value;
-      }
-      _set(key, value$) {
-        let value = value$;
-        let t0;
-        K.as(key);
-        V.as(value);
-        if (!this[_isValidKey](key)) return value$;
-        this[_base][$_set]((t0 = key, this[_canonicalize](t0)), new (MapEntryOfK$V()).__(key, value));
-        return value$;
-      }
-      addAll(other) {
-        MapOfK$V().as(other);
-        other[$forEach](dart.fn((key, value) => {
-          let t1, t0;
-          t0 = key;
-          t1 = value;
-          this._set(t0, t1);
-          return t1;
-        }, KAndVTovoid()));
-      }
-      addEntries(entries) {
-        IterableOfMapEntryOfK$V().as(entries);
-        return this[_base][$addEntries](entries[$map](MapEntryOfC$MapEntryOfK$V(), dart.fn(e => {
-          let t0;
-          return new (MapEntryOfC$MapEntryOfK$V()).__((t0 = e.key, this[_canonicalize](t0)), new (MapEntryOfK$V()).__(e.key, e.value));
-        }, MapEntryOfK$VToMapEntryOfC$MapEntryOfK$V())));
-      }
-      cast(K2, V2) {
-        return this[_base][$cast](K2, V2);
-      }
-      clear() {
-        this[_base][$clear]();
-      }
-      containsKey(key) {
-        let t0;
-        if (!this[_isValidKey](key)) return false;
-        return this[_base][$containsKey]((t0 = K.as(key), this[_canonicalize](t0)));
-      }
-      containsValue(value) {
-        return this[_base][$values][$any](dart.fn(pair => dart.equals(pair.value, value), MapEntryOfK$VTobool()));
-      }
-      get entries() {
-        return this[_base][$entries][$map](MapEntryOfK$V(), dart.fn(e => new (MapEntryOfK$V()).__(e.value.key, e.value.value), MapEntryOfC$MapEntryOfK$VToMapEntryOfK$V()));
-      }
-      forEach(f) {
-        this[_base][$forEach](dart.fn((key, pair) => f(pair.key, pair.value), CAndMapEntryOfK$VTovoid()));
-      }
-      get isEmpty() {
-        return this[_base][$isEmpty];
-      }
-      get isNotEmpty() {
-        return this[_base][$isNotEmpty];
-      }
-      get keys() {
-        return this[_base][$values][$map](K, dart.fn(pair => pair.key, MapEntryOfK$VToK()));
-      }
-      get length() {
-        return this[_base][$length];
-      }
-      map(K2, V2, transform) {
-        return this[_base][$map](K2, V2, dart.fn((_, pair) => transform(pair.key, pair.value), dart.fnType(core.MapEntry$(K2, V2), [C, MapEntryOfK$V()])));
-      }
-      putIfAbsent(key, ifAbsent) {
-        let t0;
-        K.as(key);
-        VoidToV().as(ifAbsent);
-        return this[_base][$putIfAbsent]((t0 = key, this[_canonicalize](t0)), dart.fn(() => new (MapEntryOfK$V()).__(key, ifAbsent()), VoidToMapEntryOfK$V())).value;
-      }
-      remove(key) {
-        let t0, t0$;
-        if (!this[_isValidKey](key)) return null;
-        let pair = this[_base][$remove]((t0 = K.as(key), this[_canonicalize](t0)));
-        t0$ = pair;
-        return t0$ == null ? null : t0$.value;
-      }
-      removeWhere(test) {
-        return this[_base][$removeWhere](dart.fn((_, pair) => test(pair.key, pair.value), CAndMapEntryOfK$VTobool()));
-      }
-      retype(K2, V2) {
-        return this.cast(K2, V2);
-      }
-      update(key, update, opts) {
-        let t0;
-        K.as(key);
-        VToV().as(update);
-        let ifAbsent = opts && 'ifAbsent' in opts ? opts.ifAbsent : null;
-        VoidToNV().as(ifAbsent);
-        return this[_base][$update]((t0 = key, this[_canonicalize](t0)), dart.fn(pair => {
-          let value = pair.value;
-          let newValue = update(value);
-          if (core.identical(newValue, value)) return pair;
-          return new (MapEntryOfK$V()).__(key, newValue);
-        }, MapEntryOfK$VToMapEntryOfK$V()), {ifAbsent: ifAbsent == null ? null : dart.fn(() => new (MapEntryOfK$V()).__(key, ifAbsent()), VoidToMapEntryOfK$V())}).value;
-      }
-      updateAll(update) {
-        KAndVToV().as(update);
-        return this[_base][$updateAll](dart.fn((_, pair) => {
-          let value = pair.value;
-          let key = pair.key;
-          let newValue = update(key, value);
-          if (core.identical(value, newValue)) return pair;
-          return new (MapEntryOfK$V()).__(key, newValue);
-        }, CAndMapEntryOfK$VToMapEntryOfK$V()));
-      }
-      get values() {
-        return this[_base][$values][$map](V, dart.fn(pair => pair.value, MapEntryOfK$VToV()));
-      }
-      toString() {
-        return collection.MapBase.mapToString(this);
-      }
-      [_isValidKey](key) {
-        return K.is(key) && (this[_isValidKeyFn] == null || dart.nullCheck(this[_isValidKeyFn])(key));
-      }
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: ui.Brightness.prototype,
+        [_name]: "Brightness.dark",
+        index: 0
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: ui.Brightness.prototype,
+        [_name]: "Brightness.light",
+        index: 1
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 21,
+        [_Location_line]: 258,
+        [_Location_file]: null
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 21,
+        [_Location_line]: 259,
+        [_Location_file]: null
+      });
+    },
+    get C3() {
+      return C[3] = dart.constList([C[4] || CT.C4, C[5] || CT.C5], widget_inspector._Location);
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[3] || CT.C3,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 257,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/packages/flutter/lib/src/material/circle_avatar.dart"
+      });
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 19,
+        [_Location_line]: 256,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 19,
+        [_Location_line]: 257,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.constList([C[8] || CT.C8, C[9] || CT.C9], widget_inspector._Location);
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[7] || CT.C7,
+        [_Location_name]: null,
+        [_Location_column]: 24,
+        [_Location_line]: 255,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/packages/flutter/lib/src/material/circle_avatar.dart"
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 17,
+        [_Location_line]: 254,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 17,
+        [_Location_line]: 255,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.constList([C[12] || CT.C12, C[13] || CT.C13], widget_inspector._Location);
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[11] || CT.C11,
+        [_Location_name]: null,
+        [_Location_column]: 22,
+        [_Location_line]: 251,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/packages/flutter/lib/src/material/circle_avatar.dart"
+      });
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 15,
+        [_Location_line]: 251,
+        [_Location_file]: null
+      });
+    },
+    get C15() {
+      return C[15] = dart.constList([C[16] || CT.C16], widget_inspector._Location);
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[15] || CT.C15,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 250,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/packages/flutter/lib/src/material/circle_avatar.dart"
+      });
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "constraints",
+        [_Location_column]: 7,
+        [_Location_line]: 220,
+        [_Location_file]: null
+      });
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "duration",
+        [_Location_column]: 7,
+        [_Location_line]: 226,
+        [_Location_file]: null
+      });
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 7,
+        [_Location_line]: 227,
+        [_Location_file]: null
+      });
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "foregroundDecoration",
+        [_Location_column]: 7,
+        [_Location_line]: 238,
+        [_Location_file]: null
+      });
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 248,
+        [_Location_file]: null
+      });
+    },
+    get C18() {
+      return C[18] = dart.constList([C[19] || CT.C19, C[20] || CT.C20, C[21] || CT.C21, C[22] || CT.C22, C[23] || CT.C23], widget_inspector._Location);
+    },
+    get C17() {
+      return C[17] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[18] || CT.C18,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 219,
+        [_Location_file]: "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/packages/flutter/lib/src/material/circle_avatar.dart"
+      });
     }
-    (CanonicalizedMap.new = function(canonicalize, opts) {
-      let isValidKey = opts && 'isValidKey' in opts ? opts.isValidKey : null;
-      this[_base] = new (LinkedMapOfC$MapEntryOfK$V()).new();
-      this[_canonicalize] = canonicalize;
-      this[_isValidKeyFn] = isValidKey;
-      ;
-    }).prototype = CanonicalizedMap.prototype;
-    (CanonicalizedMap.from = function(other, canonicalize, opts) {
-      let isValidKey = opts && 'isValidKey' in opts ? opts.isValidKey : null;
-      this[_base] = new (LinkedMapOfC$MapEntryOfK$V()).new();
-      this[_canonicalize] = canonicalize;
-      this[_isValidKeyFn] = isValidKey;
-      this.addAll(other);
-    }).prototype = CanonicalizedMap.prototype;
-    CanonicalizedMap.prototype[dart.isMap] = true;
-    dart.addTypeTests(CanonicalizedMap);
-    CanonicalizedMap.prototype[_is_CanonicalizedMap_default] = true;
-    dart.addTypeCaches(CanonicalizedMap);
-    CanonicalizedMap[dart.implements] = () => [core.Map$(K, V)];
-    dart.setMethodSignature(CanonicalizedMap, () => ({
-      __proto__: dart.getMethods(CanonicalizedMap.__proto__),
-      _get: dart.fnType(dart.nullable(V), [dart.nullable(core.Object)]),
-      [$_get]: dart.fnType(dart.nullable(V), [dart.nullable(core.Object)]),
-      _set: dart.fnType(dart.void, [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      [$_set]: dart.fnType(dart.void, [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      addAll: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      [$addAll]: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      addEntries: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      [$addEntries]: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      cast: dart.gFnType((K2, V2) => [core.Map$(K2, V2), []], (K2, V2) => [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      [$cast]: dart.gFnType((K2, V2) => [core.Map$(K2, V2), []], (K2, V2) => [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      clear: dart.fnType(dart.void, []),
-      [$clear]: dart.fnType(dart.void, []),
-      containsKey: dart.fnType(core.bool, [dart.nullable(core.Object)]),
-      [$containsKey]: dart.fnType(core.bool, [dart.nullable(core.Object)]),
-      containsValue: dart.fnType(core.bool, [dart.nullable(core.Object)]),
-      [$containsValue]: dart.fnType(core.bool, [dart.nullable(core.Object)]),
-      forEach: dart.fnType(dart.void, [dart.fnType(dart.void, [K, V])]),
-      [$forEach]: dart.fnType(dart.void, [dart.fnType(dart.void, [K, V])]),
-      map: dart.gFnType((K2, V2) => [core.Map$(K2, V2), [dart.fnType(core.MapEntry$(K2, V2), [K, V])]], (K2, V2) => [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      [$map]: dart.gFnType((K2, V2) => [core.Map$(K2, V2), [dart.fnType(core.MapEntry$(K2, V2), [K, V])]], (K2, V2) => [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      putIfAbsent: dart.fnType(V, [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      [$putIfAbsent]: dart.fnType(V, [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      remove: dart.fnType(dart.nullable(V), [dart.nullable(core.Object)]),
-      [$remove]: dart.fnType(dart.nullable(V), [dart.nullable(core.Object)]),
-      removeWhere: dart.fnType(dart.void, [dart.fnType(core.bool, [K, V])]),
-      [$removeWhere]: dart.fnType(dart.void, [dart.fnType(core.bool, [K, V])]),
-      retype: dart.gFnType((K2, V2) => [core.Map$(K2, V2), []], (K2, V2) => [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      update: dart.fnType(V, [dart.nullable(core.Object), dart.nullable(core.Object)], {ifAbsent: dart.nullable(core.Object)}, {}),
-      [$update]: dart.fnType(V, [dart.nullable(core.Object), dart.nullable(core.Object)], {ifAbsent: dart.nullable(core.Object)}, {}),
-      updateAll: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      [$updateAll]: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      [_isValidKey]: dart.fnType(core.bool, [dart.nullable(core.Object)])
-    }));
-    dart.setGetterSignature(CanonicalizedMap, () => ({
-      __proto__: dart.getGetters(CanonicalizedMap.__proto__),
-      entries: core.Iterable$(core.MapEntry$(K, V)),
-      [$entries]: core.Iterable$(core.MapEntry$(K, V)),
-      isEmpty: core.bool,
-      [$isEmpty]: core.bool,
-      isNotEmpty: core.bool,
-      [$isNotEmpty]: core.bool,
-      keys: core.Iterable$(K),
-      [$keys]: core.Iterable$(K),
-      length: core.int,
-      [$length]: core.int,
-      values: core.Iterable$(V),
-      [$values]: core.Iterable$(V)
-    }));
-    dart.setLibraryUri(CanonicalizedMap, I[0]);
-    dart.setFieldSignature(CanonicalizedMap, () => ({
-      __proto__: dart.getFields(CanonicalizedMap.__proto__),
-      [_canonicalize]: dart.finalFieldType(dart.fnType(C, [K])),
-      [_isValidKeyFn]: dart.finalFieldType(dart.nullable(dart.fnType(core.bool, [K]))),
-      [_base]: dart.finalFieldType(core.Map$(C, core.MapEntry$(K, V)))
-    }));
-    dart.defineExtensionMethods(CanonicalizedMap, [
-      '_get',
-      '_set',
-      'addAll',
-      'addEntries',
-      'cast',
-      'clear',
-      'containsKey',
-      'containsValue',
-      'forEach',
-      'map',
-      'putIfAbsent',
-      'remove',
-      'removeWhere',
-      'update',
-      'updateAll',
-      'toString'
-    ]);
-    dart.defineExtensionAccessors(CanonicalizedMap, [
-      'entries',
-      'isEmpty',
-      'isNotEmpty',
-      'keys',
-      'length',
-      'values'
-    ]);
-    return CanonicalizedMap;
-  });
-  canonicalized_map.CanonicalizedMap = canonicalized_map.CanonicalizedMap$();
-  dart.addTypeTests(canonicalized_map.CanonicalizedMap, _is_CanonicalizedMap_default);
-  dart.trackLibraries("packages/collection/src/canonicalized_map.dart", {
-    "package:collection/src/canonicalized_map.dart": canonicalized_map
+  }, false);
+  var C = Array(24).fill(void 0);
+  var I = [
+    "file:///D:/Downloads/NajahNow%20Reqs/Flutter/sdks/flutter/packages/flutter/lib/src/material/circle_avatar.dart",
+    "package:flutter/src/material/circle_avatar.dart"
+  ];
+  var child$ = dart.privateName(circle_avatar, "CircleAvatar.child");
+  var backgroundColor$ = dart.privateName(circle_avatar, "CircleAvatar.backgroundColor");
+  var foregroundColor$ = dart.privateName(circle_avatar, "CircleAvatar.foregroundColor");
+  var backgroundImage$ = dart.privateName(circle_avatar, "CircleAvatar.backgroundImage");
+  var foregroundImage$ = dart.privateName(circle_avatar, "CircleAvatar.foregroundImage");
+  var onBackgroundImageError$ = dart.privateName(circle_avatar, "CircleAvatar.onBackgroundImageError");
+  var onForegroundImageError$ = dart.privateName(circle_avatar, "CircleAvatar.onForegroundImageError");
+  var radius$ = dart.privateName(circle_avatar, "CircleAvatar.radius");
+  var minRadius$ = dart.privateName(circle_avatar, "CircleAvatar.minRadius");
+  var maxRadius$ = dart.privateName(circle_avatar, "CircleAvatar.maxRadius");
+  var _minDiameter = dart.privateName(circle_avatar, "_minDiameter");
+  var _maxDiameter = dart.privateName(circle_avatar, "_maxDiameter");
+  var _name = dart.privateName(ui, "_name");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  circle_avatar.CircleAvatar = class CircleAvatar extends framework.StatelessWidget {
+    get child() {
+      return this[child$];
+    }
+    set child(value) {
+      super.child = value;
+    }
+    get backgroundColor() {
+      return this[backgroundColor$];
+    }
+    set backgroundColor(value) {
+      super.backgroundColor = value;
+    }
+    get foregroundColor() {
+      return this[foregroundColor$];
+    }
+    set foregroundColor(value) {
+      super.foregroundColor = value;
+    }
+    get backgroundImage() {
+      return this[backgroundImage$];
+    }
+    set backgroundImage(value) {
+      super.backgroundImage = value;
+    }
+    get foregroundImage() {
+      return this[foregroundImage$];
+    }
+    set foregroundImage(value) {
+      super.foregroundImage = value;
+    }
+    get onBackgroundImageError() {
+      return this[onBackgroundImageError$];
+    }
+    set onBackgroundImageError(value) {
+      super.onBackgroundImageError = value;
+    }
+    get onForegroundImageError() {
+      return this[onForegroundImageError$];
+    }
+    set onForegroundImageError(value) {
+      super.onForegroundImageError = value;
+    }
+    get radius() {
+      return this[radius$];
+    }
+    set radius(value) {
+      super.radius = value;
+    }
+    get minRadius() {
+      return this[minRadius$];
+    }
+    set minRadius(value) {
+      super.minRadius = value;
+    }
+    get maxRadius() {
+      return this[maxRadius$];
+    }
+    set maxRadius(value) {
+      super.maxRadius = value;
+    }
+    get [_minDiameter]() {
+      let t0, t0$;
+      if (this.radius == null && this.minRadius == null && this.maxRadius == null) {
+        return 20 * 2.0;
+      }
+      return 2.0 * dart.notNull((t0$ = (t0 = this.radius, t0 == null ? this.minRadius : t0), t0$ == null ? 0 : t0$));
+    }
+    get [_maxDiameter]() {
+      let t0, t0$;
+      if (this.radius == null && this.minRadius == null && this.maxRadius == null) {
+        return 20 * 2.0;
+      }
+      return 2.0 * dart.notNull((t0$ = (t0 = this.radius, t0 == null ? this.maxRadius : t0), t0$ == null ? 1 / 0 : t0$));
+    }
+    build(context) {
+      if (!debug.debugCheckHasMediaQuery(context)) dart.assertFailed(null, I[0], 194, 12, "debugCheckHasMediaQuery(context)");
+      let theme = theme$.Theme.of(context);
+      let textStyle = dart.nullCheck(theme.primaryTextTheme.subtitle1).copyWith({color: this.foregroundColor});
+      let effectiveBackgroundColor = this.backgroundColor;
+      if (effectiveBackgroundColor == null) {
+        switch (theme_data.ThemeData.estimateBrightnessForColor(dart.nullCheck(textStyle.color))) {
+          case C[0] || CT.C0:
+          {
+            effectiveBackgroundColor = theme.primaryColorLight;
+            break;
+          }
+          case C[1] || CT.C1:
+          {
+            effectiveBackgroundColor = theme.primaryColorDark;
+            break;
+          }
+        }
+      } else if (this.foregroundColor == null) {
+        switch (theme_data.ThemeData.estimateBrightnessForColor(dart.nullCheck(this.backgroundColor))) {
+          case C[0] || CT.C0:
+          {
+            textStyle = textStyle.copyWith({color: theme.primaryColorLight});
+            break;
+          }
+          case C[1] || CT.C1:
+          {
+            textStyle = textStyle.copyWith({color: theme.primaryColorDark});
+            break;
+          }
+        }
+      }
+      let minDiameter = this[_minDiameter];
+      let maxDiameter = this[_maxDiameter];
+      return new implicit_animations.AnimatedContainer.new({constraints: new box.BoxConstraints.new({minHeight: minDiameter, minWidth: minDiameter, maxWidth: maxDiameter, maxHeight: maxDiameter}), duration: constants.kThemeChangeDuration, decoration: new box_decoration.BoxDecoration.new({color: effectiveBackgroundColor, image: this.backgroundImage != null ? new decoration_image.DecorationImage.new({image: dart.nullCheck(this.backgroundImage), onError: this.onBackgroundImageError, fit: box_fit.BoxFit.cover}) : null, shape: box_border.BoxShape.circle}), foregroundDecoration: this.foregroundImage != null ? new box_decoration.BoxDecoration.new({image: new decoration_image.DecorationImage.new({image: dart.nullCheck(this.foregroundImage), onError: this.onForegroundImageError, fit: box_fit.BoxFit.cover}), shape: box_border.BoxShape.circle}) : null, child: this.child == null ? null : new basic.Center.new({child: new media_query.MediaQuery.new({data: media_query.MediaQuery.of(context).copyWith({textScaleFactor: 1.0}), child: new icon_theme.IconTheme.new({data: theme.iconTheme.copyWith({color: textStyle.color}), child: new text.DefaultTextStyle.new({style: textStyle, child: dart.nullCheck(this.child), $creationLocationd_0dea112b090073317d4: C[2] || CT.C2}), $creationLocationd_0dea112b090073317d4: C[6] || CT.C6}), $creationLocationd_0dea112b090073317d4: C[10] || CT.C10}), $creationLocationd_0dea112b090073317d4: C[14] || CT.C14}), $creationLocationd_0dea112b090073317d4: C[17] || CT.C17});
+    }
+  };
+  (circle_avatar.CircleAvatar.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let child = opts && 'child' in opts ? opts.child : null;
+    let backgroundColor = opts && 'backgroundColor' in opts ? opts.backgroundColor : null;
+    let backgroundImage = opts && 'backgroundImage' in opts ? opts.backgroundImage : null;
+    let foregroundImage = opts && 'foregroundImage' in opts ? opts.foregroundImage : null;
+    let onBackgroundImageError = opts && 'onBackgroundImageError' in opts ? opts.onBackgroundImageError : null;
+    let onForegroundImageError = opts && 'onForegroundImageError' in opts ? opts.onForegroundImageError : null;
+    let foregroundColor = opts && 'foregroundColor' in opts ? opts.foregroundColor : null;
+    let radius = opts && 'radius' in opts ? opts.radius : null;
+    let minRadius = opts && 'minRadius' in opts ? opts.minRadius : null;
+    let maxRadius = opts && 'maxRadius' in opts ? opts.maxRadius : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[child$] = child;
+    this[backgroundColor$] = backgroundColor;
+    this[backgroundImage$] = backgroundImage;
+    this[foregroundImage$] = foregroundImage;
+    this[onBackgroundImageError$] = onBackgroundImageError;
+    this[onForegroundImageError$] = onForegroundImageError;
+    this[foregroundColor$] = foregroundColor;
+    this[radius$] = radius;
+    this[minRadius$] = minRadius;
+    this[maxRadius$] = maxRadius;
+    if (!(radius == null || minRadius == null && maxRadius == null)) dart.assertFailed(null, I[0], 74, 15, "radius == null || (minRadius == null && maxRadius == null)");
+    if (!(backgroundImage != null || onBackgroundImageError == null)) dart.assertFailed(null, I[0], 75, 15, "backgroundImage != null || onBackgroundImageError == null");
+    if (!(foregroundImage != null || onForegroundImageError == null)) dart.assertFailed(null, I[0], 76, 15, "foregroundImage != null || onForegroundImageError== null");
+    circle_avatar.CircleAvatar.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = circle_avatar.CircleAvatar.prototype;
+  dart.addTypeTests(circle_avatar.CircleAvatar);
+  dart.addTypeCaches(circle_avatar.CircleAvatar);
+  dart.setMethodSignature(circle_avatar.CircleAvatar, () => ({
+    __proto__: dart.getMethods(circle_avatar.CircleAvatar.__proto__),
+    build: dart.fnType(framework.Widget, [framework.BuildContext])
+  }));
+  dart.setGetterSignature(circle_avatar.CircleAvatar, () => ({
+    __proto__: dart.getGetters(circle_avatar.CircleAvatar.__proto__),
+    [_minDiameter]: core.double,
+    [_maxDiameter]: core.double
+  }));
+  dart.setLibraryUri(circle_avatar.CircleAvatar, I[1]);
+  dart.setFieldSignature(circle_avatar.CircleAvatar, () => ({
+    __proto__: dart.getFields(circle_avatar.CircleAvatar.__proto__),
+    child: dart.finalFieldType(dart.nullable(framework.Widget)),
+    backgroundColor: dart.finalFieldType(dart.nullable(ui.Color)),
+    foregroundColor: dart.finalFieldType(dart.nullable(ui.Color)),
+    backgroundImage: dart.finalFieldType(dart.nullable(image_provider.ImageProvider$(core.Object))),
+    foregroundImage: dart.finalFieldType(dart.nullable(image_provider.ImageProvider$(core.Object))),
+    onBackgroundImageError: dart.finalFieldType(dart.nullable(dart.fnType(dart.void, [core.Object, dart.nullable(core.StackTrace)]))),
+    onForegroundImageError: dart.finalFieldType(dart.nullable(dart.fnType(dart.void, [core.Object, dart.nullable(core.StackTrace)]))),
+    radius: dart.finalFieldType(dart.nullable(core.double)),
+    minRadius: dart.finalFieldType(dart.nullable(core.double)),
+    maxRadius: dart.finalFieldType(dart.nullable(core.double))
+  }));
+  dart.defineLazy(circle_avatar.CircleAvatar, {
+    /*circle_avatar.CircleAvatar._defaultRadius*/get _defaultRadius() {
+      return 20;
+    },
+    /*circle_avatar.CircleAvatar._defaultMinRadius*/get _defaultMinRadius() {
+      return 0;
+    },
+    /*circle_avatar.CircleAvatar._defaultMaxRadius*/get _defaultMaxRadius() {
+      return 1 / 0;
+    }
+  }, false);
+  dart.trackLibraries("packages/flutter/src/material/circle_avatar.dart", {
+    "package:flutter/src/material/circle_avatar.dart": circle_avatar
   }, {
-  }, '{"version":3,"sourceRoot":"","sources":["canonicalized_map.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;WAiDyB;;AACrB,aAAK,kBAAY,GAAG,GAAG,MAAO;AAC1B,mBAAO,AAAK,yBAAmB,KAAJ,GAAG,GAAjB,AAAa;AAC9B,cAAO,AAAK,KAAD,WAAW,OAAO,AAAK,IAAD;MACnC;WAGoB;YAAO;;aAAP;aAAO;AACzB,aAAK,kBAAY,GAAG,GAAG;AACyB,QAAhD,AAAK,yBAAe,GAAG,EAAjB,AAAa,0BAAS,yBAAS,GAAG,EAAE,KAAK;;MACjD;;sBAGsB;AAC4B,QAAhD,AAAM,KAAD,WAAS,SAAC,KAAK;;AAAU,eAAK,GAAG;eAAI,KAAK;UAAb;;;MACpC;;qCAGyC;AAAY,cAAA,AAAM,0BAAW,AACjE,OADwE,oCACpE,QAAC;;AAAM,4DAAuB,AAAE,CAAD,MAAf,AAAa,0BAAS,yBAAS,AAAE,CAAD,MAAM,AAAE,CAAD;;MAAU;;AAG5C,cAAA,AAAM;MAAc;;AAInC,QAAb,AAAM;MACR;kBAGyB;;AACvB,aAAK,kBAAY,GAAG,GAAG,MAAO;AAC9B,cAAO,AAAM,iCAA8B,KAAJ,GAAG,GAAjB,AAAa;MACxC;oBAG2B;AACvB,cAAA,AAAM,AAAO,4BAAI,QAAC,QAAoB,YAAX,AAAK,IAAD,QAAU,KAAK;MAAC;;AAI/C,cAAA,AAAM,AAAQ,8CAAI,QAAC,KAAM,yBAAS,AAAE,AAAM,CAAP,YAAY,AAAE,AAAM,CAAP;MAAc;cAGjC;AACsB,QAArD,AAAM,sBAAQ,SAAC,KAAK,SAAS,AAAC,CAAA,CAAC,AAAK,IAAD,MAAM,AAAK,IAAD;MAC/C;;AAGoB,cAAA,AAAM;MAAO;;AAGV,cAAA,AAAM;MAAU;;AAGf,cAAA,AAAM,AAAO,+BAAI,QAAC,QAAS,AAAK,IAAD;MAAK;;AAG1C,cAAA,AAAM;MAAM;kBAG0B;AACpD,cAAA,AAAM,2BAAI,SAAC,GAAG,SAAS,AAAS,SAAA,CAAC,AAAK,IAAD,MAAM,AAAK,IAAD;MAAQ;kBAG3C,KAAkB;;aAAlB;qBAAkB;AAChC,cAAO,AACF,AACA,iCAD0B,GAAG,EAAjB,AAAa,0BAAO,cAAM,yBAAS,GAAG,EAAE,AAAQ,QAAA;MAEnE;aAGkB;;AAChB,aAAK,kBAAY,GAAG,GAAG,MAAO;AAC1B,mBAAO,AAAM,2BAAyB,KAAJ,GAAG,GAAjB,AAAa;AACrC,cAAO,IAAI;6BAAJ,OAAM;MACf;kBAG+C;AAC3C,cAAA,AAAM,2BAAY,SAAC,GAAG,SAAS,AAAI,IAAA,CAAC,AAAK,IAAD,MAAM,AAAK,IAAD;MAAQ;;AAG9B;MAAc;aAGnC,KAAmB;;aAAnB;kBAAmB;YAAuB;;AACjD,cAAA,AAAM,AAO6D,4BAPxC,GAAG,EAAjB,AAAa,0BAAO,QAAC;AAC5B,sBAAQ,AAAK,IAAD;AACZ,yBAAW,AAAM,MAAA,CAAC,KAAK;AAC3B,cAAI,eAAU,QAAQ,EAAE,KAAK,GAAG,MAAO,KAAI;AAC3C,gBAAO,0BAAS,GAAG,EAAE,QAAQ;uDAGvB,AAAS,QAAD,WAAW,OAAO,cAAM,yBAAS,GAAG,EAAE,AAAQ,QAAA;MAAU;;sBAGlC;AACtC,cAAA,AAAM,yBAAU,SAAC,GAAG;AACd,sBAAQ,AAAK,IAAD;AACZ,oBAAM,AAAK,IAAD;AACV,yBAAW,AAAM,MAAA,CAAC,GAAG,EAAE,KAAK;AAChC,cAAI,eAAU,KAAK,EAAE,QAAQ,GAAG,MAAO,KAAI;AAC3C,gBAAO,0BAAS,GAAG,EAAE,QAAQ;;MAC7B;;AAGoB,cAAA,AAAM,AAAO,+BAAI,QAAC,QAAS,AAAK,IAAD;MAAO;;AAG3C,cAAQ,gCAAY;MAAK;oBAErB;AACrB,cAAK,AAAM,MAAV,GAAG,MAAW,AAAc,+BAAwB,AAAC,eAAd,qBAAe,GAAG;MAAE;;qCAvI7B;UACR;MAXrB,cAA2B;MAYb,sBAAE,YAAY;MACd,sBAAE,UAAU;;;sCAWA,OAAyB;UAC9B;MAzBrB,cAA2B;MA0Bb,sBAAE,YAAY;MACd,sBAAE,UAAU;AACjB,MAAb,YAAO,KAAK;IACd","file":"../../../../../../../../../../../packages/collection/src/canonicalized_map.dart.lib.js"}');
+  }, '{"version":3,"sourceRoot":"","sources":["circle_avatar.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAkFgB;;;;;;IAQD;;;;;;IASA;;;;;;IAQQ;;;;;;IAKA;;;;;;IAIK;;;;;;IAIA;;;;;;IAcZ;;;;;;IAgBA;;;;;;IAgBA;;;;;;;;AAYZ,UAAI,AAAO,uBAAW,AAAU,0BAAW,AAAU;AACnD,cAAsB,MAAE;;AAE1B,YAAO,AAAI,qBAAuB,OAAb,kBAAP,aAAU,sBAAH;IACvB;;;AAGE,UAAI,AAAO,uBAAW,AAAU,0BAAW,AAAU;AACnD,cAAsB,MAAE;;AAE1B,YAAO,AAAI,qBAAuB,OAAb,kBAAP,aAAU,sBAAH;IACvB;UAG0B;AACxB,WAAO,8BAAwB,OAAO;AACtB,kBAAc,gBAAG,OAAO;AAC9B,sBAA4C,AAAE,eAAlC,AAAM,AAAiB,KAAlB,8CAA6C;AACjE,qCAA2B;AAClC,UAAI,AAAyB,wBAAD;AAC1B,gBAAkB,gDAA0C,eAAf,AAAU,SAAD;;;AAEA,YAAlD,2BAA2B,AAAM,KAAD;AAChC;;;;AAEiD,YAAjD,2BAA2B,AAAM,KAAD;AAChC;;;YAEC,KAAI,AAAgB;AACzB,gBAAkB,gDAA0C,eAAf;;;AAEqB,YAA9D,YAAY,AAAU,SAAD,kBAAiB,AAAM,KAAD;AAC3C;;;;AAE6D,YAA7D,YAAY,AAAU,SAAD,kBAAiB,AAAM,KAAD;AAC3C;;;;AAGO,wBAAc;AACd,wBAAc;AAC3B,YAAO,6DACQ,uCACA,WAAW,YACZ,WAAW,YACX,WAAW,aACV,WAAW,cAEd,4CACE,6CACH,wBAAwB,SACxB,AAAgB,+BACnB,iDACwB,eAAf,gCACE,kCACG,yBAEd,aACY,oDAEI,AAAgB,+BAChC,6CACS,iDACiB,eAAf,gCACE,kCACG,+BAEE,+BAElB,aACC,AAAM,qBACP,OACA,6BACS,sCAGY,AAAY,0BAAT,OAAO,6BAA4B,cAChD,oCACC,AAAM,AAAU,KAAX,4BAA2B,AAAU,SAAD,iBACxC,sCACE,SAAS,SACJ,eAAL;IAMzB;;;QA1MO;QACA;QACA;QACA;QACA;QACA;QACA;QACA;QACA;QACA;QACA;;IATA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;UACK,AAAO,AAAQ,MAAT,YAAa,AAAU,SAAD,YAAY,AAAU,SAAD;UACjD,AAAwB,eAAT,YAAY,AAAuB,sBAAD;UACjD,AAAwB,eAAT,YAAY,AAAsB,sBAAA;AACxD,8DAAW,GAAG;;EAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;MA6FA,yCAAc;;;MAGd,4CAAiB;;;MAGjB,4CAAiB","file":"../../../../../../../../../../packages/flutter/src/material/circle_avatar.dart.lib.js"}');
   // Exports:
   return {
-    src__canonicalized_map: canonicalized_map
+    src__material__circle_avatar: circle_avatar
   };
 }));
 
-//# sourceMappingURL=canonicalized_map.dart.lib.js.map
+//# sourceMappingURL=circle_avatar.dart.lib.js.map

@@ -14,6 +14,9 @@ import 'package:movies_app_flutter/widgets/custom_main_appbar_content.dart';
 import 'package:movies_app_flutter/widgets/movie_card.dart';
 import 'package:movies_app_flutter/widgets/movie_card_container.dart';
 import 'package:movies_app_flutter/widgets/shadowless_floating_button.dart';
+import 'package:movies_app_flutter/widgets/beauty_textfield.dart';
+import 'package:movies_app_flutter/components/red_rounded_action_button.dart';
+
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 
@@ -35,6 +38,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool showSlider = true;
   String title = kHomeScreenTitleText;
   int bottomBarIndex = 1;
+  final MovieName = TextEditingController();
+  final MovieImage = TextEditingController();
+  final MovieDescription = TextEditingController();
 
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
@@ -121,17 +127,157 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 preferredSize:
-                    Size.fromHeight((bottomBarIndex == 1) ? 2.0.h : 7.h),
+                    Size.fromHeight((bottomBarIndex == 1) ? 2.0.h : 2.0.h),
               ),
             ),
             body: (_movieCards == null)
                 ? CustomLoadingSpinKitRing(loadingColor: themeColor)
-                : (_movieCards!.length == 0)
-                    ? Center(child: Text(k404Text))
-                    : MovieCardContainer(
-                        scrollController: _scrollController!,
-                        themeColor: themeColor!,
-                        movieCards: _movieCards!,
+                : (bottomBarIndex == 1)
+                    ? (_movieCards!.length == 0)
+                        ? Center(child: Text(k404Text))
+                        : MovieCardContainer(
+                            scrollController: _scrollController!,
+                            themeColor: themeColor!,
+                            movieCards: _movieCards!,
+                          )
+                    : Center(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            BeautyTextfield(
+                              width: 180.0.w, //REQUIRED
+                              height: 5.h, //REQUIRED
+                              accentColor:
+                                  kBackgroundShadowColor, // On Focus Color
+                              textColor: Colors.white, //Text Color
+                              backgroundColor: themeColor!, //Not Focused Color
+                              textBaseline: TextBaseline.alphabetic,
+                              autocorrect: false,
+                              autofocus: false,
+                              enabled: true, // Textfield enabled
+                              focusNode: FocusNode(),
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w200,
+                              maxLength: 50,
+                              minLines: 1,
+                              maxLines: 2,
+                              wordSpacing: 2,
+                              controller: MovieName,
+                              margin: EdgeInsets.all(10),
+                              cornerRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              duration: Duration(milliseconds: 300),
+                              inputType: TextInputType.text, //REQUIRED
+                              placeholder: "Enter Movie Name",
+                              isShadow: false,
+                              obscureText: false,
+                              prefixIcon: Icon(
+                                  Icons.movie_creation_outlined), //REQUIRED
+                              onTap: () {
+                                print('Click');
+                              },
+                              onChanged: (text) {
+                                print(text);
+                              },
+                              onSubmitted: (data) {
+                                print(data.length);
+                              },
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            BeautyTextfield(
+                              width: 180.0.w, //REQUIRED
+                              height: 5.h, //REQUIRED
+                              accentColor:
+                                  kBackgroundShadowColor, // On Focus Color
+                              textColor: Colors.white, //Text Color
+                              backgroundColor: themeColor!, //Not Focused Color
+                              textBaseline: TextBaseline.alphabetic,
+                              autocorrect: false,
+                              autofocus: false,
+                              enabled: true, // Textfield enabled
+                              focusNode: FocusNode(),
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w200,
+                              maxLength: 100,
+                              minLines: 1,
+                              maxLines: 2,
+                              wordSpacing: 2,
+                              controller: MovieImage,
+                              margin: EdgeInsets.all(10),
+                              cornerRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              duration: Duration(milliseconds: 300),
+                              inputType: TextInputType.text, //REQUIRED
+                              placeholder: "Enter Movie Image Link",
+                              isShadow: false,
+                              obscureText: false,
+                              prefixIcon: Icon(Icons.image_outlined), //REQUIRED
+                              onTap: () {
+                                print('Click');
+                              },
+                              onChanged: (text) {
+                                print(text);
+                              },
+                              onSubmitted: (data) {
+                                print(data.length);
+                              },
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            BeautyTextfield(
+                              width: 180.0.w, //REQUIRED
+                              height: 8.0.h, //REQUIRED
+                              accentColor:
+                                  kBackgroundShadowColor, // On Focus Color
+                              textColor: Colors.white, //Text Color
+                              backgroundColor: themeColor!, //Not Focused Color
+                              textBaseline: TextBaseline.alphabetic,
+                              autocorrect: false,
+                              autofocus: false,
+                              enabled: true, // Textfield enabled
+                              focusNode: FocusNode(),
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w200,
+                              maxLength: 500,
+                              minLines: 1,
+                              maxLines: 8,
+                              wordSpacing: 2,
+                              controller: MovieDescription,
+                              margin: EdgeInsets.all(10),
+                              cornerRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              duration: Duration(milliseconds: 300),
+                              inputType: TextInputType.text, //REQUIRED
+                              placeholder: "Enter Movie Description",
+                              isShadow: false,
+                              obscureText: false,
+                              prefixIcon: Icon(Icons.description), //REQUIRED
+                              onTap: () {
+                                print('Click');
+                              },
+                              onChanged: (text) {
+                                print(text);
+                              },
+                              onSubmitted: (data) {
+                                print(data.length);
+                              },
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            RedRoundedActionButton(
+                              text: 'ADD MOVIE',
+                              callback: () {
+                                pageSwitcher(1);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
             bottomNavigationBar: BottomNavigation(
               activeColor: themeColor!,
@@ -139,19 +285,19 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 BottomNavigationItem(
                   icon: Icon(Icons.more_horiz),
-                  iconSize: 11.sp,
+                  iconSize: 15.sp,
                   onPressed: () => _scaffoldKey.currentState!.openDrawer(),
                 ),
                 BottomNavigationItem(
                   icon: Icon(Icons.videocam),
-                  iconSize: 11.sp,
+                  iconSize: 15.sp,
                   onPressed: () {
                     pageSwitcher(1);
                   },
                 ),
                 BottomNavigationItem(
-                    icon: Icon(Icons.bookmark_sharp),
-                    iconSize: 11.sp,
+                    icon: Icon(Icons.add),
+                    iconSize: 15.sp,
                     onPressed: () {
                       pageSwitcher(2);
                     }),

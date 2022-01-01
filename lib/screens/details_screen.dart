@@ -105,9 +105,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             (!isFavorite) ? saveFavorite() : removeFavorite();
                           });
                         },
-                        icon: Icon((isFavorite)
-                            ? Icons.bookmark_sharp
-                            : Icons.bookmark_border_sharp),
+                        icon: Icon(Icons.edit),
                       ),
                     ),
                   ],

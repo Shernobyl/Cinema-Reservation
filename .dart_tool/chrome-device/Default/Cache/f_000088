@@ -1,1356 +1,702 @@
-define(['dart_sdk', 'packages/rxdart/src/utils/error_and_stacktrace.dart', 'packages/rxdart/src/subjects/subject.dart', 'packages/rxdart/src/streams/replay_stream.dart', 'packages/rxdart/src/utils/value_wrapper.dart', 'packages/rxdart/src/utils/forwarding_sink.dart', 'packages/rxdart/src/streams/value_stream.dart', 'packages/rxdart/src/subjects/publish_subject.dart', 'packages/rxdart/src/streams/combine_latest.dart', 'packages/rxdart/src/streams/concat.dart', 'packages/rxdart/src/streams/concat_eager.dart', 'packages/rxdart/src/streams/defer.dart', 'packages/rxdart/src/streams/fork_join.dart', 'packages/rxdart/src/streams/from_callable.dart', 'packages/rxdart/src/streams/merge.dart', 'packages/rxdart/src/streams/never.dart', 'packages/rxdart/src/streams/race.dart', 'packages/rxdart/src/streams/range.dart', 'packages/rxdart/src/streams/repeat.dart', 'packages/rxdart/src/streams/retry.dart', 'packages/rxdart/src/streams/retry_when.dart', 'packages/rxdart/src/streams/sequence_equal.dart', 'packages/rxdart/src/streams/switch_latest.dart', 'packages/rxdart/src/streams/timer.dart', 'packages/rxdart/src/streams/using.dart', 'packages/rxdart/src/streams/zip.dart'], (function load__packages__rxdart__src__subjects__replay_subject_dart(dart_sdk, packages__rxdart__src__utils__error_and_stacktrace$46dart, packages__rxdart__src__subjects__subject$46dart, packages__rxdart__src__streams__replay_stream$46dart, packages__rxdart__src__utils__value_wrapper$46dart, packages__rxdart__src__utils__forwarding_sink$46dart, packages__rxdart__src__streams__value_stream$46dart, packages__rxdart__src__subjects__publish_subject$46dart, packages__rxdart__src__streams__combine_latest$46dart, packages__rxdart__src__streams__concat$46dart, packages__rxdart__src__streams__concat_eager$46dart, packages__rxdart__src__streams__defer$46dart, packages__rxdart__src__streams__fork_join$46dart, packages__rxdart__src__streams__from_callable$46dart, packages__rxdart__src__streams__merge$46dart, packages__rxdart__src__streams__never$46dart, packages__rxdart__src__streams__race$46dart, packages__rxdart__src__streams__range$46dart, packages__rxdart__src__streams__repeat$46dart, packages__rxdart__src__streams__retry$46dart, packages__rxdart__src__streams__retry_when$46dart, packages__rxdart__src__streams__sequence_equal$46dart, packages__rxdart__src__streams__switch_latest$46dart, packages__rxdart__src__streams__timer$46dart, packages__rxdart__src__streams__using$46dart, packages__rxdart__src__streams__zip$46dart) {
+define(['dart_sdk', 'packages/collection/src/comparators.dart'], (function load__packages__collection__src__equality_dart(dart_sdk, packages__collection__src__comparators$46dart) {
   'use strict';
   const core = dart_sdk.core;
-  const async = dart_sdk.async;
   const collection = dart_sdk.collection;
-  const _internal = dart_sdk._internal;
-  const _interceptors = dart_sdk._interceptors;
+  const _js_helper = dart_sdk._js_helper;
   const dart = dart_sdk.dart;
   const dartx = dart_sdk.dartx;
-  const error_and_stacktrace = packages__rxdart__src__utils__error_and_stacktrace$46dart.src__utils__error_and_stacktrace;
-  const subject = packages__rxdart__src__subjects__subject$46dart.src__subjects__subject;
-  const replay_stream = packages__rxdart__src__streams__replay_stream$46dart.src__streams__replay_stream;
-  const value_wrapper = packages__rxdart__src__utils__value_wrapper$46dart.src__utils__value_wrapper;
-  const forwarding_sink = packages__rxdart__src__utils__forwarding_sink$46dart.src__utils__forwarding_sink;
-  const value_stream = packages__rxdart__src__streams__value_stream$46dart.src__streams__value_stream;
-  const publish_subject = packages__rxdart__src__subjects__publish_subject$46dart.src__subjects__publish_subject;
-  const combine_latest = packages__rxdart__src__streams__combine_latest$46dart.src__streams__combine_latest;
-  const concat = packages__rxdart__src__streams__concat$46dart.src__streams__concat;
-  const concat_eager = packages__rxdart__src__streams__concat_eager$46dart.src__streams__concat_eager;
-  const defer = packages__rxdart__src__streams__defer$46dart.src__streams__defer;
-  const fork_join = packages__rxdart__src__streams__fork_join$46dart.src__streams__fork_join;
-  const from_callable = packages__rxdart__src__streams__from_callable$46dart.src__streams__from_callable;
-  const merge = packages__rxdart__src__streams__merge$46dart.src__streams__merge;
-  const never = packages__rxdart__src__streams__never$46dart.src__streams__never;
-  const race = packages__rxdart__src__streams__race$46dart.src__streams__race;
-  const range = packages__rxdart__src__streams__range$46dart.src__streams__range;
-  const repeat = packages__rxdart__src__streams__repeat$46dart.src__streams__repeat;
-  const retry = packages__rxdart__src__streams__retry$46dart.src__streams__retry;
-  const retry_when = packages__rxdart__src__streams__retry_when$46dart.src__streams__retry_when;
-  const sequence_equal = packages__rxdart__src__streams__sequence_equal$46dart.src__streams__sequence_equal;
-  const switch_latest = packages__rxdart__src__streams__switch_latest$46dart.src__streams__switch_latest;
-  const timer = packages__rxdart__src__streams__timer$46dart.src__streams__timer;
-  const using = packages__rxdart__src__streams__using$46dart.src__streams__using;
-  const zip = packages__rxdart__src__streams__zip$46dart.src__streams__zip;
-  var replay_subject = Object.create(dart.library);
-  var start_with_error = Object.create(dart.library);
-  var forwarding_stream = Object.create(dart.library);
-  var start_with = Object.create(dart.library);
-  var behavior_subject = Object.create(dart.library);
-  var subjects = Object.create(dart.library);
-  var connectable_stream = Object.create(dart.library);
-  var streams = Object.create(dart.library);
-  var rx = Object.create(dart.library);
-  var $reversed = dartx.reversed;
-  var $toList = dartx.toList;
-  var $fold = dartx.fold;
+  const comparators = packages__collection__src__comparators$46dart.src__comparators;
+  var equality = Object.create(dart.library);
+  var $hashCode = dartx.hashCode;
+  var $iterator = dartx.iterator;
+  var $rightShift = dartx['>>'];
   var $length = dartx.length;
-  var $where = dartx.where;
-  var $map = dartx.map;
-  var $add = dartx.add;
+  var $_get = dartx._get;
+  var $_set = dartx._set;
+  var $keys = dartx.keys;
   dart._checkModuleNullSafetyMode(true);
-  var T$ = {
-    StackTraceN: () => (T$.StackTraceN = dart.constFn(dart.nullable(core.StackTrace)))(),
-    VoidTovoid: () => (T$.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
-    FnTovoid: () => (T$.FnTovoid = dart.constFn(dart.fnType(dart.void, [T$.VoidTovoid()])))(),
-    ObjectAndStackTraceTovoid: () => (T$.ObjectAndStackTraceTovoid = dart.constFn(dart.fnType(dart.void, [core.Object, core.StackTrace])))(),
-    VoidToNull: () => (T$.VoidToNull = dart.constFn(dart.fnType(core.Null, [])))(),
-    JSArrayOfFuture: () => (T$.JSArrayOfFuture = dart.constFn(_interceptors.JSArray$(async.Future)))(),
-    FutureOfList: () => (T$.FutureOfList = dart.constFn(async.Future$(core.List)))(),
-    VoidToFutureOfList: () => (T$.VoidToFutureOfList = dart.constFn(dart.fnType(T$.FutureOfList(), [])))(),
-    FutureOfvoid: () => (T$.FutureOfvoid = dart.constFn(async.Future$(dart.void)))(),
-    VoidToFutureOfvoid: () => (T$.VoidToFutureOfvoid = dart.constFn(dart.fnType(T$.FutureOfvoid(), [])))(),
-    FutureN: () => (T$.FutureN = dart.constFn(dart.nullable(async.Future)))(),
-    VoidToFutureN: () => (T$.VoidToFutureN = dart.constFn(dart.fnType(T$.FutureN(), [])))(),
-    FutureNOfvoid: () => (T$.FutureNOfvoid = dart.constFn(dart.nullable(T$.FutureOfvoid())))(),
-    VoidToFutureNOfvoid: () => (T$.VoidToFutureNOfvoid = dart.constFn(dart.fnType(T$.FutureNOfvoid(), [])))(),
-    voidToFuture: () => (T$.voidToFuture = dart.constFn(dart.fnType(async.Future, [dart.void])))(),
-    intN: () => (T$.intN = dart.constFn(dart.nullable(core.int)))()
+  var T = {
+    DefaultEqualityOfNever: () => (T.DefaultEqualityOfNever = dart.constFn(equality.DefaultEquality$(dart.Never)))(),
+    LinkedMapOf_MapEntry$int: () => (T.LinkedMapOf_MapEntry$int = dart.constFn(_js_helper.LinkedMap$(equality._MapEntry, core.int)))()
   };
   const CT = Object.create({
     _: () => (C, CT)
   });
-  var I = [
-    "package:rxdart/src/subjects/replay_subject.dart",
-    "package:rxdart/src/transformers/start_with_error.dart",
-    "package:rxdart/src/transformers/start_with.dart",
-    "package:rxdart/src/subjects/behavior_subject.dart",
-    "package:rxdart/src/streams/connectable_stream.dart",
-    "package:rxdart/src/rx.dart"
-  ];
-  var _queue$ = dart.privateName(replay_subject, "_queue");
-  var _maxSize$ = dart.privateName(replay_subject, "_maxSize");
-  const _is_ReplaySubject_default = Symbol('_is_ReplaySubject_default');
-  replay_subject.ReplaySubject$ = dart.generic(T => {
-    var _EventOfT = () => (_EventOfT = dart.constFn(replay_subject._Event$(T)))();
-    var _EventOfTTobool = () => (_EventOfTTobool = dart.constFn(dart.fnType(core.bool, [_EventOfT()])))();
-    var _EventOfTToT = () => (_EventOfTToT = dart.constFn(dart.fnType(T, [_EventOfT()])))();
-    var _EventOfTToObject = () => (_EventOfTToObject = dart.constFn(dart.fnType(core.Object, [_EventOfT()])))();
-    var _EventOfTToStackTraceN = () => (_EventOfTToStackTraceN = dart.constFn(dart.fnType(T$.StackTraceN(), [_EventOfT()])))();
-    class ReplaySubject extends subject.Subject$(T) {
-      static new(opts) {
-        let maxSize = opts && 'maxSize' in opts ? opts.maxSize : null;
-        let onListen = opts && 'onListen' in opts ? opts.onListen : null;
-        let onCancel = opts && 'onCancel' in opts ? opts.onCancel : null;
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        let controller = async.StreamController$(T).broadcast({onListen: onListen, onCancel: onCancel, sync: sync});
-        let queue = new (collection.ListQueue$(replay_subject._Event$(T))).new();
-        return new (replay_subject.ReplaySubject$(T)).__(controller, rx.Rx.defer(T, dart.fn(() => queue[$toList]({growable: false})[$reversed][$fold](async.Stream$(T), controller.stream, dart.fn((stream, event) => {
-          if (event.isError) {
-            let errorAndStackTrace = dart.nullCheck(event.errorAndStackTrace);
-            return stream.transform(T, new (start_with_error.StartWithErrorStreamTransformer$(T)).new(errorAndStackTrace.error, errorAndStackTrace.stackTrace));
-          } else {
-            return stream.transform(T, new (start_with.StartWithStreamTransformer$(T)).new(dart.nullCheck(event.data).value));
-          }
-        }, dart.fnType(async.Stream$(T), [async.Stream$(T), replay_subject._Event$(T)]))), dart.fnType(async.Stream$(T), [])), {reusable: true}), queue, maxSize);
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: T.DefaultEqualityOfNever().prototype
+      });
+    }
+  }, false);
+  var C = [void 0];
+  var I = ["package:collection/src/equality.dart"];
+  const _is_Equality_default = Symbol('_is_Equality_default');
+  equality.Equality$ = dart.generic(E => {
+    class Equality extends core.Object {}
+    (Equality[dart.mixinNew] = function() {
+    }).prototype = Equality.prototype;
+    dart.addTypeTests(Equality);
+    Equality.prototype[_is_Equality_default] = true;
+    dart.addTypeCaches(Equality);
+    dart.setLibraryUri(Equality, I[0]);
+    return Equality;
+  });
+  equality.Equality = equality.Equality$();
+  dart.addTypeTests(equality.Equality, _is_Equality_default);
+  var _comparisonKey = dart.privateName(equality, "_comparisonKey");
+  var _inner = dart.privateName(equality, "_inner");
+  const _is_EqualityBy_default = Symbol('_is_EqualityBy_default');
+  equality.EqualityBy$ = dart.generic((E, F) => {
+    class EqualityBy extends core.Object {
+      equals(e1, e2) {
+        let t0, t0$;
+        E.as(e1);
+        E.as(e2);
+        return this[_inner].equals((t0 = e1, this[_comparisonKey](t0)), (t0$ = e2, this[_comparisonKey](t0$)));
       }
-      onAdd(event) {
-        T.as(event);
-        if (this[_queue$][$length] === this[_maxSize$]) {
-          this[_queue$].removeFirst();
+      hash(e) {
+        let t0;
+        E.as(e);
+        return this[_inner].hash((t0 = e, this[_comparisonKey](t0)));
+      }
+      isValidKey(o) {
+        let t0;
+        if (E.is(o)) {
+          let value = (t0 = o, this[_comparisonKey](t0));
+          return F.is(value) && this[_inner].isValidKey(value);
         }
-        this[_queue$].add(_EventOfT().data(event));
-      }
-      onAddError(error, stackTrace = null) {
-        if (this[_queue$][$length] === this[_maxSize$]) {
-          this[_queue$].removeFirst();
-        }
-        this[_queue$].add(_EventOfT().error(new error_and_stacktrace.ErrorAndStackTrace.new(error, stackTrace)));
-      }
-      get values() {
-        return this[_queue$][$where](dart.fn(event => !event.isError, _EventOfTTobool()))[$map](T, dart.fn(event => dart.nullCheck(event.data).value, _EventOfTToT()))[$toList]({growable: false});
-      }
-      get errors() {
-        return this[_queue$][$where](dart.fn(event => event.isError, _EventOfTTobool()))[$map](core.Object, dart.fn(event => dart.nullCheck(event.errorAndStackTrace).error, _EventOfTToObject()))[$toList]({growable: false});
-      }
-      get stackTraces() {
-        return this[_queue$][$where](dart.fn(event => event.isError, _EventOfTTobool()))[$map](T$.StackTraceN(), dart.fn(event => dart.nullCheck(event.errorAndStackTrace).stackTrace, _EventOfTToStackTraceN()))[$toList]({growable: false});
-      }
-      createForwardingSubject(R, opts) {
-        let onListen = opts && 'onListen' in opts ? opts.onListen : null;
-        let onCancel = opts && 'onCancel' in opts ? opts.onCancel : null;
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        return replay_subject.ReplaySubject$(R).new({maxSize: this[_maxSize$], onCancel: onCancel, onListen: onListen, sync: sync});
+        return false;
       }
     }
-    (ReplaySubject.__ = function(controller, stream, _queue, _maxSize) {
-      this[_queue$] = _queue;
-      this[_maxSize$] = _maxSize;
-      ReplaySubject.__proto__.new.call(this, controller, stream);
+    (EqualityBy.new = function(comparisonKey, inner = C[0] || CT.C0) {
+      this[_comparisonKey] = comparisonKey;
+      this[_inner] = inner;
       ;
-    }).prototype = ReplaySubject.prototype;
-    dart.addTypeTests(ReplaySubject);
-    ReplaySubject.prototype[_is_ReplaySubject_default] = true;
-    dart.addTypeCaches(ReplaySubject);
-    ReplaySubject[dart.implements] = () => [replay_stream.ReplayStream$(T)];
-    dart.setMethodSignature(ReplaySubject, () => ({
-      __proto__: dart.getMethods(ReplaySubject.__proto__),
-      createForwardingSubject: dart.gFnType(R => [replay_subject.ReplaySubject$(R), [], {onCancel: dart.nullable(dart.fnType(dart.void, [])), onListen: dart.nullable(dart.fnType(dart.void, [])), sync: core.bool}, {}], R => [dart.nullable(core.Object)])
+    }).prototype = EqualityBy.prototype;
+    dart.addTypeTests(EqualityBy);
+    EqualityBy.prototype[_is_EqualityBy_default] = true;
+    dart.addTypeCaches(EqualityBy);
+    EqualityBy[dart.implements] = () => [equality.Equality$(E)];
+    dart.setMethodSignature(EqualityBy, () => ({
+      __proto__: dart.getMethods(EqualityBy.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
     }));
-    dart.setGetterSignature(ReplaySubject, () => ({
-      __proto__: dart.getGetters(ReplaySubject.__proto__),
-      values: core.List$(T),
-      errors: core.List$(core.Object),
-      stackTraces: core.List$(dart.nullable(core.StackTrace))
+    dart.setLibraryUri(EqualityBy, I[0]);
+    dart.setFieldSignature(EqualityBy, () => ({
+      __proto__: dart.getFields(EqualityBy.__proto__),
+      [_comparisonKey]: dart.finalFieldType(dart.fnType(F, [E])),
+      [_inner]: dart.finalFieldType(equality.Equality$(F))
     }));
-    dart.setLibraryUri(ReplaySubject, I[0]);
-    dart.setFieldSignature(ReplaySubject, () => ({
-      __proto__: dart.getFields(ReplaySubject.__proto__),
-      [_queue$]: dart.finalFieldType(collection.Queue$(replay_subject._Event$(T))),
-      [_maxSize$]: dart.finalFieldType(dart.nullable(core.int))
-    }));
-    return ReplaySubject;
+    return EqualityBy;
   });
-  replay_subject.ReplaySubject = replay_subject.ReplaySubject$();
-  dart.addTypeTests(replay_subject.ReplaySubject, _is_ReplaySubject_default);
-  const _is__Event_default = Symbol('_is__Event_default');
-  replay_subject._Event$ = dart.generic(T => {
-    class _Event extends core.Object {
-      static data(data) {
-        return new (replay_subject._Event$(T)).__({isError: false, data: new (value_wrapper.ValueWrapper$(T)).new(data)});
+  equality.EqualityBy = equality.EqualityBy$();
+  dart.addTypeTests(equality.EqualityBy, _is_EqualityBy_default);
+  const _is_DefaultEquality_default = Symbol('_is_DefaultEquality_default');
+  equality.DefaultEquality$ = dart.generic(E => {
+    class DefaultEquality extends core.Object {
+      equals(e1, e2) {
+        return dart.equals(e1, e2);
       }
-      static error(e) {
-        return new (replay_subject._Event$(T)).__({isError: true, errorAndStackTrace: e});
+      hash(e) {
+        return dart.hashCode(e);
+      }
+      isValidKey(o) {
+        return true;
       }
     }
-    (_Event.__ = function(opts) {
-      let isError = opts && 'isError' in opts ? opts.isError : null;
-      let data = opts && 'data' in opts ? opts.data : null;
-      let errorAndStackTrace = opts && 'errorAndStackTrace' in opts ? opts.errorAndStackTrace : null;
-      this.isError = isError;
-      this.data = data;
-      this.errorAndStackTrace = errorAndStackTrace;
+    (DefaultEquality.new = function() {
       ;
-    }).prototype = _Event.prototype;
-    dart.addTypeTests(_Event);
-    _Event.prototype[_is__Event_default] = true;
-    dart.addTypeCaches(_Event);
-    dart.setLibraryUri(_Event, I[0]);
-    dart.setFieldSignature(_Event, () => ({
-      __proto__: dart.getFields(_Event.__proto__),
-      isError: dart.finalFieldType(core.bool),
-      data: dart.finalFieldType(dart.nullable(value_wrapper.ValueWrapper$(T))),
-      errorAndStackTrace: dart.finalFieldType(dart.nullable(error_and_stacktrace.ErrorAndStackTrace))
+    }).prototype = DefaultEquality.prototype;
+    dart.addTypeTests(DefaultEquality);
+    DefaultEquality.prototype[_is_DefaultEquality_default] = true;
+    dart.addTypeCaches(DefaultEquality);
+    DefaultEquality[dart.implements] = () => [equality.Equality$(E)];
+    dart.setMethodSignature(DefaultEquality, () => ({
+      __proto__: dart.getMethods(DefaultEquality.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
     }));
-    return _Event;
+    dart.setLibraryUri(DefaultEquality, I[0]);
+    return DefaultEquality;
   });
-  replay_subject._Event = replay_subject._Event$();
-  dart.addTypeTests(replay_subject._Event, _is__Event_default);
-  var _isFirstEventAdded = dart.privateName(start_with_error, "_isFirstEventAdded");
-  var _e$ = dart.privateName(start_with_error, "_e");
-  var _st$ = dart.privateName(start_with_error, "_st");
-  var _safeAddFirstEvent = dart.privateName(start_with_error, "_safeAddFirstEvent");
-  const _is__StartWithErrorStreamSink_default = Symbol('_is__StartWithErrorStreamSink_default');
-  start_with_error._StartWithErrorStreamSink$ = dart.generic(S => {
-    var EventSinkOfS = () => (EventSinkOfS = dart.constFn(async.EventSink$(S)))();
-    class _StartWithErrorStreamSink extends core.Object {
-      add(sink, data) {
-        EventSinkOfS().as(sink);
-        S.as(data);
-        this[_safeAddFirstEvent](sink);
-        sink.add(data);
+  equality.DefaultEquality = equality.DefaultEquality$();
+  dart.addTypeTests(equality.DefaultEquality, _is_DefaultEquality_default);
+  const _is_IdentityEquality_default = Symbol('_is_IdentityEquality_default');
+  equality.IdentityEquality$ = dart.generic(E => {
+    class IdentityEquality extends core.Object {
+      equals(e1, e2) {
+        E.as(e1);
+        E.as(e2);
+        return core.identical(e1, e2);
       }
-      addError(sink, e, st) {
-        EventSinkOfS().as(sink);
-        this[_safeAddFirstEvent](sink);
-        sink.addError(e, st);
+      hash(e) {
+        E.as(e);
+        return core.identityHashCode(e);
       }
-      close(sink) {
-        EventSinkOfS().as(sink);
-        this[_safeAddFirstEvent](sink);
-        sink.close();
-      }
-      onCancel(sink) {
-        EventSinkOfS().as(sink);
-      }
-      onListen(sink) {
-        EventSinkOfS().as(sink);
-        async.scheduleMicrotask(dart.fn(() => this[_safeAddFirstEvent](sink), T$.VoidTovoid()));
-      }
-      onPause(sink) {
-        EventSinkOfS().as(sink);
-      }
-      onResume(sink) {
-        EventSinkOfS().as(sink);
-      }
-      [_safeAddFirstEvent](sink) {
-        if (this[_isFirstEventAdded]) return;
-        sink.addError(this[_e$], this[_st$]);
-        this[_isFirstEventAdded] = true;
+      isValidKey(o) {
+        return true;
       }
     }
-    (_StartWithErrorStreamSink.new = function(_e, _st) {
-      this[_isFirstEventAdded] = false;
-      this[_e$] = _e;
-      this[_st$] = _st;
+    (IdentityEquality.new = function() {
       ;
-    }).prototype = _StartWithErrorStreamSink.prototype;
-    dart.addTypeTests(_StartWithErrorStreamSink);
-    _StartWithErrorStreamSink.prototype[_is__StartWithErrorStreamSink_default] = true;
-    dart.addTypeCaches(_StartWithErrorStreamSink);
-    _StartWithErrorStreamSink[dart.implements] = () => [forwarding_sink.ForwardingSink$(S, S)];
-    dart.setMethodSignature(_StartWithErrorStreamSink, () => ({
-      __proto__: dart.getMethods(_StartWithErrorStreamSink.__proto__),
-      add: dart.fnType(dart.void, [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      addError: dart.fnType(dart.void, [dart.nullable(core.Object), core.Object, core.StackTrace]),
-      close: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      onCancel: dart.fnType(dart.dynamic, [dart.nullable(core.Object)]),
-      onListen: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      onPause: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      onResume: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      [_safeAddFirstEvent]: dart.fnType(dart.void, [async.EventSink$(S)])
+    }).prototype = IdentityEquality.prototype;
+    dart.addTypeTests(IdentityEquality);
+    IdentityEquality.prototype[_is_IdentityEquality_default] = true;
+    dart.addTypeCaches(IdentityEquality);
+    IdentityEquality[dart.implements] = () => [equality.Equality$(E)];
+    dart.setMethodSignature(IdentityEquality, () => ({
+      __proto__: dart.getMethods(IdentityEquality.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
     }));
-    dart.setLibraryUri(_StartWithErrorStreamSink, I[1]);
-    dart.setFieldSignature(_StartWithErrorStreamSink, () => ({
-      __proto__: dart.getFields(_StartWithErrorStreamSink.__proto__),
-      [_e$]: dart.finalFieldType(core.Object),
-      [_st$]: dart.finalFieldType(dart.nullable(core.StackTrace)),
-      [_isFirstEventAdded]: dart.fieldType(core.bool)
-    }));
-    return _StartWithErrorStreamSink;
+    dart.setLibraryUri(IdentityEquality, I[0]);
+    return IdentityEquality;
   });
-  start_with_error._StartWithErrorStreamSink = start_with_error._StartWithErrorStreamSink$();
-  dart.addTypeTests(start_with_error._StartWithErrorStreamSink, _is__StartWithErrorStreamSink_default);
-  var error$ = dart.privateName(start_with_error, "StartWithErrorStreamTransformer.error");
-  var stackTrace$ = dart.privateName(start_with_error, "StartWithErrorStreamTransformer.stackTrace");
-  const _is_StartWithErrorStreamTransformer_default = Symbol('_is_StartWithErrorStreamTransformer_default');
-  start_with_error.StartWithErrorStreamTransformer$ = dart.generic(S => {
-    var StreamOfS = () => (StreamOfS = dart.constFn(async.Stream$(S)))();
-    var _StartWithErrorStreamSinkOfS = () => (_StartWithErrorStreamSinkOfS = dart.constFn(start_with_error._StartWithErrorStreamSink$(S)))();
-    class StartWithErrorStreamTransformer extends async.StreamTransformerBase$(S, S) {
-      get error() {
-        return this[error$];
+  equality.IdentityEquality = equality.IdentityEquality$();
+  dart.addTypeTests(equality.IdentityEquality, _is_IdentityEquality_default);
+  var _elementEquality = dart.privateName(equality, "IterableEquality._elementEquality");
+  var _elementEquality$ = dart.privateName(equality, "_elementEquality");
+  const _is_IterableEquality_default = Symbol('_is_IterableEquality_default');
+  equality.IterableEquality$ = dart.generic(E => {
+    var IterableOfE = () => (IterableOfE = dart.constFn(core.Iterable$(E)))();
+    var IterableNOfE = () => (IterableNOfE = dart.constFn(dart.nullable(IterableOfE())))();
+    class IterableEquality extends core.Object {
+      get [_elementEquality$]() {
+        return this[_elementEquality];
       }
-      set error(value) {
-        super.error = value;
+      set [_elementEquality$](value) {
+        super[_elementEquality$] = value;
       }
-      get stackTrace() {
-        return this[stackTrace$];
-      }
-      set stackTrace(value) {
-        super.stackTrace = value;
-      }
-      bind(stream) {
-        StreamOfS().as(stream);
-        return forwarding_stream.forwardStream(S, S, stream, new (_StartWithErrorStreamSinkOfS()).new(this.error, this.stackTrace));
-      }
-    }
-    (StartWithErrorStreamTransformer.new = function(error, stackTrace = null) {
-      this[error$] = error;
-      this[stackTrace$] = stackTrace;
-      StartWithErrorStreamTransformer.__proto__.new.call(this);
-      ;
-    }).prototype = StartWithErrorStreamTransformer.prototype;
-    dart.addTypeTests(StartWithErrorStreamTransformer);
-    StartWithErrorStreamTransformer.prototype[_is_StartWithErrorStreamTransformer_default] = true;
-    dart.addTypeCaches(StartWithErrorStreamTransformer);
-    dart.setMethodSignature(StartWithErrorStreamTransformer, () => ({
-      __proto__: dart.getMethods(StartWithErrorStreamTransformer.__proto__),
-      bind: dart.fnType(async.Stream$(S), [dart.nullable(core.Object)])
-    }));
-    dart.setLibraryUri(StartWithErrorStreamTransformer, I[1]);
-    dart.setFieldSignature(StartWithErrorStreamTransformer, () => ({
-      __proto__: dart.getFields(StartWithErrorStreamTransformer.__proto__),
-      error: dart.finalFieldType(core.Object),
-      stackTrace: dart.finalFieldType(dart.nullable(core.StackTrace))
-    }));
-    return StartWithErrorStreamTransformer;
-  });
-  start_with_error.StartWithErrorStreamTransformer = start_with_error.StartWithErrorStreamTransformer$();
-  dart.addTypeTests(start_with_error.StartWithErrorStreamTransformer, _is_StartWithErrorStreamTransformer_default);
-  forwarding_stream.forwardStream = function forwardStream(T, R, stream, connectedSink) {
-    core.ArgumentError.checkNotNull(async.Stream$(T), stream, "stream");
-    core.ArgumentError.checkNotNull(forwarding_sink.ForwardingSink$(T, R), connectedSink, "connectedSink");
-    let controller = null;
-    function controller$35get() {
-      let t1;
-      t1 = controller;
-      return t1 == null ? dart.throw(new _internal.LateError.localNI("controller")) : t1;
-    }
-    dart.fn(controller$35get, dart.fnType(async.StreamController$(R), []));
-    function controller$35set(t2) {
-      return controller = t2;
-    }
-    dart.fn(controller$35set, dart.fnType(dart.dynamic, [async.StreamController$(R)]));
-    let subscription = null;
-    function subscription$35get() {
-      let t5;
-      t5 = subscription;
-      return t5 == null ? dart.throw(new _internal.LateError.localNI("subscription")) : t5;
-    }
-    dart.fn(subscription$35get, dart.fnType(async.StreamSubscription$(T), []));
-    function subscription$35set(t6) {
-      return subscription = t6;
-    }
-    dart.fn(subscription$35set, dart.fnType(dart.dynamic, [async.StreamSubscription$(T)]));
-    function runCatching(block) {
-      try {
-        block();
-      } catch (e$) {
-        let e = dart.getThrown(e$);
-        let s = dart.stackTrace(e$);
-        if (core.Object.is(e)) {
-          connectedSink.addError(controller$35get(), e, s);
-        } else
-          throw e$;
-      }
-    }
-    dart.fn(runCatching, T$.FnTovoid());
-    let onListen = dart.fn(() => {
-      runCatching(dart.fn(() => connectedSink.onListen(controller$35get()), T$.VoidTovoid()));
-      subscription$35set(stream.listen(dart.fn(data => runCatching(dart.fn(() => connectedSink.add(controller$35get(), data), T$.VoidTovoid())), dart.fnType(dart.void, [T])), {onError: dart.fn((e, st) => runCatching(dart.fn(() => connectedSink.addError(controller$35get(), e, st), T$.VoidTovoid())), T$.ObjectAndStackTraceTovoid()), onDone: dart.fn(() => runCatching(dart.fn(() => connectedSink.close(controller$35get()), T$.VoidTovoid())), T$.VoidTovoid())}));
-    }, T$.VoidToNull());
-    let onCancel = dart.fn(() => {
-      let onCancelSelfFuture = subscription$35get().cancel();
-      let onCancelConnectedFuture = connectedSink.onCancel(controller$35get());
-      let futures = (() => {
-        let t9 = T$.JSArrayOfFuture().of([]);
-        if (async.Future.is(onCancelSelfFuture)) t9[$add](onCancelSelfFuture);
-        if (async.Future.is(onCancelConnectedFuture)) t9[$add](onCancelConnectedFuture);
-        return t9;
-      })();
-      return async.Future.wait(dart.dynamic, futures);
-    }, T$.VoidToFutureOfList());
-    let onPause = dart.fn(() => {
-      subscription$35get().pause();
-      runCatching(dart.fn(() => connectedSink.onPause(controller$35get()), T$.VoidTovoid()));
-    }, T$.VoidToNull());
-    let onResume = dart.fn(() => {
-      subscription$35get().resume();
-      runCatching(dart.fn(() => connectedSink.onResume(controller$35get()), T$.VoidTovoid()));
-    }, T$.VoidToNull());
-    if (subject.Subject$(T).is(stream)) {
-      controller$35set(stream.createForwardingSubject(R, {onListen: onListen, onCancel: onCancel, sync: true}));
-    } else if (stream.isBroadcast) {
-      controller$35set(async.StreamController$(R).broadcast({onListen: onListen, onCancel: onCancel, sync: true}));
-    } else {
-      controller$35set(async.StreamController$(R).new({onListen: onListen, onPause: onPause, onResume: onResume, onCancel: onCancel, sync: true}));
-    }
-    return controller$35get().stream;
-  };
-  var _isFirstEventAdded$ = dart.privateName(start_with, "_isFirstEventAdded");
-  var _startValue$ = dart.privateName(start_with, "_startValue");
-  var _safeAddFirstEvent$ = dart.privateName(start_with, "_safeAddFirstEvent");
-  const _is__StartWithStreamSink_default = Symbol('_is__StartWithStreamSink_default');
-  start_with._StartWithStreamSink$ = dart.generic(S => {
-    var EventSinkOfS = () => (EventSinkOfS = dart.constFn(async.EventSink$(S)))();
-    class _StartWithStreamSink extends core.Object {
-      add(sink, data) {
-        EventSinkOfS().as(sink);
-        S.as(data);
-        this[_safeAddFirstEvent$](sink);
-        sink.add(data);
-      }
-      addError(sink, e, st) {
-        EventSinkOfS().as(sink);
-        this[_safeAddFirstEvent$](sink);
-        sink.addError(e, st);
-      }
-      close(sink) {
-        EventSinkOfS().as(sink);
-        this[_safeAddFirstEvent$](sink);
-        sink.close();
-      }
-      onCancel(sink) {
-        EventSinkOfS().as(sink);
-      }
-      onListen(sink) {
-        EventSinkOfS().as(sink);
-        async.scheduleMicrotask(dart.fn(() => this[_safeAddFirstEvent$](sink), T$.VoidTovoid()));
-      }
-      onPause(sink) {
-        EventSinkOfS().as(sink);
-      }
-      onResume(sink) {
-        EventSinkOfS().as(sink);
-      }
-      [_safeAddFirstEvent$](sink) {
-        if (!this[_isFirstEventAdded$]) {
-          sink.add(this[_startValue$]);
-          this[_isFirstEventAdded$] = true;
+      equals(elements1, elements2) {
+        IterableNOfE().as(elements1);
+        IterableNOfE().as(elements2);
+        if (elements1 == elements2) return true;
+        if (elements1 == null || elements2 == null) return false;
+        let it1 = elements1[$iterator];
+        let it2 = elements2[$iterator];
+        while (true) {
+          let hasNext = it1.moveNext();
+          if (hasNext !== it2.moveNext()) return false;
+          if (!hasNext) return true;
+          if (!this[_elementEquality$].equals(it1.current, it2.current)) return false;
         }
       }
-    }
-    (_StartWithStreamSink.new = function(_startValue) {
-      this[_isFirstEventAdded$] = false;
-      this[_startValue$] = _startValue;
-      ;
-    }).prototype = _StartWithStreamSink.prototype;
-    dart.addTypeTests(_StartWithStreamSink);
-    _StartWithStreamSink.prototype[_is__StartWithStreamSink_default] = true;
-    dart.addTypeCaches(_StartWithStreamSink);
-    _StartWithStreamSink[dart.implements] = () => [forwarding_sink.ForwardingSink$(S, S)];
-    dart.setMethodSignature(_StartWithStreamSink, () => ({
-      __proto__: dart.getMethods(_StartWithStreamSink.__proto__),
-      add: dart.fnType(dart.void, [dart.nullable(core.Object), dart.nullable(core.Object)]),
-      addError: dart.fnType(dart.void, [dart.nullable(core.Object), core.Object, core.StackTrace]),
-      close: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      onCancel: dart.fnType(dart.dynamic, [dart.nullable(core.Object)]),
-      onListen: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      onPause: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      onResume: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      [_safeAddFirstEvent$]: dart.fnType(dart.void, [async.EventSink$(S)])
-    }));
-    dart.setLibraryUri(_StartWithStreamSink, I[2]);
-    dart.setFieldSignature(_StartWithStreamSink, () => ({
-      __proto__: dart.getFields(_StartWithStreamSink.__proto__),
-      [_startValue$]: dart.finalFieldType(S),
-      [_isFirstEventAdded$]: dart.fieldType(core.bool)
-    }));
-    return _StartWithStreamSink;
-  });
-  start_with._StartWithStreamSink = start_with._StartWithStreamSink$();
-  dart.addTypeTests(start_with._StartWithStreamSink, _is__StartWithStreamSink_default);
-  var startValue$ = dart.privateName(start_with, "StartWithStreamTransformer.startValue");
-  const _is_StartWithStreamTransformer_default = Symbol('_is_StartWithStreamTransformer_default');
-  start_with.StartWithStreamTransformer$ = dart.generic(S => {
-    var StreamOfS = () => (StreamOfS = dart.constFn(async.Stream$(S)))();
-    var _StartWithStreamSinkOfS = () => (_StartWithStreamSinkOfS = dart.constFn(start_with._StartWithStreamSink$(S)))();
-    class StartWithStreamTransformer extends async.StreamTransformerBase$(S, S) {
-      get startValue() {
-        return this[startValue$];
-      }
-      set startValue(value) {
-        super.startValue = value;
-      }
-      bind(stream) {
-        StreamOfS().as(stream);
-        return forwarding_stream.forwardStream(S, S, stream, new (_StartWithStreamSinkOfS()).new(this.startValue));
-      }
-    }
-    (StartWithStreamTransformer.new = function(startValue) {
-      this[startValue$] = startValue;
-      StartWithStreamTransformer.__proto__.new.call(this);
-      ;
-    }).prototype = StartWithStreamTransformer.prototype;
-    dart.addTypeTests(StartWithStreamTransformer);
-    StartWithStreamTransformer.prototype[_is_StartWithStreamTransformer_default] = true;
-    dart.addTypeCaches(StartWithStreamTransformer);
-    dart.setMethodSignature(StartWithStreamTransformer, () => ({
-      __proto__: dart.getMethods(StartWithStreamTransformer.__proto__),
-      bind: dart.fnType(async.Stream$(S), [dart.nullable(core.Object)])
-    }));
-    dart.setLibraryUri(StartWithStreamTransformer, I[2]);
-    dart.setFieldSignature(StartWithStreamTransformer, () => ({
-      __proto__: dart.getFields(StartWithStreamTransformer.__proto__),
-      startValue: dart.finalFieldType(S)
-    }));
-    return StartWithStreamTransformer;
-  });
-  start_with.StartWithStreamTransformer = start_with.StartWithStreamTransformer$();
-  dart.addTypeTests(start_with.StartWithStreamTransformer, _is_StartWithStreamTransformer_default);
-  start_with['StartWithExtension|startWith'] = function StartWithExtension$124startWith(T, $this, startValue) {
-    return $this.transform(T, new (start_with.StartWithStreamTransformer$(T)).new(startValue));
-  };
-  start_with['StartWithExtension|get#startWith'] = function StartWithExtension$124get$35startWith(T, $this) {
-    return dart.fn(startValue => start_with['StartWithExtension|startWith'](T, $this, startValue), dart.fnType(async.Stream$(T), [T]));
-  };
-  var _stream$ = dart.privateName(behavior_subject, "_stream");
-  var _wrapper$ = dart.privateName(behavior_subject, "_wrapper");
-  var _forwardBehaviorSubject = dart.privateName(behavior_subject, "_forwardBehaviorSubject");
-  const _is_BehaviorSubject_default = Symbol('_is_BehaviorSubject_default');
-  behavior_subject.BehaviorSubject$ = dart.generic(T => {
-    var StreamOfT = () => (StreamOfT = dart.constFn(async.Stream$(T)))();
-    var StreamOfTToStreamOfT = () => (StreamOfTToStreamOfT = dart.constFn(dart.fnType(StreamOfT(), [StreamOfT()])))();
-    class BehaviorSubject extends subject.Subject$(T) {
-      static new(opts) {
-        let onListen = opts && 'onListen' in opts ? opts.onListen : null;
-        let onCancel = opts && 'onCancel' in opts ? opts.onCancel : null;
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        let controller = async.StreamController$(T).broadcast({onListen: onListen, onCancel: onCancel, sync: sync});
-        let wrapper = new (behavior_subject._Wrapper$(T)).new();
-        return new (behavior_subject.BehaviorSubject$(T)).__(controller, rx.Rx.defer(T, behavior_subject.BehaviorSubject._deferStream(T, wrapper, controller, sync), {reusable: true}), wrapper);
-      }
-      static seeded(seedValue, opts) {
-        let onListen = opts && 'onListen' in opts ? opts.onListen : null;
-        let onCancel = opts && 'onCancel' in opts ? opts.onCancel : null;
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        let controller = async.StreamController$(T).broadcast({onListen: onListen, onCancel: onCancel, sync: sync});
-        let wrapper = new (behavior_subject._Wrapper$(T)).seeded(seedValue);
-        return new (behavior_subject.BehaviorSubject$(T)).__(controller, rx.Rx.defer(T, behavior_subject.BehaviorSubject._deferStream(T, wrapper, controller, sync), {reusable: true}), wrapper);
-      }
-      static _deferStream(T, wrapper, controller, sync) {
-        return dart.fn(() => {
-          let errorAndStackTrace = wrapper.errorAndStackTrace;
-          if (errorAndStackTrace != null && !wrapper.isValue) {
-            return controller.stream.transform(T, new (start_with_error.StartWithErrorStreamTransformer$(T)).new(errorAndStackTrace.error, errorAndStackTrace.stackTrace));
-          }
-          let value = wrapper.value;
-          if (value != null && wrapper.isValue) {
-            return controller.stream.transform(T, new (start_with.StartWithStreamTransformer$(T)).new(value.value));
-          }
-          return controller.stream;
-        }, dart.fnType(async.Stream$(T), []));
-      }
-      onAdd(event) {
-        T.as(event);
-        return this[_wrapper$].setValue(event);
-      }
-      onAddError(error, stackTrace = null) {
-        return this[_wrapper$].setError(error, stackTrace);
-      }
-      get stream() {
-        return this;
-      }
-      get hasValue() {
-        return this[_wrapper$].value != null;
-      }
-      get value() {
-        let wrapper = this[_wrapper$].value;
-        if (wrapper != null) {
-          return wrapper.value;
+      hash(elements) {
+        IterableNOfE().as(elements);
+        if (elements == null) return dart.hashCode(null);
+        let hash = 0;
+        for (let element of elements) {
+          let c = this[_elementEquality$].hash(element);
+          hash = (hash + c & 2147483647) >>> 0;
+          hash = (hash + (hash << 10 >>> 0) & 2147483647) >>> 0;
+          hash = (hash ^ hash[$rightShift](6)) >>> 0;
         }
-        dart.throw(value_stream.ValueStreamError.hasNoValue());
+        hash = (hash + (hash << 3 >>> 0) & 2147483647) >>> 0;
+        hash = (hash ^ hash[$rightShift](11)) >>> 0;
+        hash = (hash + (hash << 15 >>> 0) & 2147483647) >>> 0;
+        return hash;
       }
-      get valueOrNull() {
-        let t12;
-        t12 = this[_wrapper$].value;
-        return t12 == null ? null : t12.value;
+      isValidKey(o) {
+        return IterableOfE().is(o);
       }
-      set value(newValue) {
-        T.as(newValue);
-        return this.add(newValue);
+    }
+    (IterableEquality.new = function(elementEquality = C[0] || CT.C0) {
+      this[_elementEquality] = elementEquality;
+      ;
+    }).prototype = IterableEquality.prototype;
+    dart.addTypeTests(IterableEquality);
+    IterableEquality.prototype[_is_IterableEquality_default] = true;
+    dart.addTypeCaches(IterableEquality);
+    IterableEquality[dart.implements] = () => [equality.Equality$(core.Iterable$(E))];
+    dart.setMethodSignature(IterableEquality, () => ({
+      __proto__: dart.getMethods(IterableEquality.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
+    }));
+    dart.setLibraryUri(IterableEquality, I[0]);
+    dart.setFieldSignature(IterableEquality, () => ({
+      __proto__: dart.getFields(IterableEquality.__proto__),
+      [_elementEquality$]: dart.finalFieldType(equality.Equality$(dart.nullable(E)))
+    }));
+    return IterableEquality;
+  });
+  equality.IterableEquality = equality.IterableEquality$();
+  dart.addTypeTests(equality.IterableEquality, _is_IterableEquality_default);
+  var _elementEquality$0 = dart.privateName(equality, "ListEquality._elementEquality");
+  const _is_ListEquality_default = Symbol('_is_ListEquality_default');
+  equality.ListEquality$ = dart.generic(E => {
+    var ListOfE = () => (ListOfE = dart.constFn(core.List$(E)))();
+    var ListNOfE = () => (ListNOfE = dart.constFn(dart.nullable(ListOfE())))();
+    class ListEquality extends core.Object {
+      get [_elementEquality$]() {
+        return this[_elementEquality$0];
       }
-      get hasError() {
-        return this[_wrapper$].errorAndStackTrace != null;
+      set [_elementEquality$](value) {
+        super[_elementEquality$] = value;
       }
-      get errorOrNull() {
-        let t12;
-        t12 = this[_wrapper$].errorAndStackTrace;
-        return t12 == null ? null : t12.error;
-      }
-      get error() {
-        let errorAndSt = this[_wrapper$].errorAndStackTrace;
-        if (errorAndSt != null) {
-          return errorAndSt.error;
+      equals(list1, list2) {
+        ListNOfE().as(list1);
+        ListNOfE().as(list2);
+        if (list1 == list2) return true;
+        if (list1 == null || list2 == null) return false;
+        let length = list1[$length];
+        if (length !== list2[$length]) return false;
+        for (let i = 0; i < length; i = i + 1) {
+          if (!this[_elementEquality$].equals(list1[$_get](i), list2[$_get](i))) return false;
         }
-        dart.throw(value_stream.ValueStreamError.hasNoError());
+        return true;
       }
-      get stackTrace() {
-        let t12;
-        t12 = this[_wrapper$].errorAndStackTrace;
-        return t12 == null ? null : t12.stackTrace;
-      }
-      createForwardingSubject(R, opts) {
-        let onListen = opts && 'onListen' in opts ? opts.onListen : null;
-        let onCancel = opts && 'onCancel' in opts ? opts.onCancel : null;
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        return behavior_subject.BehaviorSubject$(R).new({onListen: onListen, onCancel: onCancel, sync: sync});
-      }
-      where(test) {
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.where(test), StreamOfTToStreamOfT()));
-      }
-      map(S, convert) {
-        return this[_forwardBehaviorSubject](S, dart.fn(s => s.map(S, convert), dart.fnType(async.Stream$(S), [StreamOfT()])));
-      }
-      asyncMap(E, convert) {
-        return this[_forwardBehaviorSubject](E, dart.fn(s => s.asyncMap(E, convert), dart.fnType(async.Stream$(E), [StreamOfT()])));
-      }
-      asyncExpand(E, convert) {
-        return this[_forwardBehaviorSubject](E, dart.fn(s => s.asyncExpand(E, convert), dart.fnType(async.Stream$(E), [StreamOfT()])));
-      }
-      handleError(onError, opts) {
-        let test = opts && 'test' in opts ? opts.test : null;
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.handleError(onError, {test: test}), StreamOfTToStreamOfT()));
-      }
-      expand(S, convert) {
-        return this[_forwardBehaviorSubject](S, dart.fn(s => s.expand(S, convert), dart.fnType(async.Stream$(S), [StreamOfT()])));
-      }
-      transform(S, streamTransformer) {
-        async.StreamTransformer$(T, S).as(streamTransformer);
-        return this[_forwardBehaviorSubject](S, dart.fn(s => s.transform(S, streamTransformer), dart.fnType(async.Stream$(S), [StreamOfT()])));
-      }
-      cast(R) {
-        return this[_forwardBehaviorSubject](R, dart.fn(s => s.cast(R), dart.fnType(async.Stream$(R), [StreamOfT()])));
-      }
-      take(count) {
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.take(count), StreamOfTToStreamOfT()));
-      }
-      takeWhile(test) {
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.takeWhile(test), StreamOfTToStreamOfT()));
-      }
-      skip(count) {
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.skip(count), StreamOfTToStreamOfT()));
-      }
-      skipWhile(test) {
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.skipWhile(test), StreamOfTToStreamOfT()));
-      }
-      distinct(equals = null) {
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.distinct(equals), StreamOfTToStreamOfT()));
-      }
-      timeout(timeLimit, opts) {
-        let onTimeout = opts && 'onTimeout' in opts ? opts.onTimeout : null;
-        return this[_forwardBehaviorSubject](T, dart.fn(s => s.timeout(timeLimit, {onTimeout: onTimeout}), StreamOfTToStreamOfT()));
-      }
-      [_forwardBehaviorSubject](R, transformerStream) {
-        let subject = null;
-        function subject$35get() {
-          let t13;
-          t13 = subject;
-          return t13 == null ? dart.throw(new _internal.LateError.localNI("subject")) : t13;
+      hash(list) {
+        ListNOfE().as(list);
+        if (list == null) return dart.hashCode(null);
+        let hash = 0;
+        for (let i = 0; i < list[$length]; i = i + 1) {
+          let c = this[_elementEquality$].hash(list[$_get](i));
+          hash = (hash + c & 2147483647) >>> 0;
+          hash = (hash + (hash << 10 >>> 0) & 2147483647) >>> 0;
+          hash = (hash ^ hash[$rightShift](6)) >>> 0;
         }
-        dart.fn(subject$35get, dart.fnType(behavior_subject.BehaviorSubject$(R), []));
-        function subject$35set(t14) {
-          return subject = t14;
+        hash = (hash + (hash << 3 >>> 0) & 2147483647) >>> 0;
+        hash = (hash ^ hash[$rightShift](11)) >>> 0;
+        hash = (hash + (hash << 15 >>> 0) & 2147483647) >>> 0;
+        return hash;
+      }
+      isValidKey(o) {
+        return ListOfE().is(o);
+      }
+    }
+    (ListEquality.new = function(elementEquality = C[0] || CT.C0) {
+      this[_elementEquality$0] = elementEquality;
+      ;
+    }).prototype = ListEquality.prototype;
+    dart.addTypeTests(ListEquality);
+    ListEquality.prototype[_is_ListEquality_default] = true;
+    dart.addTypeCaches(ListEquality);
+    ListEquality[dart.implements] = () => [equality.Equality$(core.List$(E))];
+    dart.setMethodSignature(ListEquality, () => ({
+      __proto__: dart.getMethods(ListEquality.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
+    }));
+    dart.setLibraryUri(ListEquality, I[0]);
+    dart.setFieldSignature(ListEquality, () => ({
+      __proto__: dart.getFields(ListEquality.__proto__),
+      [_elementEquality$]: dart.finalFieldType(equality.Equality$(E))
+    }));
+    return ListEquality;
+  });
+  equality.ListEquality = equality.ListEquality$();
+  dart.addTypeTests(equality.ListEquality, _is_ListEquality_default);
+  var _elementEquality$1 = dart.privateName(equality, "_UnorderedEquality._elementEquality");
+  const _is__UnorderedEquality_default = Symbol('_is__UnorderedEquality_default');
+  equality._UnorderedEquality$ = dart.generic((E, T) => {
+    var HashMapOfE$dynamic = () => (HashMapOfE$dynamic = dart.constFn(collection.HashMap$(E, dart.dynamic)))();
+    class _UnorderedEquality extends core.Object {
+      get [_elementEquality$]() {
+        return this[_elementEquality$1];
+      }
+      set [_elementEquality$](value) {
+        super[_elementEquality$] = value;
+      }
+      equals(elements1, elements2) {
+        let t0;
+        T.as(elements1);
+        T.as(elements2);
+        if (elements1 == elements2) return true;
+        if (elements1 == null || elements2 == null) return false;
+        let counts = HashMapOfE$dynamic().new({equals: dart.bind(this[_elementEquality$], 'equals'), hashCode: dart.bind(this[_elementEquality$], 'hash'), isValidKey: dart.bind(this[_elementEquality$], 'isValidKey')});
+        let length = 0;
+        for (let e of elements1) {
+          let count = (t0 = counts[$_get](e), t0 == null ? 0 : t0);
+          counts[$_set](e, dart.dsend(count, '+', [1]));
+          length = length + 1;
         }
-        dart.fn(subject$35set, dart.fnType(dart.dynamic, [behavior_subject.BehaviorSubject$(R)]));
-        let subscription = null;
-        function subscription$35get() {
-          let t17;
-          t17 = subscription;
-          return t17 == null ? dart.throw(new _internal.LateError.localNI("subscription")) : t17;
+        for (let e of elements2) {
+          let count = counts[$_get](e);
+          if (count == null || dart.equals(count, 0)) return false;
+          counts[$_set](e, dart.dsend(count, '-', [1]));
+          length = length - 1;
         }
-        dart.fn(subscription$35get, dart.fnType(async.StreamSubscription$(R), []));
-        function subscription$35set(t18) {
-          return subscription = t18;
+        return length === 0;
+      }
+      hash(elements) {
+        T.as(elements);
+        if (elements == null) return dart.hashCode(null);
+        let hash = 0;
+        for (let element of elements) {
+          let c = this[_elementEquality$].hash(element);
+          hash = (hash + c & 2147483647) >>> 0;
         }
-        dart.fn(subscription$35set, dart.fnType(dart.dynamic, [async.StreamSubscription$(R)]));
-        let onListen = dart.fn(() => subscription$35set(transformerStream(this[_stream$]).listen(dart.bind(subject$35get(), 'add'), {onError: dart.bind(subject$35get(), 'addError'), onDone: dart.bind(subject$35get(), 'close')})), dart.fnType(async.StreamSubscription$(R), []));
-        let onCancel = dart.fn(() => subscription$35get().cancel(), T$.VoidToFutureOfvoid());
-        return subject$35set(this.createForwardingSubject(R, {onListen: onListen, onCancel: onCancel, sync: true}));
+        hash = (hash + (hash << 3 >>> 0) & 2147483647) >>> 0;
+        hash = (hash ^ hash[$rightShift](11)) >>> 0;
+        hash = (hash + (hash << 15 >>> 0) & 2147483647) >>> 0;
+        return hash;
       }
     }
-    (BehaviorSubject.__ = function(controller, _stream, _wrapper) {
-      this[_stream$] = _stream;
-      this[_wrapper$] = _wrapper;
-      BehaviorSubject.__proto__.new.call(this, controller, _stream);
+    (_UnorderedEquality.new = function(_elementEquality) {
+      this[_elementEquality$1] = _elementEquality;
       ;
-    }).prototype = BehaviorSubject.prototype;
-    dart.addTypeTests(BehaviorSubject);
-    BehaviorSubject.prototype[_is_BehaviorSubject_default] = true;
-    dart.addTypeCaches(BehaviorSubject);
-    BehaviorSubject[dart.implements] = () => [value_stream.ValueStream$(T)];
-    dart.setMethodSignature(BehaviorSubject, () => ({
-      __proto__: dart.getMethods(BehaviorSubject.__proto__),
-      createForwardingSubject: dart.gFnType(R => [behavior_subject.BehaviorSubject$(R), [], {onCancel: dart.nullable(dart.fnType(dart.void, [])), onListen: dart.nullable(dart.fnType(dart.void, [])), sync: core.bool}, {}], R => [dart.nullable(core.Object)]),
-      where: dart.fnType(value_stream.ValueStream$(T), [dart.fnType(core.bool, [T])]),
-      map: dart.gFnType(S => [value_stream.ValueStream$(S), [dart.fnType(S, [T])]], S => [dart.nullable(core.Object)]),
-      asyncMap: dart.gFnType(E => [value_stream.ValueStream$(E), [dart.fnType(async.FutureOr$(E), [T])]], E => [dart.nullable(core.Object)]),
-      asyncExpand: dart.gFnType(E => [value_stream.ValueStream$(E), [dart.fnType(dart.nullable(async.Stream$(E)), [T])]], E => [dart.nullable(core.Object)]),
-      handleError: dart.fnType(value_stream.ValueStream$(T), [core.Function], {test: dart.nullable(dart.fnType(core.bool, [dart.dynamic]))}, {}),
-      expand: dart.gFnType(S => [value_stream.ValueStream$(S), [dart.fnType(core.Iterable$(S), [T])]], S => [dart.nullable(core.Object)]),
-      transform: dart.gFnType(S => [value_stream.ValueStream$(S), [dart.nullable(core.Object)]], S => [dart.nullable(core.Object)]),
-      cast: dart.gFnType(R => [value_stream.ValueStream$(R), []], R => [dart.nullable(core.Object)]),
-      take: dart.fnType(value_stream.ValueStream$(T), [core.int]),
-      takeWhile: dart.fnType(value_stream.ValueStream$(T), [dart.fnType(core.bool, [T])]),
-      skip: dart.fnType(value_stream.ValueStream$(T), [core.int]),
-      skipWhile: dart.fnType(value_stream.ValueStream$(T), [dart.fnType(core.bool, [T])]),
-      distinct: dart.fnType(value_stream.ValueStream$(T), [], [dart.nullable(dart.fnType(core.bool, [T, T]))]),
-      timeout: dart.fnType(value_stream.ValueStream$(T), [core.Duration], {onTimeout: dart.nullable(dart.fnType(dart.void, [async.EventSink$(T)]))}, {}),
-      [_forwardBehaviorSubject]: dart.gFnType(R => [value_stream.ValueStream$(R), [dart.fnType(async.Stream$(R), [async.Stream$(T)])]], R => [dart.nullable(core.Object)])
+    }).prototype = _UnorderedEquality.prototype;
+    dart.addTypeTests(_UnorderedEquality);
+    _UnorderedEquality.prototype[_is__UnorderedEquality_default] = true;
+    dart.addTypeCaches(_UnorderedEquality);
+    _UnorderedEquality[dart.implements] = () => [equality.Equality$(T)];
+    dart.setMethodSignature(_UnorderedEquality, () => ({
+      __proto__: dart.getMethods(_UnorderedEquality.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)])
     }));
-    dart.setGetterSignature(BehaviorSubject, () => ({
-      __proto__: dart.getGetters(BehaviorSubject.__proto__),
-      stream: value_stream.ValueStream$(T),
-      hasValue: core.bool,
-      value: T,
-      valueOrNull: dart.nullable(T),
-      hasError: core.bool,
-      errorOrNull: dart.nullable(core.Object),
-      error: core.Object,
-      stackTrace: dart.nullable(core.StackTrace)
+    dart.setLibraryUri(_UnorderedEquality, I[0]);
+    dart.setFieldSignature(_UnorderedEquality, () => ({
+      __proto__: dart.getFields(_UnorderedEquality.__proto__),
+      [_elementEquality$]: dart.finalFieldType(equality.Equality$(E))
     }));
-    dart.setSetterSignature(BehaviorSubject, () => ({
-      __proto__: dart.getSetters(BehaviorSubject.__proto__),
-      value: dart.nullable(core.Object)
-    }));
-    dart.setLibraryUri(BehaviorSubject, I[3]);
-    dart.setFieldSignature(BehaviorSubject, () => ({
-      __proto__: dart.getFields(BehaviorSubject.__proto__),
-      [_wrapper$]: dart.finalFieldType(behavior_subject._Wrapper$(T)),
-      [_stream$]: dart.finalFieldType(async.Stream$(T))
-    }));
-    return BehaviorSubject;
+    return _UnorderedEquality;
   });
-  behavior_subject.BehaviorSubject = behavior_subject.BehaviorSubject$();
-  dart.addTypeTests(behavior_subject.BehaviorSubject, _is_BehaviorSubject_default);
-  var value$ = dart.privateName(behavior_subject, "_Wrapper.value");
-  const _is__Wrapper_default = Symbol('_is__Wrapper_default');
-  behavior_subject._Wrapper$ = dart.generic(T => {
-    var ValueWrapperOfT = () => (ValueWrapperOfT = dart.constFn(value_wrapper.ValueWrapper$(T)))();
-    var ValueWrapperNOfT = () => (ValueWrapperNOfT = dart.constFn(dart.nullable(ValueWrapperOfT())))();
-    class _Wrapper extends core.Object {
-      get value() {
-        return this[value$];
-      }
-      set value(value) {
-        this[value$] = ValueWrapperNOfT().as(value);
-      }
-      setValue(event) {
-        T.as(event);
-        this.value = new (ValueWrapperOfT()).new(event);
-        this.isValue = true;
-      }
-      setError(error, stackTrace) {
-        this.errorAndStackTrace = new error_and_stacktrace.ErrorAndStackTrace.new(error, stackTrace);
-        this.isValue = false;
+  equality._UnorderedEquality = equality._UnorderedEquality$();
+  dart.addTypeTests(equality._UnorderedEquality, _is__UnorderedEquality_default);
+  const _is_UnorderedIterableEquality_default = Symbol('_is_UnorderedIterableEquality_default');
+  equality.UnorderedIterableEquality$ = dart.generic(E => {
+    var IterableOfE = () => (IterableOfE = dart.constFn(core.Iterable$(E)))();
+    class UnorderedIterableEquality extends equality._UnorderedEquality$(E, dart.nullable(core.Iterable$(E))) {
+      isValidKey(o) {
+        return IterableOfE().is(o);
       }
     }
-    (_Wrapper.new = function() {
-      this.errorAndStackTrace = null;
-      this[value$] = null;
-      this.isValue = false;
+    (UnorderedIterableEquality.new = function(elementEquality = C[0] || CT.C0) {
+      UnorderedIterableEquality.__proto__.new.call(this, elementEquality);
       ;
-    }).prototype = _Wrapper.prototype;
-    (_Wrapper.seeded = function(value) {
-      this.errorAndStackTrace = null;
-      this[value$] = new (ValueWrapperOfT()).new(value);
-      this.isValue = true;
-      ;
-    }).prototype = _Wrapper.prototype;
-    dart.addTypeTests(_Wrapper);
-    _Wrapper.prototype[_is__Wrapper_default] = true;
-    dart.addTypeCaches(_Wrapper);
-    dart.setMethodSignature(_Wrapper, () => ({
-      __proto__: dart.getMethods(_Wrapper.__proto__),
-      setValue: dart.fnType(dart.void, [dart.nullable(core.Object)]),
-      setError: dart.fnType(dart.void, [core.Object, dart.nullable(core.StackTrace)])
+    }).prototype = UnorderedIterableEquality.prototype;
+    dart.addTypeTests(UnorderedIterableEquality);
+    UnorderedIterableEquality.prototype[_is_UnorderedIterableEquality_default] = true;
+    dart.addTypeCaches(UnorderedIterableEquality);
+    dart.setMethodSignature(UnorderedIterableEquality, () => ({
+      __proto__: dart.getMethods(UnorderedIterableEquality.__proto__),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
     }));
-    dart.setLibraryUri(_Wrapper, I[3]);
-    dart.setFieldSignature(_Wrapper, () => ({
-      __proto__: dart.getFields(_Wrapper.__proto__),
-      isValue: dart.fieldType(core.bool),
-      value: dart.fieldType(dart.nullable(value_wrapper.ValueWrapper$(T))),
-      errorAndStackTrace: dart.fieldType(dart.nullable(error_and_stacktrace.ErrorAndStackTrace))
-    }));
-    return _Wrapper;
+    dart.setLibraryUri(UnorderedIterableEquality, I[0]);
+    return UnorderedIterableEquality;
   });
-  behavior_subject._Wrapper = behavior_subject._Wrapper$();
-  dart.addTypeTests(behavior_subject._Wrapper, _is__Wrapper_default);
-  const _is_ConnectableStream_default = Symbol('_is_ConnectableStream_default');
-  connectable_stream.ConnectableStream$ = dart.generic(T => {
-    class ConnectableStream extends async.StreamView$(T) {}
-    (ConnectableStream.new = function(stream) {
-      ConnectableStream.__proto__.new.call(this, stream);
+  equality.UnorderedIterableEquality = equality.UnorderedIterableEquality$();
+  dart.addTypeTests(equality.UnorderedIterableEquality, _is_UnorderedIterableEquality_default);
+  const _is_SetEquality_default = Symbol('_is_SetEquality_default');
+  equality.SetEquality$ = dart.generic(E => {
+    var SetOfE = () => (SetOfE = dart.constFn(core.Set$(E)))();
+    class SetEquality extends equality._UnorderedEquality$(E, dart.nullable(core.Set$(E))) {
+      isValidKey(o) {
+        return SetOfE().is(o);
+      }
+    }
+    (SetEquality.new = function(elementEquality = C[0] || CT.C0) {
+      SetEquality.__proto__.new.call(this, elementEquality);
       ;
-    }).prototype = ConnectableStream.prototype;
-    dart.addTypeTests(ConnectableStream);
-    ConnectableStream.prototype[_is_ConnectableStream_default] = true;
-    dart.addTypeCaches(ConnectableStream);
-    dart.setLibraryUri(ConnectableStream, I[4]);
-    return ConnectableStream;
+    }).prototype = SetEquality.prototype;
+    dart.addTypeTests(SetEquality);
+    SetEquality.prototype[_is_SetEquality_default] = true;
+    dart.addTypeCaches(SetEquality);
+    dart.setMethodSignature(SetEquality, () => ({
+      __proto__: dart.getMethods(SetEquality.__proto__),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
+    }));
+    dart.setLibraryUri(SetEquality, I[0]);
+    return SetEquality;
   });
-  connectable_stream.ConnectableStream = connectable_stream.ConnectableStream$();
-  dart.addTypeTests(connectable_stream.ConnectableStream, _is_ConnectableStream_default);
-  var __PublishConnectableStream__connection = dart.privateName(connectable_stream, "_#PublishConnectableStream#_connection");
-  var __PublishConnectableStream__connection_isSet = dart.privateName(connectable_stream, "_#PublishConnectableStream#_connection#isSet");
-  var _source$ = dart.privateName(connectable_stream, "_source");
-  var _subject$ = dart.privateName(connectable_stream, "_subject");
-  var _connection = dart.privateName(connectable_stream, "_connection");
-  const _is_PublishConnectableStream_default = Symbol('_is_PublishConnectableStream_default');
-  connectable_stream.PublishConnectableStream$ = dart.generic(T => {
-    var ConnectableStreamSubscriptionOfT = () => (ConnectableStreamSubscriptionOfT = dart.constFn(connectable_stream.ConnectableStreamSubscription$(T)))();
-    class PublishConnectableStream extends connectable_stream.ConnectableStream$(T) {
-      static new(source, opts) {
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        return new (connectable_stream.PublishConnectableStream$(T)).__(source, publish_subject.PublishSubject$(T).new({sync: sync}));
-      }
-      get [_connection]() {
-        let t21, t20;
-        t20 = this[__PublishConnectableStream__connection];
-        return t20 == null ? (t21 = new (ConnectableStreamSubscriptionOfT()).new(this[_source$].listen(dart.bind(this[_subject$], 'add'), {onError: dart.bind(this[_subject$], 'addError'), onDone: dart.bind(this[_subject$], 'close')}), this[_subject$]), this[__PublishConnectableStream__connection] == null ? this[__PublishConnectableStream__connection] = t21 : dart.throw(new _internal.LateError.fieldADI("_connection"))) : t20;
-      }
-      autoConnect(opts) {
-        let connection = opts && 'connection' in opts ? opts.connection : null;
-        this[_subject$].onListen = dart.fn(() => {
-          let t20;
-          let subscription = this[_connection];
-          t20 = connection;
-          t20 == null ? null : t20(subscription);
-        }, T$.VoidTovoid());
-        this[_subject$].onCancel = null;
-        return this[_subject$];
-      }
-      connect() {
-        this[_subject$].onListen = this[_subject$].onCancel = null;
-        return this[_connection];
-      }
-      refCount() {
-        let subscription = null;
-        this[_subject$].onListen = dart.fn(() => subscription = this[_connection], T$.VoidTovoid());
-        this[_subject$].onCancel = dart.fn(() => {
-          let t20;
-          t20 = subscription;
-          return t20 == null ? null : t20.cancel();
-        }, T$.VoidToFutureN());
-        return this[_subject$];
-      }
+  equality.SetEquality = equality.SetEquality$();
+  dart.addTypeTests(equality.SetEquality, _is_SetEquality_default);
+  var _keyEquality = dart.privateName(equality, "_keyEquality");
+  var _valueEquality = dart.privateName(equality, "_valueEquality");
+  equality._MapEntry = class _MapEntry extends core.Object {
+    get hashCode() {
+      return (3 * this.equality[_keyEquality].hash(this.key) + 7 * this.equality[_valueEquality].hash(this.value) & 2147483647) >>> 0;
     }
-    (PublishConnectableStream.__ = function(_source, _subject) {
-      this[__PublishConnectableStream__connection] = null;
-      this[__PublishConnectableStream__connection_isSet] = false;
-      this[_source$] = _source;
-      this[_subject$] = _subject;
-      PublishConnectableStream.__proto__.new.call(this, _subject);
-      ;
-    }).prototype = PublishConnectableStream.prototype;
-    dart.addTypeTests(PublishConnectableStream);
-    PublishConnectableStream.prototype[_is_PublishConnectableStream_default] = true;
-    dart.addTypeCaches(PublishConnectableStream);
-    dart.setMethodSignature(PublishConnectableStream, () => ({
-      __proto__: dart.getMethods(PublishConnectableStream.__proto__),
-      autoConnect: dart.fnType(async.Stream$(T), [], {connection: dart.nullable(dart.fnType(dart.void, [async.StreamSubscription$(T)]))}, {}),
-      connect: dart.fnType(async.StreamSubscription$(T), []),
-      refCount: dart.fnType(async.Stream$(T), [])
-    }));
-    dart.setGetterSignature(PublishConnectableStream, () => ({
-      __proto__: dart.getGetters(PublishConnectableStream.__proto__),
-      [_connection]: connectable_stream.ConnectableStreamSubscription$(T)
-    }));
-    dart.setLibraryUri(PublishConnectableStream, I[4]);
-    dart.setFieldSignature(PublishConnectableStream, () => ({
-      __proto__: dart.getFields(PublishConnectableStream.__proto__),
-      [_source$]: dart.finalFieldType(async.Stream$(T)),
-      [_subject$]: dart.finalFieldType(publish_subject.PublishSubject$(T)),
-      [__PublishConnectableStream__connection]: dart.fieldType(dart.nullable(connectable_stream.ConnectableStreamSubscription$(T))),
-      [__PublishConnectableStream__connection_isSet]: dart.fieldType(core.bool)
-    }));
-    return PublishConnectableStream;
-  });
-  connectable_stream.PublishConnectableStream = connectable_stream.PublishConnectableStream$();
-  dart.addTypeTests(connectable_stream.PublishConnectableStream, _is_PublishConnectableStream_default);
-  var __ValueConnectableStream__connection = dart.privateName(connectable_stream, "_#ValueConnectableStream#_connection");
-  var __ValueConnectableStream__connection_isSet = dart.privateName(connectable_stream, "_#ValueConnectableStream#_connection#isSet");
-  const _is_ValueConnectableStream_default = Symbol('_is_ValueConnectableStream_default');
-  connectable_stream.ValueConnectableStream$ = dart.generic(T => {
-    var ConnectableStreamSubscriptionOfT = () => (ConnectableStreamSubscriptionOfT = dart.constFn(connectable_stream.ConnectableStreamSubscription$(T)))();
-    class ValueConnectableStream extends connectable_stream.ConnectableStream$(T) {
-      static new(source, opts) {
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        return new (connectable_stream.ValueConnectableStream$(T)).__(source, behavior_subject.BehaviorSubject$(T).new({sync: sync}));
-      }
-      static seeded(source, seedValue, opts) {
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        return new (connectable_stream.ValueConnectableStream$(T)).__(source, behavior_subject.BehaviorSubject$(T).seeded(seedValue, {sync: sync}));
-      }
-      get [_connection]() {
-        let t21, t20;
-        t20 = this[__ValueConnectableStream__connection];
-        return t20 == null ? (t21 = new (ConnectableStreamSubscriptionOfT()).new(this[_source$].listen(dart.bind(this[_subject$], 'add'), {onError: dart.bind(this[_subject$], 'addError'), onDone: dart.bind(this[_subject$], 'close')}), this[_subject$]), this[__ValueConnectableStream__connection] == null ? this[__ValueConnectableStream__connection] = t21 : dart.throw(new _internal.LateError.fieldADI("_connection"))) : t20;
-      }
-      autoConnect(opts) {
-        let connection = opts && 'connection' in opts ? opts.connection : null;
-        this[_subject$].onListen = dart.fn(() => {
-          let t20;
-          let subscription = this[_connection];
-          t20 = connection;
-          t20 == null ? null : t20(subscription);
-        }, T$.VoidTovoid());
-        this[_subject$].onCancel = null;
-        return this[_subject$];
-      }
-      connect() {
-        this[_subject$].onListen = this[_subject$].onCancel = null;
-        return this[_connection];
-      }
-      refCount() {
-        let subscription = null;
-        this[_subject$].onListen = dart.fn(() => subscription = this[_connection], T$.VoidTovoid());
-        this[_subject$].onCancel = dart.fn(() => {
-          let t20;
-          t20 = subscription;
-          return t20 == null ? null : t20.cancel();
-        }, T$.VoidToFutureNOfvoid());
-        return this[_subject$];
-      }
-      get hasValue() {
-        return this[_subject$].hasValue;
-      }
-      get value() {
-        return this[_subject$].value;
-      }
-      get valueOrNull() {
-        return this[_subject$].valueOrNull;
-      }
-      get error() {
-        return this[_subject$].error;
-      }
-      get errorOrNull() {
-        return this[_subject$].errorOrNull;
-      }
-      get hasError() {
-        return this[_subject$].hasError;
-      }
-      get stackTrace() {
-        return this[_subject$].stackTrace;
-      }
-    }
-    (ValueConnectableStream.__ = function(_source, _subject) {
-      this[__ValueConnectableStream__connection] = null;
-      this[__ValueConnectableStream__connection_isSet] = false;
-      this[_source$] = _source;
-      this[_subject$] = _subject;
-      ValueConnectableStream.__proto__.new.call(this, _subject);
-      ;
-    }).prototype = ValueConnectableStream.prototype;
-    dart.addTypeTests(ValueConnectableStream);
-    ValueConnectableStream.prototype[_is_ValueConnectableStream_default] = true;
-    dart.addTypeCaches(ValueConnectableStream);
-    ValueConnectableStream[dart.implements] = () => [value_stream.ValueStream$(T)];
-    dart.setMethodSignature(ValueConnectableStream, () => ({
-      __proto__: dart.getMethods(ValueConnectableStream.__proto__),
-      autoConnect: dart.fnType(value_stream.ValueStream$(T), [], {connection: dart.nullable(dart.fnType(dart.void, [async.StreamSubscription$(T)]))}, {}),
-      connect: dart.fnType(async.StreamSubscription$(T), []),
-      refCount: dart.fnType(value_stream.ValueStream$(T), [])
-    }));
-    dart.setGetterSignature(ValueConnectableStream, () => ({
-      __proto__: dart.getGetters(ValueConnectableStream.__proto__),
-      [_connection]: connectable_stream.ConnectableStreamSubscription$(T),
-      hasValue: core.bool,
-      value: T,
-      valueOrNull: dart.nullable(T),
-      error: core.Object,
-      errorOrNull: dart.nullable(core.Object),
-      hasError: core.bool,
-      stackTrace: dart.nullable(core.StackTrace)
-    }));
-    dart.setLibraryUri(ValueConnectableStream, I[4]);
-    dart.setFieldSignature(ValueConnectableStream, () => ({
-      __proto__: dart.getFields(ValueConnectableStream.__proto__),
-      [_source$]: dart.finalFieldType(async.Stream$(T)),
-      [_subject$]: dart.finalFieldType(behavior_subject.BehaviorSubject$(T)),
-      [__ValueConnectableStream__connection]: dart.fieldType(dart.nullable(connectable_stream.ConnectableStreamSubscription$(T))),
-      [__ValueConnectableStream__connection_isSet]: dart.fieldType(core.bool)
-    }));
-    return ValueConnectableStream;
-  });
-  connectable_stream.ValueConnectableStream = connectable_stream.ValueConnectableStream$();
-  dart.addTypeTests(connectable_stream.ValueConnectableStream, _is_ValueConnectableStream_default);
-  var __ReplayConnectableStream__connection = dart.privateName(connectable_stream, "_#ReplayConnectableStream#_connection");
-  var __ReplayConnectableStream__connection_isSet = dart.privateName(connectable_stream, "_#ReplayConnectableStream#_connection#isSet");
-  const _is_ReplayConnectableStream_default = Symbol('_is_ReplayConnectableStream_default');
-  connectable_stream.ReplayConnectableStream$ = dart.generic(T => {
-    var ConnectableStreamSubscriptionOfT = () => (ConnectableStreamSubscriptionOfT = dart.constFn(connectable_stream.ConnectableStreamSubscription$(T)))();
-    class ReplayConnectableStream extends connectable_stream.ConnectableStream$(T) {
-      static new(stream, opts) {
-        let maxSize = opts && 'maxSize' in opts ? opts.maxSize : null;
-        let sync = opts && 'sync' in opts ? opts.sync : false;
-        return new (connectable_stream.ReplayConnectableStream$(T)).__(stream, replay_subject.ReplaySubject$(T).new({maxSize: maxSize, sync: sync}));
-      }
-      get [_connection]() {
-        let t21, t20;
-        t20 = this[__ReplayConnectableStream__connection];
-        return t20 == null ? (t21 = new (ConnectableStreamSubscriptionOfT()).new(this[_source$].listen(dart.bind(this[_subject$], 'add'), {onError: dart.bind(this[_subject$], 'addError'), onDone: dart.bind(this[_subject$], 'close')}), this[_subject$]), this[__ReplayConnectableStream__connection] == null ? this[__ReplayConnectableStream__connection] = t21 : dart.throw(new _internal.LateError.fieldADI("_connection"))) : t20;
-      }
-      autoConnect(opts) {
-        let connection = opts && 'connection' in opts ? opts.connection : null;
-        this[_subject$].onListen = dart.fn(() => {
-          let t20;
-          let subscription = this[_connection];
-          t20 = connection;
-          t20 == null ? null : t20(subscription);
-        }, T$.VoidTovoid());
-        this[_subject$].onCancel = null;
-        return this[_subject$];
-      }
-      connect() {
-        this[_subject$].onListen = this[_subject$].onCancel = null;
-        return this[_connection];
-      }
-      refCount() {
-        let subscription = null;
-        this[_subject$].onListen = dart.fn(() => subscription = this[_connection], T$.VoidTovoid());
-        this[_subject$].onCancel = dart.fn(() => {
-          let t20;
-          t20 = subscription;
-          return t20 == null ? null : t20.cancel();
-        }, T$.VoidToFutureN());
-        return this[_subject$];
-      }
-      get values() {
-        return this[_subject$].values;
-      }
-      get errors() {
-        return this[_subject$].errors;
-      }
-      get stackTraces() {
-        return this[_subject$].stackTraces;
-      }
-    }
-    (ReplayConnectableStream.__ = function(_source, _subject) {
-      this[__ReplayConnectableStream__connection] = null;
-      this[__ReplayConnectableStream__connection_isSet] = false;
-      this[_source$] = _source;
-      this[_subject$] = _subject;
-      ReplayConnectableStream.__proto__.new.call(this, _subject);
-      ;
-    }).prototype = ReplayConnectableStream.prototype;
-    dart.addTypeTests(ReplayConnectableStream);
-    ReplayConnectableStream.prototype[_is_ReplayConnectableStream_default] = true;
-    dart.addTypeCaches(ReplayConnectableStream);
-    ReplayConnectableStream[dart.implements] = () => [replay_stream.ReplayStream$(T)];
-    dart.setMethodSignature(ReplayConnectableStream, () => ({
-      __proto__: dart.getMethods(ReplayConnectableStream.__proto__),
-      autoConnect: dart.fnType(replay_stream.ReplayStream$(T), [], {connection: dart.nullable(dart.fnType(dart.void, [async.StreamSubscription$(T)]))}, {}),
-      connect: dart.fnType(async.StreamSubscription$(T), []),
-      refCount: dart.fnType(replay_stream.ReplayStream$(T), [])
-    }));
-    dart.setGetterSignature(ReplayConnectableStream, () => ({
-      __proto__: dart.getGetters(ReplayConnectableStream.__proto__),
-      [_connection]: connectable_stream.ConnectableStreamSubscription$(T),
-      values: core.List$(T),
-      errors: core.List$(core.Object),
-      stackTraces: core.List$(dart.nullable(core.StackTrace))
-    }));
-    dart.setLibraryUri(ReplayConnectableStream, I[4]);
-    dart.setFieldSignature(ReplayConnectableStream, () => ({
-      __proto__: dart.getFields(ReplayConnectableStream.__proto__),
-      [_source$]: dart.finalFieldType(async.Stream$(T)),
-      [_subject$]: dart.finalFieldType(replay_subject.ReplaySubject$(T)),
-      [__ReplayConnectableStream__connection]: dart.fieldType(dart.nullable(connectable_stream.ConnectableStreamSubscription$(T))),
-      [__ReplayConnectableStream__connection_isSet]: dart.fieldType(core.bool)
-    }));
-    return ReplayConnectableStream;
-  });
-  connectable_stream.ReplayConnectableStream = connectable_stream.ReplayConnectableStream$();
-  dart.addTypeTests(connectable_stream.ReplayConnectableStream, _is_ReplayConnectableStream_default);
-  const _is_ConnectableStreamSubscription_default = Symbol('_is_ConnectableStreamSubscription_default');
-  connectable_stream.ConnectableStreamSubscription$ = dart.generic(T => {
-    class ConnectableStreamSubscription extends async.StreamSubscription$(T) {
-      cancel() {
-        return this[_source$].cancel().then(dart.void, dart.fn(_ => this[_subject$].close(), T$.voidToFuture()));
-      }
-      asFuture(E, futureValue = null) {
-        return this[_source$].asFuture(E, futureValue);
-      }
-      get isPaused() {
-        return this[_source$].isPaused;
-      }
-      onData(handleData) {
-        return this[_source$].onData(handleData);
-      }
-      onDone(handleDone) {
-        return this[_source$].onDone(handleDone);
-      }
-      onError(handleError) {
-        return this[_source$].onError(handleError);
-      }
-      pause(resumeSignal = null) {
-        return this[_source$].pause(resumeSignal);
-      }
-      resume() {
-        return this[_source$].resume();
-      }
-    }
-    (ConnectableStreamSubscription.new = function(_source, _subject) {
-      this[_source$] = _source;
-      this[_subject$] = _subject;
-      ;
-    }).prototype = ConnectableStreamSubscription.prototype;
-    dart.addTypeTests(ConnectableStreamSubscription);
-    ConnectableStreamSubscription.prototype[_is_ConnectableStreamSubscription_default] = true;
-    dart.addTypeCaches(ConnectableStreamSubscription);
-    dart.setMethodSignature(ConnectableStreamSubscription, () => ({
-      __proto__: dart.getMethods(ConnectableStreamSubscription.__proto__),
-      cancel: dart.fnType(async.Future, []),
-      asFuture: dart.gFnType(E => [async.Future$(E), [], [dart.nullable(E)]], E => [dart.nullable(core.Object)]),
-      onData: dart.fnType(dart.void, [dart.nullable(dart.fnType(dart.void, [T]))]),
-      onDone: dart.fnType(dart.void, [dart.nullable(dart.fnType(dart.void, []))]),
-      onError: dart.fnType(dart.void, [dart.nullable(core.Function)]),
-      pause: dart.fnType(dart.void, [], [dart.nullable(async.Future$(dart.void))]),
-      resume: dart.fnType(dart.void, [])
-    }));
-    dart.setGetterSignature(ConnectableStreamSubscription, () => ({
-      __proto__: dart.getGetters(ConnectableStreamSubscription.__proto__),
-      isPaused: core.bool
-    }));
-    dart.setLibraryUri(ConnectableStreamSubscription, I[4]);
-    dart.setFieldSignature(ConnectableStreamSubscription, () => ({
-      __proto__: dart.getFields(ConnectableStreamSubscription.__proto__),
-      [_source$]: dart.finalFieldType(async.StreamSubscription$(T)),
-      [_subject$]: dart.finalFieldType(subject.Subject$(T))
-    }));
-    return ConnectableStreamSubscription;
-  });
-  connectable_stream.ConnectableStreamSubscription = connectable_stream.ConnectableStreamSubscription$();
-  dart.addTypeTests(connectable_stream.ConnectableStreamSubscription, _is_ConnectableStreamSubscription_default);
-  connectable_stream['ConnectableStreamExtensions|publish'] = function ConnectableStreamExtensions$124publish(T, $this) {
-    return connectable_stream.PublishConnectableStream$(T).new($this, {sync: true});
-  };
-  connectable_stream['ConnectableStreamExtensions|get#publish'] = function ConnectableStreamExtensions$124get$35publish(T, $this) {
-    return dart.fn(() => connectable_stream['ConnectableStreamExtensions|publish'](T, $this), dart.fnType(connectable_stream.ConnectableStream$(T), []));
-  };
-  connectable_stream['ConnectableStreamExtensions|publishValue'] = function ConnectableStreamExtensions$124publishValue(T, $this) {
-    return connectable_stream.ValueConnectableStream$(T).new($this, {sync: true});
-  };
-  connectable_stream['ConnectableStreamExtensions|get#publishValue'] = function ConnectableStreamExtensions$124get$35publishValue(T, $this) {
-    return dart.fn(() => connectable_stream['ConnectableStreamExtensions|publishValue'](T, $this), dart.fnType(connectable_stream.ValueConnectableStream$(T), []));
-  };
-  connectable_stream['ConnectableStreamExtensions|publishValueSeeded'] = function ConnectableStreamExtensions$124publishValueSeeded(T, $this, seedValue) {
-    return connectable_stream.ValueConnectableStream$(T).seeded($this, seedValue, {sync: true});
-  };
-  connectable_stream['ConnectableStreamExtensions|get#publishValueSeeded'] = function ConnectableStreamExtensions$124get$35publishValueSeeded(T, $this) {
-    return dart.fn(seedValue => connectable_stream['ConnectableStreamExtensions|publishValueSeeded'](T, $this, seedValue), dart.fnType(connectable_stream.ValueConnectableStream$(T), [T]));
-  };
-  connectable_stream['ConnectableStreamExtensions|publishReplay'] = function ConnectableStreamExtensions$124publishReplay(T, $this, opts) {
-    let maxSize = opts && 'maxSize' in opts ? opts.maxSize : null;
-    return connectable_stream.ReplayConnectableStream$(T).new($this, {maxSize: maxSize, sync: true});
-  };
-  connectable_stream['ConnectableStreamExtensions|get#publishReplay'] = function ConnectableStreamExtensions$124get$35publishReplay(T, $this) {
-    return dart.fn(opts => {
-      let maxSize = opts && 'maxSize' in opts ? opts.maxSize : null;
-      return connectable_stream['ConnectableStreamExtensions|publishReplay'](T, $this, {maxSize: maxSize});
-    }, dart.fnType(connectable_stream.ReplayConnectableStream$(T), [], {maxSize: T$.intN()}, {}));
-  };
-  connectable_stream['ConnectableStreamExtensions|share'] = function ConnectableStreamExtensions$124share(T, $this) {
-    return connectable_stream['ConnectableStreamExtensions|publish'](T, $this).refCount();
-  };
-  connectable_stream['ConnectableStreamExtensions|get#share'] = function ConnectableStreamExtensions$124get$35share(T, $this) {
-    return dart.fn(() => connectable_stream['ConnectableStreamExtensions|share'](T, $this), dart.fnType(async.Stream$(T), []));
-  };
-  connectable_stream['ConnectableStreamExtensions|shareValue'] = function ConnectableStreamExtensions$124shareValue(T, $this) {
-    return connectable_stream['ConnectableStreamExtensions|publishValue'](T, $this).refCount();
-  };
-  connectable_stream['ConnectableStreamExtensions|get#shareValue'] = function ConnectableStreamExtensions$124get$35shareValue(T, $this) {
-    return dart.fn(() => connectable_stream['ConnectableStreamExtensions|shareValue'](T, $this), dart.fnType(value_stream.ValueStream$(T), []));
-  };
-  connectable_stream['ConnectableStreamExtensions|shareValueSeeded'] = function ConnectableStreamExtensions$124shareValueSeeded(T, $this, seedValue) {
-    return connectable_stream['ConnectableStreamExtensions|publishValueSeeded'](T, $this, seedValue).refCount();
-  };
-  connectable_stream['ConnectableStreamExtensions|get#shareValueSeeded'] = function ConnectableStreamExtensions$124get$35shareValueSeeded(T, $this) {
-    return dart.fn(seedValue => connectable_stream['ConnectableStreamExtensions|shareValueSeeded'](T, $this, seedValue), dart.fnType(value_stream.ValueStream$(T), [T]));
-  };
-  connectable_stream['ConnectableStreamExtensions|shareReplay'] = function ConnectableStreamExtensions$124shareReplay(T, $this, opts) {
-    let maxSize = opts && 'maxSize' in opts ? opts.maxSize : null;
-    return connectable_stream['ConnectableStreamExtensions|publishReplay'](T, $this, {maxSize: maxSize}).refCount();
-  };
-  connectable_stream['ConnectableStreamExtensions|get#shareReplay'] = function ConnectableStreamExtensions$124get$35shareReplay(T, $this) {
-    return dart.fn(opts => {
-      let maxSize = opts && 'maxSize' in opts ? opts.maxSize : null;
-      return connectable_stream['ConnectableStreamExtensions|shareReplay'](T, $this, {maxSize: maxSize});
-    }, dart.fnType(replay_stream.ReplayStream$(T), [], {maxSize: T$.intN()}, {}));
-  };
-  rx.Rx = class Rx extends core.Object {
-    static combineLatest(T, R, streams, combiner) {
-      return new (combine_latest.CombineLatestStream$(T, R)).new(streams, combiner);
-    }
-    static combineLatestList(T, streams) {
-      return combine_latest.CombineLatestStream.list(T, streams);
-    }
-    static combineLatest2(A, B, T, streamA, streamB, combiner) {
-      return combine_latest.CombineLatestStream.combine2(A, B, T, streamA, streamB, combiner);
-    }
-    static combineLatest3(A, B, C, T, streamA, streamB, streamC, combiner) {
-      return combine_latest.CombineLatestStream.combine3(A, B, C, T, streamA, streamB, streamC, combiner);
-    }
-    static combineLatest4(A, B, C, D, T, streamA, streamB, streamC, streamD, combiner) {
-      return combine_latest.CombineLatestStream.combine4(A, B, C, D, T, streamA, streamB, streamC, streamD, combiner);
-    }
-    static combineLatest5(A, B, C, D, E, T, streamA, streamB, streamC, streamD, streamE, combiner) {
-      return combine_latest.CombineLatestStream.combine5(A, B, C, D, E, T, streamA, streamB, streamC, streamD, streamE, combiner);
-    }
-    static combineLatest6(A, B, C, D, E, F, T, streamA, streamB, streamC, streamD, streamE, streamF, combiner) {
-      return combine_latest.CombineLatestStream.combine6(A, B, C, D, E, F, T, streamA, streamB, streamC, streamD, streamE, streamF, combiner);
-    }
-    static combineLatest7(A, B, C, D, E, F, G, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, combiner) {
-      return combine_latest.CombineLatestStream.combine7(A, B, C, D, E, F, G, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, combiner);
-    }
-    static combineLatest8(A, B, C, D, E, F, G, H, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, combiner) {
-      return combine_latest.CombineLatestStream.combine8(A, B, C, D, E, F, G, H, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, combiner);
-    }
-    static combineLatest9(A, B, C, D, E, F, G, H, I, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, streamI, combiner) {
-      return combine_latest.CombineLatestStream.combine9(A, B, C, D, E, F, G, H, I, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, streamI, combiner);
-    }
-    static concat(T, streams) {
-      return new (concat.ConcatStream$(T)).new(streams);
-    }
-    static concatEager(T, streams) {
-      return new (concat_eager.ConcatEagerStream$(T)).new(streams);
-    }
-    static defer(T, streamFactory, opts) {
-      let reusable = opts && 'reusable' in opts ? opts.reusable : false;
-      return new (defer.DeferStream$(T)).new(streamFactory, {reusable: reusable});
-    }
-    static forkJoin(T, R, streams, combiner) {
-      return new (fork_join.ForkJoinStream$(T, R)).new(streams, combiner);
-    }
-    static forkJoinList(T, streams) {
-      return fork_join.ForkJoinStream.list(T, streams);
-    }
-    static forkJoin2(A, B, T, streamA, streamB, combiner) {
-      return fork_join.ForkJoinStream.combine2(A, B, T, streamA, streamB, combiner);
-    }
-    static forkJoin3(A, B, C, T, streamA, streamB, streamC, combiner) {
-      return fork_join.ForkJoinStream.combine3(A, B, C, T, streamA, streamB, streamC, combiner);
-    }
-    static forkJoin4(A, B, C, D, T, streamA, streamB, streamC, streamD, combiner) {
-      return fork_join.ForkJoinStream.combine4(A, B, C, D, T, streamA, streamB, streamC, streamD, combiner);
-    }
-    static forkJoin5(A, B, C, D, E, T, streamA, streamB, streamC, streamD, streamE, combiner) {
-      return fork_join.ForkJoinStream.combine5(A, B, C, D, E, T, streamA, streamB, streamC, streamD, streamE, combiner);
-    }
-    static forkJoin6(A, B, C, D, E, F, T, streamA, streamB, streamC, streamD, streamE, streamF, combiner) {
-      return fork_join.ForkJoinStream.combine6(A, B, C, D, E, F, T, streamA, streamB, streamC, streamD, streamE, streamF, combiner);
-    }
-    static forkJoin7(A, B, C, D, E, F, G, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, combiner) {
-      return fork_join.ForkJoinStream.combine7(A, B, C, D, E, F, G, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, combiner);
-    }
-    static forkJoin8(A, B, C, D, E, F, G, H, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, combiner) {
-      return fork_join.ForkJoinStream.combine8(A, B, C, D, E, F, G, H, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, combiner);
-    }
-    static forkJoin9(A, B, C, D, E, F, G, H, I, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, streamI, combiner) {
-      return fork_join.ForkJoinStream.combine9(A, B, C, D, E, F, G, H, I, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, streamI, combiner);
-    }
-    static fromCallable(T, callable, opts) {
-      let reusable = opts && 'reusable' in opts ? opts.reusable : false;
-      return new (from_callable.FromCallableStream$(T)).new(callable, {reusable: reusable});
-    }
-    static merge(T, streams) {
-      return new (merge.MergeStream$(T)).new(streams);
-    }
-    static never(T) {
-      return new (never.NeverStream$(T)).new();
-    }
-    static race(T, streams) {
-      return new (race.RaceStream$(T)).new(streams);
-    }
-    static range(startInclusive, endInclusive) {
-      return new range.RangeStream.new(startInclusive, endInclusive);
-    }
-    static repeat(T, streamFactory, count = null) {
-      return new (repeat.RepeatStream$(T)).new(streamFactory, count);
-    }
-    static retry(T, streamFactory, count = null) {
-      return new (retry.RetryStream$(T)).new(streamFactory, count);
-    }
-    static retryWhen(T, streamFactory, retryWhenFactory) {
-      return new (retry_when.RetryWhenStream$(T)).new(streamFactory, retryWhenFactory);
-    }
-    static sequenceEqual(A, B, stream, other, opts) {
-      let equals = opts && 'equals' in opts ? opts.equals : null;
-      let errorEquals = opts && 'errorEquals' in opts ? opts.errorEquals : null;
-      return new (sequence_equal.SequenceEqualStream$(A, B)).new(stream, other, {dataEquals: equals, errorEquals: errorEquals});
-    }
-    static switchLatest(T, streams) {
-      return new (switch_latest.SwitchLatestStream$(T)).new(streams);
-    }
-    static timer(T, value, duration) {
-      return new (timer.TimerStream$(T)).new(value, duration);
-    }
-    static using(T, R, resourceFactory, streamFactory, disposer) {
-      return new (using.UsingStream$(T, R)).new(resourceFactory, streamFactory, disposer);
-    }
-    static zip2(A, B, T, streamA, streamB, zipper) {
-      return zip.ZipStream.zip2(A, B, T, streamA, streamB, zipper);
-    }
-    static zip(T, R, streams, zipper) {
-      return new (zip.ZipStream$(T, R)).new(streams, zipper);
-    }
-    static zipList(T, streams) {
-      return zip.ZipStream.list(T, streams);
-    }
-    static zip3(A, B, C, T, streamA, streamB, streamC, zipper) {
-      return zip.ZipStream.zip3(A, B, C, T, streamA, streamB, streamC, zipper);
-    }
-    static zip4(A, B, C, D, T, streamA, streamB, streamC, streamD, zipper) {
-      return zip.ZipStream.zip4(A, B, C, D, T, streamA, streamB, streamC, streamD, zipper);
-    }
-    static zip5(A, B, C, D, E, T, streamA, streamB, streamC, streamD, streamE, zipper) {
-      return zip.ZipStream.zip5(A, B, C, D, E, T, streamA, streamB, streamC, streamD, streamE, zipper);
-    }
-    static zip6(A, B, C, D, E, F, T, streamA, streamB, streamC, streamD, streamE, streamF, zipper) {
-      return zip.ZipStream.zip6(A, B, C, D, E, F, T, streamA, streamB, streamC, streamD, streamE, streamF, zipper);
-    }
-    static zip7(A, B, C, D, E, F, G, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, zipper) {
-      return zip.ZipStream.zip7(A, B, C, D, E, F, G, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, zipper);
-    }
-    static zip8(A, B, C, D, E, F, G, H, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, zipper) {
-      return zip.ZipStream.zip8(A, B, C, D, E, F, G, H, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, zipper);
-    }
-    static zip9(A, B, C, D, E, F, G, H, I, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, streamI, zipper) {
-      return zip.ZipStream.zip9(A, B, C, D, E, F, G, H, I, T, streamA, streamB, streamC, streamD, streamE, streamF, streamG, streamH, streamI, zipper);
+    _equals(other) {
+      if (other == null) return false;
+      return equality._MapEntry.is(other) && this.equality[_keyEquality].equals(this.key, other.key) && this.equality[_valueEquality].equals(this.value, other.value);
     }
   };
-  (rx.Rx.new = function() {
+  (equality._MapEntry.new = function(equality, key, value) {
+    this.equality = equality;
+    this.key = key;
+    this.value = value;
     ;
-  }).prototype = rx.Rx.prototype;
-  dart.addTypeTests(rx.Rx);
-  dart.addTypeCaches(rx.Rx);
-  dart.setLibraryUri(rx.Rx, I[5]);
-  dart.trackLibraries("packages/rxdart/src/subjects/replay_subject.dart", {
-    "package:rxdart/src/subjects/replay_subject.dart": replay_subject,
-    "package:rxdart/src/transformers/start_with_error.dart": start_with_error,
-    "package:rxdart/src/utils/forwarding_stream.dart": forwarding_stream,
-    "package:rxdart/src/transformers/start_with.dart": start_with,
-    "package:rxdart/src/subjects/behavior_subject.dart": behavior_subject,
-    "package:rxdart/subjects.dart": subjects,
-    "package:rxdart/src/streams/connectable_stream.dart": connectable_stream,
-    "package:rxdart/streams.dart": streams,
-    "package:rxdart/src/rx.dart": rx
+  }).prototype = equality._MapEntry.prototype;
+  dart.addTypeTests(equality._MapEntry);
+  dart.addTypeCaches(equality._MapEntry);
+  dart.setLibraryUri(equality._MapEntry, I[0]);
+  dart.setFieldSignature(equality._MapEntry, () => ({
+    __proto__: dart.getFields(equality._MapEntry.__proto__),
+    equality: dart.finalFieldType(equality.MapEquality),
+    key: dart.finalFieldType(dart.dynamic),
+    value: dart.finalFieldType(dart.dynamic)
+  }));
+  dart.defineExtensionMethods(equality._MapEntry, ['_equals']);
+  dart.defineExtensionAccessors(equality._MapEntry, ['hashCode']);
+  var _keyEquality$ = dart.privateName(equality, "MapEquality._keyEquality");
+  var _valueEquality$ = dart.privateName(equality, "MapEquality._valueEquality");
+  const _is_MapEquality_default = Symbol('_is_MapEquality_default');
+  equality.MapEquality$ = dart.generic((K, V) => {
+    var MapOfK$V = () => (MapOfK$V = dart.constFn(core.Map$(K, V)))();
+    var MapNOfK$V = () => (MapNOfK$V = dart.constFn(dart.nullable(MapOfK$V())))();
+    class MapEquality extends core.Object {
+      get [_keyEquality]() {
+        return this[_keyEquality$];
+      }
+      set [_keyEquality](value) {
+        super[_keyEquality] = value;
+      }
+      get [_valueEquality]() {
+        return this[_valueEquality$];
+      }
+      set [_valueEquality](value) {
+        super[_valueEquality] = value;
+      }
+      equals(map1, map2) {
+        let t0;
+        MapNOfK$V().as(map1);
+        MapNOfK$V().as(map2);
+        if (map1 == map2) return true;
+        if (map1 == null || map2 == null) return false;
+        let length = map1[$length];
+        if (length !== map2[$length]) return false;
+        let equalElementCounts = new (T.LinkedMapOf_MapEntry$int()).new();
+        for (let key of map1[$keys]) {
+          let entry = new equality._MapEntry.new(this, key, map1[$_get](key));
+          let count = (t0 = equalElementCounts[$_get](entry), t0 == null ? 0 : t0);
+          equalElementCounts[$_set](entry, count + 1);
+        }
+        for (let key of map2[$keys]) {
+          let entry = new equality._MapEntry.new(this, key, map2[$_get](key));
+          let count = equalElementCounts[$_get](entry);
+          if (count == null || count === 0) return false;
+          equalElementCounts[$_set](entry, dart.notNull(count) - 1);
+        }
+        return true;
+      }
+      hash(map) {
+        MapNOfK$V().as(map);
+        if (map == null) return dart.hashCode(null);
+        let hash = 0;
+        for (let key of map[$keys]) {
+          let keyHash = this[_keyEquality].hash(key);
+          let valueHash = this[_valueEquality].hash(V.as(map[$_get](key)));
+          hash = (hash + 3 * keyHash + 7 * valueHash & 2147483647) >>> 0;
+        }
+        hash = (hash + (hash << 3 >>> 0) & 2147483647) >>> 0;
+        hash = (hash ^ hash[$rightShift](11)) >>> 0;
+        hash = (hash + (hash << 15 >>> 0) & 2147483647) >>> 0;
+        return hash;
+      }
+      isValidKey(o) {
+        return MapOfK$V().is(o);
+      }
+    }
+    (MapEquality.new = function(opts) {
+      let keys = opts && 'keys' in opts ? opts.keys : C[0] || CT.C0;
+      let values = opts && 'values' in opts ? opts.values : C[0] || CT.C0;
+      this[_keyEquality$] = keys;
+      this[_valueEquality$] = values;
+      ;
+    }).prototype = MapEquality.prototype;
+    dart.addTypeTests(MapEquality);
+    MapEquality.prototype[_is_MapEquality_default] = true;
+    dart.addTypeCaches(MapEquality);
+    MapEquality[dart.implements] = () => [equality.Equality$(core.Map$(K, V))];
+    dart.setMethodSignature(MapEquality, () => ({
+      __proto__: dart.getMethods(MapEquality.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
+    }));
+    dart.setLibraryUri(MapEquality, I[0]);
+    dart.setFieldSignature(MapEquality, () => ({
+      __proto__: dart.getFields(MapEquality.__proto__),
+      [_keyEquality]: dart.finalFieldType(equality.Equality$(K)),
+      [_valueEquality]: dart.finalFieldType(equality.Equality$(V))
+    }));
+    return MapEquality;
+  });
+  equality.MapEquality = equality.MapEquality$();
+  dart.addTypeTests(equality.MapEquality, _is_MapEquality_default);
+  var _equalities = dart.privateName(equality, "MultiEquality._equalities");
+  var _equalities$ = dart.privateName(equality, "_equalities");
+  const _is_MultiEquality_default = Symbol('_is_MultiEquality_default');
+  equality.MultiEquality$ = dart.generic(E => {
+    class MultiEquality extends core.Object {
+      get [_equalities$]() {
+        return this[_equalities];
+      }
+      set [_equalities$](value) {
+        super[_equalities$] = value;
+      }
+      equals(e1, e2) {
+        E.as(e1);
+        E.as(e2);
+        for (let eq of this[_equalities$]) {
+          if (eq.isValidKey(e1)) return eq.isValidKey(e2) && eq.equals(e1, e2);
+        }
+        return false;
+      }
+      hash(e) {
+        E.as(e);
+        for (let eq of this[_equalities$]) {
+          if (eq.isValidKey(e)) return eq.hash(e);
+        }
+        return 0;
+      }
+      isValidKey(o) {
+        for (let eq of this[_equalities$]) {
+          if (eq.isValidKey(o)) return true;
+        }
+        return false;
+      }
+    }
+    (MultiEquality.new = function(equalities) {
+      this[_equalities] = equalities;
+      ;
+    }).prototype = MultiEquality.prototype;
+    dart.addTypeTests(MultiEquality);
+    MultiEquality.prototype[_is_MultiEquality_default] = true;
+    dart.addTypeCaches(MultiEquality);
+    MultiEquality[dart.implements] = () => [equality.Equality$(E)];
+    dart.setMethodSignature(MultiEquality, () => ({
+      __proto__: dart.getMethods(MultiEquality.__proto__),
+      equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+      hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+      isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
+    }));
+    dart.setLibraryUri(MultiEquality, I[0]);
+    dart.setFieldSignature(MultiEquality, () => ({
+      __proto__: dart.getFields(MultiEquality.__proto__),
+      [_equalities$]: dart.finalFieldType(core.Iterable$(equality.Equality$(E)))
+    }));
+    return MultiEquality;
+  });
+  equality.MultiEquality = equality.MultiEquality$();
+  dart.addTypeTests(equality.MultiEquality, _is_MultiEquality_default);
+  var _base = dart.privateName(equality, "DeepCollectionEquality._base");
+  var _unordered = dart.privateName(equality, "DeepCollectionEquality._unordered");
+  var _base$ = dart.privateName(equality, "_base");
+  var _unordered$ = dart.privateName(equality, "_unordered");
+  equality.DeepCollectionEquality = class DeepCollectionEquality extends core.Object {
+    get [_base$]() {
+      return this[_base];
+    }
+    set [_base$](value) {
+      super[_base$] = value;
+    }
+    get [_unordered$]() {
+      return this[_unordered];
+    }
+    set [_unordered$](value) {
+      super[_unordered$] = value;
+    }
+    equals(e1, e2) {
+      if (core.Set.is(e1)) {
+        return core.Set.is(e2) && new equality.SetEquality.new(this).equals(e1, e2);
+      }
+      if (core.Map.is(e1)) {
+        return core.Map.is(e2) && new equality.MapEquality.new({keys: this, values: this}).equals(e1, e2);
+      }
+      if (!this[_unordered$]) {
+        if (core.List.is(e1)) {
+          return core.List.is(e2) && new equality.ListEquality.new(this).equals(e1, e2);
+        }
+        if (core.Iterable.is(e1)) {
+          return core.Iterable.is(e2) && new equality.IterableEquality.new(this).equals(e1, e2);
+        }
+      } else if (core.Iterable.is(e1)) {
+        if (core.List.is(e1) !== core.List.is(e2)) return false;
+        return core.Iterable.is(e2) && new equality.UnorderedIterableEquality.new(this).equals(e1, e2);
+      }
+      return this[_base$].equals(e1, e2);
+    }
+    hash(o) {
+      if (core.Set.is(o)) return new equality.SetEquality.new(this).hash(o);
+      if (core.Map.is(o)) return new equality.MapEquality.new({keys: this, values: this}).hash(o);
+      if (!this[_unordered$]) {
+        if (core.List.is(o)) return new equality.ListEquality.new(this).hash(o);
+        if (core.Iterable.is(o)) return new equality.IterableEquality.new(this).hash(o);
+      } else if (core.Iterable.is(o)) {
+        return new equality.UnorderedIterableEquality.new(this).hash(o);
+      }
+      return this[_base$].hash(o);
+    }
+    isValidKey(o) {
+      return core.Iterable.is(o) || core.Map.is(o) || this[_base$].isValidKey(o);
+    }
+  };
+  (equality.DeepCollectionEquality.new = function(base = C[0] || CT.C0) {
+    this[_base] = base;
+    this[_unordered] = false;
+    ;
+  }).prototype = equality.DeepCollectionEquality.prototype;
+  (equality.DeepCollectionEquality.unordered = function(base = C[0] || CT.C0) {
+    this[_base] = base;
+    this[_unordered] = true;
+    ;
+  }).prototype = equality.DeepCollectionEquality.prototype;
+  dart.addTypeTests(equality.DeepCollectionEquality);
+  dart.addTypeCaches(equality.DeepCollectionEquality);
+  equality.DeepCollectionEquality[dart.implements] = () => [equality.Equality];
+  dart.setMethodSignature(equality.DeepCollectionEquality, () => ({
+    __proto__: dart.getMethods(equality.DeepCollectionEquality.__proto__),
+    equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+    hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+    isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
+  }));
+  dart.setLibraryUri(equality.DeepCollectionEquality, I[0]);
+  dart.setFieldSignature(equality.DeepCollectionEquality, () => ({
+    __proto__: dart.getFields(equality.DeepCollectionEquality.__proto__),
+    [_base$]: dart.finalFieldType(equality.Equality),
+    [_unordered$]: dart.finalFieldType(core.bool)
+  }));
+  equality.CaseInsensitiveEquality = class CaseInsensitiveEquality extends core.Object {
+    equals(string1, string2) {
+      core.String.as(string1);
+      core.String.as(string2);
+      return comparators.equalsIgnoreAsciiCase(string1, string2);
+    }
+    hash(string) {
+      core.String.as(string);
+      return comparators.hashIgnoreAsciiCase(string);
+    }
+    isValidKey(object) {
+      return typeof object == 'string';
+    }
+  };
+  (equality.CaseInsensitiveEquality.new = function() {
+    ;
+  }).prototype = equality.CaseInsensitiveEquality.prototype;
+  dart.addTypeTests(equality.CaseInsensitiveEquality);
+  dart.addTypeCaches(equality.CaseInsensitiveEquality);
+  equality.CaseInsensitiveEquality[dart.implements] = () => [equality.Equality$(core.String)];
+  dart.setMethodSignature(equality.CaseInsensitiveEquality, () => ({
+    __proto__: dart.getMethods(equality.CaseInsensitiveEquality.__proto__),
+    equals: dart.fnType(core.bool, [dart.nullable(core.Object), dart.nullable(core.Object)]),
+    hash: dart.fnType(core.int, [dart.nullable(core.Object)]),
+    isValidKey: dart.fnType(core.bool, [dart.nullable(core.Object)])
+  }));
+  dart.setLibraryUri(equality.CaseInsensitiveEquality, I[0]);
+  dart.defineLazy(equality, {
+    /*equality._HASH_MASK*/get _HASH_MASK() {
+      return 2147483647;
+    }
+  }, false);
+  dart.trackLibraries("packages/collection/src/equality.dart", {
+    "package:collection/src/equality.dart": equality
   }, {
-  }, '{"version":3,"sourceRoot":"","sources":["replay_subject.dart","../transformers/start_with_error.dart","../utils/forwarding_stream.dart","../transformers/start_with.dart","behavior_subject.dart","../streams/connectable_stream.dart","../rx.dart"],"names":[],"mappings":"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","file":"../../../../../../../../../../../../packages/rxdart/src/subjects/replay_subject.dart.lib.js"}');
+  }, '{"version":3,"sourceRoot":"","sources":["equality.dart"],"names":[],"mappings":"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","file":"../../../../../../../../../../../packages/collection/src/equality.dart.lib.js"}');
   // Exports:
   return {
-    src__subjects__replay_subject: replay_subject,
-    src__transformers__start_with_error: start_with_error,
-    src__utils__forwarding_stream: forwarding_stream,
-    src__transformers__start_with: start_with,
-    src__subjects__behavior_subject: behavior_subject,
-    subjects: subjects,
-    src__streams__connectable_stream: connectable_stream,
-    streams: streams,
-    src__rx: rx
+    src__equality: equality
   };
 }));
 
-//# sourceMappingURL=replay_subject.dart.lib.js.map
+//# sourceMappingURL=equality.dart.lib.js.map
