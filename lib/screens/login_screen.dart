@@ -4,6 +4,14 @@ import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'signup_screen.dart';
+import 'package:email_validator/email_validator.dart';
+import '../screens/home_screen.dart';
+
+import '../model/usermodel.dart';
+
+import 'package:provider/provider.dart';
+
+import '../services/auth_user.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -14,33 +22,92 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   Color? themeColor;
+
+  EnumError errorEmail = EnumError.hide;
+  EnumError errorPassword = EnumError.hide;
+
   final email = TextEditingController();
   final password = TextEditingController();
 
-  ScrollController? _scrollController;
-  bool showBackToTopButton = false;
-  int? activeInnerPageIndex;
+  // ScrollController? _scrollController;
+  // bool showBackToTopButton = false;
+  // int? activeInnerPageIndex;
 
-  @override
-  void initState() {
-    super.initState();
-    () async {
-      themeColor = Colors.black;
-      print(themeColor);
-      _scrollController = ScrollController()
-        ..addListener(() {
-          setState(() {
-            showBackToTopButton = (_scrollController!.offset >= 200);
-          });
-        });
-      activeInnerPageIndex = 0;
-    }();
+  String email_validation = "";
+  String password_validation = "";
+  String passwordErrorText = "";
+  String emailErrorText = "";
+
+  bool isPassword(String password) {
+    if (password.length >= 12) {
+      var str = password.trim();
+      if (identical(password, str))
+        return true;
+      else
+        return false;
+    } else
+      return false;
   }
 
-  @override
-  void dispose() {
-    if (_scrollController != null) _scrollController!.dispose();
-    super.dispose();
+  /// Checks the String email, and performs the suitable action accordingly
+  void emailChecking() {
+    if (email_validation?.isNotEmpty ?? false) {
+      final bool isValid = EmailValidator.validate(email_validation);
+      if (isValid == true) {
+        setState(() {
+          errorEmail = EnumError.hide;
+        });
+      } else if (isValid == false) {
+        setState(() {
+          errorEmail = EnumError.show;
+          emailErrorText = "Invalid email";
+        });
+      }
+    } else if (email_validation?.isEmpty ?? true) {
+      setState(
+        () {
+          errorEmail = EnumError.show;
+          emailErrorText = "Required";
+        },
+      );
+    }
+  }
+
+  void passwordChecking() {
+    if (password_validation?.isNotEmpty ?? false) {
+      setState(() {
+        if (isPassword(password_validation))
+          errorPassword = EnumError.hide;
+        else {
+          errorPassword = EnumError.show;
+          passwordErrorText =
+              "Please use at least: 12 characters and no leading spaces";
+        }
+      });
+    } else if (password_validation?.isEmpty ?? true) {
+      setState(
+        () {
+          errorPassword = EnumError.show;
+          passwordErrorText = "Required";
+        },
+      );
+    }
+  }
+
+  login(String token) {
+   
+    final user = Provider.of<MyModel>(context, listen: false);
+    user.authUser();
+    user.setToken(token);
+
+    
+
+     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return HomeScreen(
+        key: kHomeScreenKey,
+      );
+    }));
+  
   }
 
   @override
@@ -68,10 +135,10 @@ class _LoginState extends State<Login> {
         ),
         TextField(
           onChanged: (valueFirstName) {
-            // firstName = valueFirstName;
+            email_validation = valueFirstName;
           },
           decoration: InputDecoration(
-            // errorText: (errorFirstName == EnumError.show) ? "Required" : null,
+            errorText: (errorEmail == EnumError.show) ? "Required" : null,
             labelText: 'Email',
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -91,10 +158,10 @@ class _LoginState extends State<Login> {
         ),
         TextField(
           onChanged: (valueFirstName) {
-            // firstName = valueFirstName;
+            password_validation = valueFirstName;
           },
           decoration: InputDecoration(
-            // errorText: (errorFirstName == EnumError.show) ? "Required" : null,
+            errorText: (errorPassword == EnumError.show) ? "Required" : null,
             labelText: 'Password',
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -115,7 +182,21 @@ class _LoginState extends State<Login> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(onPressed: () {}, child: Text("Login")),
+            TextButton(
+                onPressed: () async {
+                  emailChecking();
+                  passwordChecking();
+                  if (errorEmail == EnumError.hide &&
+                      errorPassword == EnumError.hide) {
+                    var res =
+                        await userLogin(email_validation, password_validation);
+
+                    if (res.data["status"] == "success") {
+                      login(res.data['token']);
+                    }
+                  }
+                },
+                child: Text("Login")),
           ],
         ),
         SizedBox(

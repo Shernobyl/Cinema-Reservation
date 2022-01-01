@@ -44,4 +44,9 @@ class MyModel with ChangeNotifier {
     return _token;
   }
 
+   void authUser() {
+    isAuth = true;
+    notifyListeners();
+  }
+
 }

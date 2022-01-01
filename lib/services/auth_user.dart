@@ -4,7 +4,7 @@ import '../utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 
-userLogin(String email, String password, bool? rememberMe) async {
+userLogin(String email, String password) async {
   final response = await Dio().post(kBaseUrl + '/user/login',
       options: Options(
           validateStatus: (_) {
