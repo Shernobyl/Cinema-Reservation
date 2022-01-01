@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'utils/constants.dart';
 import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,9 +21,11 @@ class MyApp extends StatelessWidget {
             primaryColor: kPrimaryColor,
             scaffoldBackgroundColor: kPrimaryColor,
           ),
-          home: HomeScreen(
-            key: kHomeScreenKey,
-          ),
+          home:
+          Login()
+          //  HomeScreen(
+          //   key: kHomeScreenKey,
+          // ),
         );
       },
     );
