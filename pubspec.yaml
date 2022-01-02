@@ -34,6 +34,9 @@ dependencies:
   fluttertoast: ^8.0.8
   http: ^0.13.3
   path_provider: ^2.0.3
+  email_validator: ^2.0.1
+  dio: ^4.0.4
+  provider: ^6.0.2
 
 dev_dependencies:
   flutter_test:
