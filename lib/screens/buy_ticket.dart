@@ -13,8 +13,10 @@ class BuyTicket extends StatefulWidget {
   final title;
   final List<bool> seats;
   final int screeningRoom;
+  final String movieID;
 
-  const BuyTicket(this.title, this.screeningRoom, this.seats, {Key? key})
+  const BuyTicket(this.title, this.screeningRoom, this.seats, this.movieID,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class _BuyTicketState extends State<BuyTicket> {
   List<int> pickedItems = [];
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
-    await movieModel.reserveSeats(pickedItems);
+    await movieModel.reserveSeats(pickedItems, widget.movieID);
   }
 
   int roomSeats = 4;
@@ -38,6 +40,10 @@ class _BuyTicketState extends State<BuyTicket> {
       pickedItems.add(index);
       price = price + 10;
     }
+  }
+
+  goBack() async {
+    await navi.newScreen(context: context, newScreen: () => HomeScreen());
   }
 
   @override
@@ -239,7 +245,9 @@ class _BuyTicketState extends State<BuyTicket> {
                               index: index + roomSeats,
                               onSelectParam: onSelectParam,
                               isReserved:
-                                  (widget.seats[index] == true) ? true : false,
+                                  (widget.seats[index + roomSeats] == true)
+                                      ? true
+                                      : false,
                             );
                           }),
                     ),
@@ -255,7 +263,10 @@ class _BuyTicketState extends State<BuyTicket> {
                               index: index + 2 * roomSeats,
                               onSelectParam: onSelectParam,
                               isReserved:
-                                  (widget.seats[index] == true) ? true : false,
+                                  (widget.seats[index + (2 * roomSeats)] ==
+                                          true)
+                                      ? true
+                                      : false,
                             );
                           }),
                     ),
@@ -271,7 +282,10 @@ class _BuyTicketState extends State<BuyTicket> {
                               index: index + 3 * roomSeats,
                               onSelectParam: onSelectParam,
                               isReserved:
-                                  (widget.seats[index] == true) ? true : false,
+                                  (widget.seats[index + (3 * roomSeats)] ==
+                                          true)
+                                      ? true
+                                      : false,
                             );
                           }),
                     ),
@@ -286,7 +300,10 @@ class _BuyTicketState extends State<BuyTicket> {
                               index: index + 4 * roomSeats,
                               onSelectParam: onSelectParam,
                               isReserved:
-                                  (widget.seats[index] == true) ? true : false,
+                                  (widget.seats[index + (4 * roomSeats)] ==
+                                          true)
+                                      ? true
+                                      : false,
                             );
                           }),
                     ),
@@ -316,7 +333,8 @@ class _BuyTicketState extends State<BuyTicket> {
                     child: InkWell(
                         onTap: () {
                           loadData();
-                          Navigator.popUntil(context, ModalRoute.withName('/'));
+                          //Navigator.popUntil(context, ModalRoute.withName('/'));
+                          goBack();
                         },
                         child: Text('Pay',
                             style: TextStyle(

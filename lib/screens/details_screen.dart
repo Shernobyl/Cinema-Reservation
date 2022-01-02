@@ -126,7 +126,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     newScreen: () => BuyTicket(
                                         widget.name,
                                         int.parse(widget.screeningRoom),
-                                        widget.seats));
+                                        widget.seats,
+                                        widget.id));
                               },
                             ),
                           ],

@@ -21,9 +21,11 @@ class MovieModel {
   }
 
   Future _postReserveSeat(
-      {required String url, required List<int> seatsReserved}) async {
+      {required String url,
+      required List<int> seatsReserved,
+      required String movieID}) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
-    var data = await networkHelper.postReserveSeat(seatsReserved);
+    var data = await networkHelper.postReserveSeat(seatsReserved, movieID);
     return data;
   }
 
@@ -63,11 +65,12 @@ class MovieModel {
     return Future.value(temp);
   }
 
-  Future<String> reserveSeats(List<int> seatsReserved) async {
+  Future<String> reserveSeats(List<int> seatsReserved, String movieID) async {
     var data = await _postReserveSeat(
         // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
         url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
-        seatsReserved: seatsReserved);
+        seatsReserved: seatsReserved,
+        movieID: movieID);
     return data;
   }
 
