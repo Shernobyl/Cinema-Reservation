@@ -7,7 +7,6 @@ import 'package:email_validator/email_validator.dart';
 import 'dart:convert';
 import '../services/auth_user.dart';
 
-
 enum EnumEmail { valid, invalid }
 enum EnumError { show, hide }
 
@@ -45,9 +44,8 @@ class _signupState extends State<signup> {
   String lastName = "";
   String passwordErrorText = "";
   String emailErrorText = "";
-  String userName="";
-  String role="customer";
-
+  String userName = "";
+  String role = "customer";
 
   bool checkBoxValue = false;
   bool checkBoxRed = false;
@@ -147,7 +145,7 @@ class _signupState extends State<signup> {
     }
   }
 
-   void UserNameChecking() {
+  void UserNameChecking() {
     if (userName?.isNotEmpty ?? false) {
       if (userName.contains(" ")) {
         setState(
@@ -245,7 +243,7 @@ class _signupState extends State<signup> {
           ),
         ),
         SizedBox(
-          height: 2.h,
+          height: 1.h,
         ),
         TextField(
           onChanged: (valueFirstName) {
@@ -268,7 +266,7 @@ class _signupState extends State<signup> {
           ),
         ),
         SizedBox(
-          height: 2.h,
+          height: 1.h,
         ),
         TextField(
           onChanged: (valueFirstName) {
@@ -291,7 +289,7 @@ class _signupState extends State<signup> {
           ),
         ),
         SizedBox(
-          height: 2.h,
+          height: 1.h,
         ),
         TextField(
           onChanged: (valueFirstName) {
@@ -314,7 +312,7 @@ class _signupState extends State<signup> {
           ),
         ),
         SizedBox(
-          height: 2.h,
+          height: 1.h,
         ),
         TextField(
           onChanged: (valueFirstName) {
@@ -337,7 +335,7 @@ class _signupState extends State<signup> {
           ),
         ),
         SizedBox(
-          height: 2.h,
+          height: 1.h,
         ),
         TextField(
           onChanged: (valueFirstName) {
@@ -346,6 +344,29 @@ class _signupState extends State<signup> {
           decoration: InputDecoration(
             errorText: (errorPassword == EnumError.show) ? "Required" : null,
             labelText: 'Password',
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 0.8,
+                color: Color(0xFF212121),
+              ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(4),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 1.h,
+        ),
+        TextField(
+          onChanged: (valueFirstName) {
+            password_validation = valueFirstName;
+          },
+          decoration: InputDecoration(
+            errorText: (errorPassword == EnumError.show) ? "Required" : null,
+            labelText: 'Confirm Password',
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 width: 0.8,
@@ -392,27 +413,20 @@ class _signupState extends State<signup> {
                       errorFirstName == EnumError.hide &&
                       errorLastName == EnumError.hide &&
                       errorPassword == EnumError.hide &&
-                      errorUserName==EnumError.hide
-                      ) {
+                      errorUserName == EnumError.hide) {
+                    if (isChecked) {
+                      role = "manager";
+                    }
 
-                        if (isChecked)
-                        {
-                          role="manager";
-                        }
+                    var res = await signUp(userName, email_validation,
+                        firstName, password_validation, lastName, role);
 
-                        var res=await signUp(userName,email_validation,firstName,password_validation,lastName,role);
+                    if (res.data["status"] == "success") {
+                      Navigator.pop(context);
+                    }
 
-                        if (res.data["status"]=="success"){
-
-                        Navigator.pop(context);
-
-                        }
-
-                        print(res.data["status"]);
-
-
-
-                      }
+                    print(res.data["status"]);
+                  }
                 },
                 child: Text("Sign Up")),
           ],
