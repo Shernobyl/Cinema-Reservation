@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 class User {
   final String id;
   final String userName;
@@ -20,12 +17,14 @@ class User {
   });
 
 User.fromJson(Map<String,dynamic> json):this(
-  id: json['id'] ,
-  userName:json['userName'] as String,
-  firstName:json['firstName'] as String,
-  lastName:json['lastName'] as String,
-  email:json['email'] as String,
-  role:json['role'] as String,
+  role:json["role"] as String,
+  id: json["_id"] ,
+  userName:json["userName"] as String,
+  email:json["email"] as String,
+  firstName:json["firstName"] as String,
+  lastName:json["lastName"] as String,
+  
+  
 );
   
 }

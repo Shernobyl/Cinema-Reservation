@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../utils/constants.dart';
-import 'package:http/http.dart' as http;
+
 
 
 userLogin(String email, String password) async {
@@ -12,7 +12,7 @@ userLogin(String email, String password) async {
           },
           responseType: ResponseType.json),
       data: jsonEncode({
-        "email": email,
+        "info": email,
         "password": password,
       }));
   print(response);

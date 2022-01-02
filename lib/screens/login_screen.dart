@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app_flutter/widgets/beauty_textfield.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:sizer/sizer.dart';
-import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'signup_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import '../screens/home_screen.dart';
+
+import '../services/user_viewmodel.dart';
 
 import '../model/usermodel.dart';
 
@@ -26,65 +26,21 @@ class _LoginState extends State<Login> {
   EnumError errorEmail = EnumError.hide;
   EnumError errorPassword = EnumError.hide;
 
-  final email = TextEditingController();
-  final password = TextEditingController();
-
-  // ScrollController? _scrollController;
-  // bool showBackToTopButton = false;
-  // int? activeInnerPageIndex;
-
-  String email_validation = "";
-  String password_validation = "";
+  String email = "";
+  String password = "";
   String passwordErrorText = "";
   String emailErrorText = "";
+  bool hiddenPassword = true;
 
-  bool isPassword(String password) {
-    if (password.length >= 12) {
-      var str = password.trim();
-      if (identical(password, str))
-        return true;
-      else
-        return false;
-    } else
-      return false;
+void toggleHiddenPassword() {
+    setState(() {
+      hiddenPassword = !hiddenPassword;
+    });
   }
 
-  /// Checks the String email, and performs the suitable action accordingly
-  void emailChecking() {
-    if (email_validation?.isNotEmpty ?? false) {
-      final bool isValid = EmailValidator.validate(email_validation);
-      if (isValid == true) {
-        setState(() {
-          errorEmail = EnumError.hide;
-        });
-      } else if (isValid == false) {
-        setState(() {
-          errorEmail = EnumError.show;
-          emailErrorText = "Invalid email";
-        });
-      }
-    } else if (email_validation?.isEmpty ?? true) {
-      setState(
-        () {
-          errorEmail = EnumError.show;
-          emailErrorText = "Required";
-        },
-      );
-    }
-  }
-
+ /// Checks the String password is not empty
   void passwordChecking() {
-    if (password_validation?.isNotEmpty ?? false) {
-      setState(() {
-        if (isPassword(password_validation))
-          errorPassword = EnumError.hide;
-        else {
-          errorPassword = EnumError.show;
-          passwordErrorText =
-              "Please use at least: 12 characters and no leading spaces";
-        }
-      });
-    } else if (password_validation?.isEmpty ?? true) {
+     if (password?.isEmpty ?? true) {
       setState(
         () {
           errorPassword = EnumError.show;
@@ -94,13 +50,27 @@ class _LoginState extends State<Login> {
     }
   }
 
-  login(String token) {
+  /// Checks the String email is not empty
+  void emailChecking() 
+  {
+    if (email?.isEmpty ?? true)
+    {
+      setState(
+        () {
+          errorEmail = EnumError.show;
+          emailErrorText = "Required";
+        },
+      );
+    }
+  }
+
+  login(String token) async{
    
     final user = Provider.of<MyModel>(context, listen: false);
     user.authUser();
     user.setToken(token);
 
-    
+    userGetdata(context);
 
      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return HomeScreen(
@@ -133,22 +103,25 @@ class _LoginState extends State<Login> {
         SizedBox(
           height: 2.h,
         ),
-        TextField(
-          onChanged: (valueFirstName) {
-            email_validation = valueFirstName;
-          },
-          decoration: InputDecoration(
-            errorText: (errorEmail == EnumError.show) ? "Required" : null,
-            labelText: 'Email',
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                width: 0.8,
-                color: Color(0xFF212121),
+        Container(
+          width: 550,
+          child: TextField(
+            onChanged: (valueEmail) {
+              email = valueEmail;
+            },
+            decoration: InputDecoration(
+              errorText: (errorEmail == EnumError.show) ? emailErrorText : null,
+              labelText: 'Email or User name',
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 0.8,
+                  color: Color(0xFF212121),
+                ),
               ),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(4),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
+                ),
               ),
             ),
           ),
@@ -156,22 +129,36 @@ class _LoginState extends State<Login> {
         SizedBox(
           height: 2.h,
         ),
-        TextField(
-          onChanged: (valueFirstName) {
-            password_validation = valueFirstName;
-          },
-          decoration: InputDecoration(
-            errorText: (errorPassword == EnumError.show) ? "Required" : null,
-            labelText: 'Password',
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                width: 0.8,
-                color: Color(0xFF212121),
+        Container(
+          width: 550,
+          child: TextField(
+            obscureText: hiddenPassword,
+            onChanged: (valuePassword) {
+              password = valuePassword;
+            },
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                    onPressed: () {
+                      toggleHiddenPassword();
+                    },
+                    icon: (hiddenPassword)
+                        ? Icon(
+                            Icons.remove_red_eye_outlined,
+                          )
+                        : Icon(Icons.visibility_off_outlined),
+                  ),
+              errorText: (errorPassword == EnumError.show) ? passwordErrorText : null,
+              labelText: 'Password',
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 0.8,
+                  color: Color(0xFF212121),
+                ),
               ),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(4),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
+                ),
               ),
             ),
           ),
@@ -184,17 +171,25 @@ class _LoginState extends State<Login> {
           children: [
             TextButton(
                 onPressed: () async {
-                  emailChecking();
-                  passwordChecking();
-                  if (errorEmail == EnumError.hide &&
-                      errorPassword == EnumError.hide) {
+                  
                     var res =
-                        await userLogin(email_validation, password_validation);
+                        await userLogin(email, password);
 
-                    if (res.data["status"] == "success") {
+                    if (res.data["status"] == "success") 
+                    {
                       login(res.data['token']);
                     }
-                  }
+                    else
+                    {
+                      setState(() {
+                        emailErrorText = "The email may be incorrect";
+                        passwordErrorText = "The password may be incorrect";
+                        errorEmail = EnumError.show;
+                        errorPassword = EnumError.show;
+                      });
+                    }
+                  emailChecking();
+                  passwordChecking();
                 },
                 child: Text("Login")),
           ],
@@ -218,6 +213,20 @@ class _LoginState extends State<Login> {
                 );
               },
               child: Text(' Sign up here'),
+            ),
+            Text(' or'),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return HomeScreen();
+                    },
+                  ),
+                );
+              },
+              child: Text(' Sign in as a guest'),
             ),
           ],
         ),

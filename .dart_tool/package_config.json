@@ -345,9 +345,9 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.2.7",
+      "rootUri": "file:///C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.13"
+      "languageVersion": "2.12"
     },
     {
       "name": "xdg_directories",
@@ -362,7 +362,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-01-01T20:51:55.300245Z",
+  "generated": "2022-01-02T10:48:18.920278Z",
   "generator": "pub",
   "generatorVersion": "2.15.1"
 }
