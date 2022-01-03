@@ -4,26 +4,52 @@ import 'package:flutter/material.dart';
 import 'package:movies_app_flutter/components/calendar_day.dart';
 import 'package:movies_app_flutter/components/cienma_seat.dart';
 import 'package:movies_app_flutter/components/show_time.dart';
+import 'package:movies_app_flutter/screens/home_screen.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
+import 'package:movies_app_flutter/services/movie.dart';
+import 'package:movies_app_flutter/utils/navi.dart' as navi;
 
 class BuyTicket extends StatefulWidget {
   final title;
-  const BuyTicket(this.title, {Key? key}) : super(key: key);
+  final List<bool> seats;
+  final int screeningRoom;
+  final String movieID;
+
+  const BuyTicket(this.title, this.screeningRoom, this.seats, this.movieID,
+      {Key? key})
+      : super(key: key);
 
   @override
   _BuyTicketState createState() => _BuyTicketState();
 }
 
 class _BuyTicketState extends State<BuyTicket> {
-  String price = '0';
+  int price = 0;
   List<int> pickedItems = [];
+  Future<void> loadData() async {
+    MovieModel movieModel = MovieModel();
+    await movieModel.reserveSeats(pickedItems, widget.movieID);
+  }
 
+  int roomSeats = 4;
   onSelectParam(index) {
     if (pickedItems.contains(index)) {
       pickedItems.remove(index);
+      price = price - 10;
     } else {
       pickedItems.add(index);
+      price = price + 10;
     }
+  }
+
+  goBack() async {
+    await navi.newScreen(context: context, newScreen: () => HomeScreen());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.screeningRoom == 2) roomSeats = 6;
   }
 
   @override
@@ -160,7 +186,10 @@ class _BuyTicketState extends State<BuyTicket> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Vox Cinema', style: kDrawerDescTextStyle),
+                          Text(
+                              'Vox Cinema, Screen Room #' +
+                                  widget.screeningRoom.toString(),
+                              style: kDrawerDescTextStyle),
                           const Text('Mall of Egypt, 6th of October',
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -192,11 +221,14 @@ class _BuyTicketState extends State<BuyTicket> {
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: 5,
+                            itemCount: roomSeats,
                             itemBuilder: (context, index) {
                               return CienmaSeat(
                                 index: index,
                                 onSelectParam: onSelectParam,
+                                isReserved: (widget.seats[index] == true)
+                                    ? true
+                                    : false,
                               );
                             }),
                       ),
@@ -207,11 +239,15 @@ class _BuyTicketState extends State<BuyTicket> {
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemCount: 5,
+                          itemCount: roomSeats,
                           itemBuilder: (context, index) {
                             return CienmaSeat(
-                              index: index + 5,
+                              index: index + roomSeats,
                               onSelectParam: onSelectParam,
+                              isReserved:
+                                  (widget.seats[index + roomSeats] == true)
+                                      ? true
+                                      : false,
                             );
                           }),
                     ),
@@ -220,12 +256,17 @@ class _BuyTicketState extends State<BuyTicket> {
                       height: 50,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 5,
+                          itemCount: roomSeats,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return CienmaSeat(
-                              index: index + 10,
+                              index: index + 2 * roomSeats,
                               onSelectParam: onSelectParam,
+                              isReserved:
+                                  (widget.seats[index + (2 * roomSeats)] ==
+                                          true)
+                                      ? true
+                                      : false,
                             );
                           }),
                     ),
@@ -234,12 +275,35 @@ class _BuyTicketState extends State<BuyTicket> {
                       height: 50,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 5,
+                          itemCount: roomSeats,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return CienmaSeat(
-                              index: index + 15,
+                              index: index + 3 * roomSeats,
                               onSelectParam: onSelectParam,
+                              isReserved:
+                                  (widget.seats[index + (3 * roomSeats)] ==
+                                          true)
+                                      ? true
+                                      : false,
+                            );
+                          }),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: roomSeats,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return CienmaSeat(
+                              index: index + 4 * roomSeats,
+                              onSelectParam: onSelectParam,
+                              isReserved:
+                                  (widget.seats[index + (4 * roomSeats)] ==
+                                          true)
+                                      ? true
+                                      : false,
                             );
                           }),
                     ),
@@ -268,7 +332,9 @@ class _BuyTicketState extends State<BuyTicket> {
                             BorderRadius.only(topLeft: Radius.circular(25.0))),
                     child: InkWell(
                         onTap: () {
-                          print(pickedItems);
+                          loadData();
+                          //Navigator.popUntil(context, ModalRoute.withName('/'));
+                          goBack();
                         },
                         child: Text('Pay',
                             style: TextStyle(
