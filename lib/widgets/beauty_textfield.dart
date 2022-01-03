@@ -19,8 +19,9 @@ class BeautyTextfield extends StatefulWidget {
   final ValueChanged<String> onChanged, onSubmitted;
   final GestureTapCallback onTap;
   final TextEditingController controller;
+  final InputDecoration decoration;
 
-  const BeautyTextfield(
+   BeautyTextfield(
       {required this.width,
       required this.height,
       required this.prefixIcon,
@@ -48,7 +49,11 @@ class BeautyTextfield extends StatefulWidget {
       required this.minLines,
       required this.onChanged,
       required this.onTap,
-      required this.onSubmitted})
+      required this.onSubmitted,
+      this.decoration=const InputDecoration(   hintStyle: TextStyle(color: kBackgroundShadowColor),
+                          hintText: "placeholder",
+                          border: InputBorder.none),
+      })
       : assert(width != null),
         assert(height != null),
         assert(prefixIcon != null),
@@ -92,7 +97,7 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
                   flex: 5,
                   child: Container(
                     margin: EdgeInsets.only(right: 50, top: 3),
-                    child: TextField(
+                    child: TextField(      
                       controller: widget.controller,
                       cursorWidth: 2,
                       obscureText: widget.obscureText,
@@ -130,9 +135,11 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
                       },
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
+
                           hintStyle: TextStyle(color: kBackgroundShadowColor),
                           hintText: widget.placeholder,
-                          border: InputBorder.none),
+                          border: InputBorder.none
+                          ),
                       cursorColor:
                           isFocus ? Colors.white70 : widget.backgroundColor,
                     ),

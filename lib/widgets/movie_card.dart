@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app_flutter/model/movie_preview.dart';
 import 'package:movies_app_flutter/screens/details_screen.dart';
-import 'package:movies_app_flutter/utils/star_calculator.dart'
-    as starCalculator;
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'custom_loading_spin_kit_ring.dart';
@@ -28,6 +26,13 @@ class MovieCard extends StatelessWidget {
             context: context,
             newScreen: () => DetailsScreen(
                   id: moviePreview.id,
+                  name: moviePreview.title,
+                  overview: moviePreview.overview,
+                  startDate: moviePreview.startDate,
+                  endDate: moviePreview.endDate,
+                  imgurl: moviePreview.imageUrl,
+                  seats: moviePreview.seats,
+                  screeningRoom: moviePreview.screeningRoom,
                   themeColor: themeColor,
                 ));
         if (contentLoadedFromPage != null)
@@ -67,7 +72,7 @@ class MovieCard extends StatelessWidget {
                 ),
               ),
               height: 30.h,
-              width: 45.w,
+              width: 41.5.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.w),
                 color: Colors.black,
@@ -97,25 +102,32 @@ class MovieCard extends StatelessWidget {
                             Expanded(
                               child: Wrap(
                                 children: [
-                                  Text("${moviePreview.title} ",
-                                      style: kBoldTitleTextStyle),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 18.0),
+                                    child: Text("${moviePreview.title} ",
+                                        style: kBoldTitleTextStyle),
+                                  ),
                                   Text(
                                       (moviePreview.year == "")
                                           ? ""
-                                          : "(${moviePreview.year})",
-                                      style: kTitleTextStyle),
+                                          : "${moviePreview.year}",
+                                      style: kDateTextStyle),
+                                  Text(
+                                      (moviePreview.startDate == "")
+                                          ? ""
+                                          : "Start Date:${moviePreview.startDate}",
+                                      style: kDateTextStyle),
+                                  Text(
+                                      (moviePreview.endDate == "")
+                                          ? ""
+                                          : "End Date:${moviePreview.endDate}",
+                                      style: kDateTextStyle),
                                 ],
                               ),
                             ),
-                            if (moviePreview.isFavorite)
-                              Icon(
-                                Icons.bookmark_sharp,
-                                size: 15.sp,
-                                color: kInactiveButtonColor,
-                              ),
                           ],
                         ),
-                        SizedBox(height: 1.5.w),
+                        SizedBox(height: 0.0.w),
                         Text(
                           moviePreview.overview,
                           style: kSubTitleCardBoxTextStyle,
