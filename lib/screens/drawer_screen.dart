@@ -5,6 +5,12 @@ import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 
+import 'login_screen.dart';
+
+import '../model/usermodel.dart';
+
+import 'package:provider/provider.dart';
+
 class DrawerScreen extends StatelessWidget {
   final Function(Color) colorChanged;
   DrawerScreen({required this.colorChanged});
@@ -70,6 +76,26 @@ class DrawerScreen extends StatelessWidget {
                 DrawerItem(
                     title: kDrawerTitleThirdText,
                     desc: kDrawerDependenciesDescText),
+                SizedBox(
+                  height: 3.h,
+                ),
+                DrawerItem(
+                  title: "Log out",
+                  child: IconButton(
+                    icon: const Icon(Icons.logout_outlined),
+                    color: Colors.white,
+                    onPressed: () {
+                     
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return Login();
+                      }));
+
+                       Provider.of<MyModel>(context, listen: false).removeAll();
+
+                    },
+                  ),
+                )
               ],
             ),
           ),

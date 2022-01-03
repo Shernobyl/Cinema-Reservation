@@ -49,4 +49,13 @@ class MyModel with ChangeNotifier {
     notifyListeners();
   }
 
+   void removeAll() {
+    _token="";
+    setPerson(User (id:"",email: "",role:"",userName: "",firstName: "",lastName: ""));
+
+
+    // This call tells the widgets that are listening to this model to rebuild.
+    notifyListeners();
+  }
+
 }
