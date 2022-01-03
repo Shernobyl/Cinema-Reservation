@@ -15,23 +15,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MyModel>(
-       create: (context) => MyModel(),
+      create: (context) => MyModel(),
       child: Sizer(
         builder: (context, orientation, deviceType) {
           return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Sizer',
-            theme: ThemeData.dark().copyWith(
-              platform: TargetPlatform.iOS,
-              primaryColor: kPrimaryColor,
-              scaffoldBackgroundColor: kPrimaryColor,
-            ),
-            home:
-            Login()
-            //  HomeScreen(
-            //   key: kHomeScreenKey,
-            // ),
-          );
+              debugShowCheckedModeBanner: false,
+              title: 'Sizer',
+              theme: ThemeData.dark().copyWith(
+                platform: TargetPlatform.iOS,
+                primaryColor: kPrimaryColor,
+                scaffoldBackgroundColor: kPrimaryColor,
+              ),
+              home: Login()
+              //    HomeScreen(
+              //  key: kHomeScreenKey,
+              //),
+              );
         },
       ),
     );

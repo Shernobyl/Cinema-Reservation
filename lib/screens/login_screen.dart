@@ -32,15 +32,15 @@ class _LoginState extends State<Login> {
   String emailErrorText = "";
   bool hiddenPassword = true;
 
-void toggleHiddenPassword() {
+  void toggleHiddenPassword() {
     setState(() {
       hiddenPassword = !hiddenPassword;
     });
   }
 
- /// Checks the String password is not empty
+  /// Checks the String password is not empty
   void passwordChecking() {
-     if (password?.isEmpty ?? true) {
+    if (password?.isEmpty ?? true) {
       setState(
         () {
           errorPassword = EnumError.show;
@@ -51,10 +51,8 @@ void toggleHiddenPassword() {
   }
 
   /// Checks the String email is not empty
-  void emailChecking() 
-  {
-    if (email?.isEmpty ?? true)
-    {
+  void emailChecking() {
+    if (email?.isEmpty ?? true) {
       setState(
         () {
           errorEmail = EnumError.show;
@@ -64,20 +62,23 @@ void toggleHiddenPassword() {
     }
   }
 
-  login(String token) async{
-   
+  login(String token) async {
     final user = Provider.of<MyModel>(context, listen: false);
     user.authUser();
     user.setToken(token);
-
-    userGetdata(context);
-
-     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return HomeScreen(
-        key: kHomeScreenKey,
-      );
-    }));
-  
+    setState(() {
+      userGetdata(context);
+    });
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        // Here you can write your code for open new view
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return HomeScreen(
+            key: kHomeScreenKey,
+          );
+        }));
+      });
+    });
   }
 
   @override
@@ -138,16 +139,17 @@ void toggleHiddenPassword() {
             },
             decoration: InputDecoration(
               suffixIcon: IconButton(
-                    onPressed: () {
-                      toggleHiddenPassword();
-                    },
-                    icon: (hiddenPassword)
-                        ? Icon(
-                            Icons.remove_red_eye_outlined,
-                          )
-                        : Icon(Icons.visibility_off_outlined),
-                  ),
-              errorText: (errorPassword == EnumError.show) ? passwordErrorText : null,
+                onPressed: () {
+                  toggleHiddenPassword();
+                },
+                icon: (hiddenPassword)
+                    ? Icon(
+                        Icons.remove_red_eye_outlined,
+                      )
+                    : Icon(Icons.visibility_off_outlined),
+              ),
+              errorText:
+                  (errorPassword == EnumError.show) ? passwordErrorText : null,
               labelText: 'Password',
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
@@ -171,23 +173,18 @@ void toggleHiddenPassword() {
           children: [
             TextButton(
                 onPressed: () async {
-                  
-                    var res =
-                        await userLogin(email, password);
+                  var res = await userLogin(email, password);
 
-                    if (res.data["status"] == "success") 
-                    {
-                      login(res.data['token']);
-                    }
-                    else
-                    {
-                      setState(() {
-                        emailErrorText = "The email may be incorrect";
-                        passwordErrorText = "The password may be incorrect";
-                        errorEmail = EnumError.show;
-                        errorPassword = EnumError.show;
-                      });
-                    }
+                  if (res.data["status"] == "success") {
+                    login(res.data['token']);
+                  } else {
+                    setState(() {
+                      emailErrorText = "The email may be incorrect";
+                      passwordErrorText = "The password may be incorrect";
+                      errorEmail = EnumError.show;
+                      errorPassword = EnumError.show;
+                    });
+                  }
                   emailChecking();
                   passwordChecking();
                 },

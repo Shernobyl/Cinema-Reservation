@@ -29,6 +29,28 @@ class MovieModel {
     return data;
   }
 
+  Future _postAddMovie({
+    required String url,
+    required String movieTitle,
+    required String movieDate,
+    required String movieImgUrl,
+    required String movieOverview,
+    required String movieStartdate,
+    required String movieEnddate,
+    required int screeningRoom,
+  }) async {
+    NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
+    var data = await networkHelper.postAddMovie(
+        movieTitle,
+        movieDate,
+        movieImgUrl,
+        movieOverview,
+        movieStartdate,
+        movieEnddate,
+        screeningRoom);
+    return data;
+  }
+
   Future<List<MovieCard>> getMovies({
     required MoviePageType moviesType,
     required Color themeColor,
@@ -71,6 +93,28 @@ class MovieModel {
         url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
         seatsReserved: seatsReserved,
         movieID: movieID);
+    return data;
+  }
+
+  Future<String> addMovie(
+    String movieTitle,
+    String movieDate,
+    String movieImgUrl,
+    String movieOverview,
+    String movieStartdate,
+    String movieEnddate,
+    int screeningRoom,
+  ) async {
+    var data = await _postAddMovie(
+        url: 'https://immense-beyond-51451.herokuapp.com/movie/',
+        movieTitle: movieTitle,
+        movieDate: movieDate,
+        movieImgUrl: movieImgUrl,
+        movieOverview: movieOverview,
+        movieStartdate: movieStartdate,
+        movieEnddate: movieEnddate,
+        screeningRoom: screeningRoom);
+
     return data;
   }
 
