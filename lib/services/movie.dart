@@ -37,10 +37,34 @@ class MovieModel {
     required String movieOverview,
     required String movieStartdate,
     required String movieEnddate,
-    required int screeningRoom,
+    required String screeningRoom,
   }) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
     var data = await networkHelper.postAddMovie(
+        movieTitle,
+        movieDate,
+        movieImgUrl,
+        movieOverview,
+        movieStartdate,
+        movieEnddate,
+        screeningRoom);
+    return data;
+  }
+
+  Future _putUpdateMovie({
+    required String url,
+    required String movieID,
+    required String movieTitle,
+    required String movieDate,
+    required String movieImgUrl,
+    required String movieOverview,
+    required String movieStartdate,
+    required String movieEnddate,
+    required String screeningRoom,
+  }) async {
+    NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
+    var data = await networkHelper.putUpdateMovie(
+        movieID,
         movieTitle,
         movieDate,
         movieImgUrl,
@@ -103,10 +127,34 @@ class MovieModel {
     String movieOverview,
     String movieStartdate,
     String movieEnddate,
-    int screeningRoom,
+    String screeningRoom,
   ) async {
     var data = await _postAddMovie(
         url: 'https://immense-beyond-51451.herokuapp.com/movie/',
+        movieTitle: movieTitle,
+        movieDate: movieDate,
+        movieImgUrl: movieImgUrl,
+        movieOverview: movieOverview,
+        movieStartdate: movieStartdate,
+        movieEnddate: movieEnddate,
+        screeningRoom: screeningRoom);
+
+    return data;
+  }
+
+  Future<String> editMovie(
+    String movieID,
+    String movieTitle,
+    String movieDate,
+    String movieImgUrl,
+    String movieOverview,
+    String movieStartdate,
+    String movieEnddate,
+    String screeningRoom,
+  ) async {
+    var data = await _putUpdateMovie(
+        url: 'https://immense-beyond-51451.herokuapp.com/movie/$movieID',
+        movieID: movieID,
         movieTitle: movieTitle,
         movieDate: movieDate,
         movieImgUrl: movieImgUrl,

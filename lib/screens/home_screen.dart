@@ -20,7 +20,6 @@ import 'package:movies_app_flutter/components/red_rounded_action_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 import 'package:provider/provider.dart';
-import '../services/auth_user.dart';
 import '../model/usermodel.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,8 +52,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void getManager() {
     final user = Provider.of<MyModel>(context, listen: false);
-    if (user.getPerson().role == "manager") {
-      isManager = true;
+    if (user.getToken() != null) {
+      if (user.getPerson().role == "manager") {
+        isManager = true;
+      }
     }
     checked = true;
   }
@@ -74,7 +75,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<void> addMovie() async {
     MovieModel movieModel = MovieModel();
     await movieModel.addMovie(movieName.text, movieDate, movieImage.text,
-        movieDescription.text, startDate, endDate, dropdownValue);
+        movieDescription.text, startDate, endDate, dropdownValue.toString());
   }
 
   void pageSwitcher(int index) {

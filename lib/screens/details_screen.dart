@@ -1,16 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:movies_app_flutter/model/movie_details.dart';
-import 'package:movies_app_flutter/services/movie.dart';
+import 'package:http/http.dart';
+import 'package:movies_app_flutter/screens/edit_movie.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/widgets/custom_loading_spin_kit_ring.dart';
 import 'package:sizer/sizer.dart';
-import 'package:movies_app_flutter/utils/file_manager.dart' as file;
-import 'package:movies_app_flutter/utils/toast_alert.dart' as alert;
 import 'package:movies_app_flutter/components/red_rounded_action_button.dart';
 import 'package:movies_app_flutter/screens/buy_ticket.dart';
 import 'package:movies_app_flutter/utils/navi.dart' as navi;
+import 'package:provider/provider.dart';
+import '../services/auth_user.dart';
+import '../model/usermodel.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String id;
@@ -37,11 +38,20 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  bool isFavorite = false;
+  bool isManager = false;
+  void getManager() {
+    final user = Provider.of<MyModel>(context, listen: false);
+    if (user.getToken() != null) {
+      if (user.getPerson().role == "manager") {
+        isManager = true;
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    getManager();
   }
 
   @override
@@ -68,15 +78,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   floating: false,
                   expandedHeight: 22.0.h,
                   actions: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 3.w),
-                      child: IconButton(
-                        onPressed: () {
-                          print('editing');
-                        },
-                        icon: Icon(Icons.edit),
-                      ),
-                    ),
+                    (isManager)
+                        ? Padding(
+                            padding: EdgeInsets.only(right: 3.w),
+                            child: IconButton(
+                              onPressed: () async {
+                                print('editing');
+                                await navi.newScreen(
+                                    context: context,
+                                    newScreen: () => EditMovie(
+                                          name: widget.name,
+                                          screeningRoom:
+                                              int.parse(widget.screeningRoom),
+                                          id: widget.id,
+                                          startDate: widget.startDate,
+                                          endDate: widget.endDate,
+                                          overview: widget.overview,
+                                          imgurl: widget.imgurl,
+                                          themeColor: widget.themeColor,
+                                        ));
+                              },
+                              icon: Icon(Icons.edit),
+                            ),
+                          )
+                        : Container(),
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,

@@ -8,6 +8,8 @@ import 'package:movies_app_flutter/screens/home_screen.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 import 'package:movies_app_flutter/utils/navi.dart' as navi;
+import 'package:provider/provider.dart';
+import '../model/usermodel.dart';
 
 class BuyTicket extends StatefulWidget {
   final title;
@@ -42,6 +44,16 @@ class _BuyTicketState extends State<BuyTicket> {
     }
   }
 
+  bool isCustomer = false;
+  void getCustomer() {
+    final user = Provider.of<MyModel>(context, listen: false);
+    if (user.getToken() != null) {
+      if (user.getPerson().role == "customer") {
+        isCustomer = true;
+      }
+    }
+  }
+
   goBack() async {
     await navi.newScreen(context: context, newScreen: () => HomeScreen());
   }
@@ -49,6 +61,7 @@ class _BuyTicketState extends State<BuyTicket> {
   @override
   void initState() {
     super.initState();
+    getCustomer();
     if (widget.screeningRoom == 2) roomSeats = 6;
   }
 
@@ -330,17 +343,25 @@ class _BuyTicketState extends State<BuyTicket> {
                         color: kActionColor,
                         borderRadius:
                             BorderRadius.only(topLeft: Radius.circular(25.0))),
-                    child: InkWell(
-                        onTap: () {
-                          loadData();
-                          //Navigator.popUntil(context, ModalRoute.withName('/'));
-                          goBack();
-                        },
-                        child: Text('Pay',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.bold))),
+                    child: (isCustomer)
+                        ? InkWell(
+                            onTap: () {
+                              loadData();
+                              //Navigator.popUntil(context, ModalRoute.withName('/'));
+                              goBack();
+                            },
+                            child: Text('Pay',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold)))
+                        : InkWell(
+                            onTap: () {},
+                            child: Text('Login As Customer',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold))),
                   )
                 ],
               )

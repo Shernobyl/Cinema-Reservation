@@ -17,13 +17,15 @@ class MovieCardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //movie_card_container
-      child: Padding(
-        padding: EdgeInsets.only(right: 2.w, left: 2.w),
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: Padding(
-            padding: EdgeInsets.only(top: 1.5.h),
-            child: Wrap(children: movieCards),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(right: 2.w, left: 2.w),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Padding(
+              padding: EdgeInsets.only(top: 1.5.h),
+              child: Wrap(children: movieCards),
+            ),
           ),
         ),
       ),
