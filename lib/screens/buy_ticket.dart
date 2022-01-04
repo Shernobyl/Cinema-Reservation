@@ -27,10 +27,12 @@ class BuyTicket extends StatefulWidget {
 
 class _BuyTicketState extends State<BuyTicket> {
   int price = 0;
+  String? userID = "";
+  String? token = "";
   List<int> pickedItems = [];
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
-    await movieModel.reserveSeats(pickedItems, widget.movieID);
+    await movieModel.reserveSeats(pickedItems, widget.movieID, userID, token);
   }
 
   int roomSeats = 4;
@@ -50,6 +52,8 @@ class _BuyTicketState extends State<BuyTicket> {
     if (user.getToken() != null) {
       if (user.getPerson().role == "customer") {
         isCustomer = true;
+        userID = user.getID();
+        token = user.getToken();
       }
     }
   }

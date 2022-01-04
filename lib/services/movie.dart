@@ -17,24 +17,28 @@ enum MoviePageType {
 }
 
 class MovieModel {
-  Future _getData({required String url}) async {
+  Future _getData({required String url, String? token}) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
-    var data = await networkHelper.getData();
+    var data = await networkHelper.getData(token);
     return data;
   }
 
   Future _postReserveSeat(
       {required String url,
       required List<int> seatsReserved,
-      required String movieID}) async {
+      required String movieID,
+      String? userID,
+      String? token}) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
-    var data = await networkHelper.postReserveSeat(seatsReserved, movieID);
+    var data = await networkHelper.postReserveSeat(
+        seatsReserved, movieID, userID, token);
     return data;
   }
 
-  Future _deleteReservations({required String url, String? movieID}) async {
+  Future _deleteReservations(
+      {required String url, String? movieID, String? token}) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
-    var data = await networkHelper.deleteReservation(movieID);
+    var data = await networkHelper.deleteReservation(movieID, token);
     return data;
   }
 
@@ -42,10 +46,9 @@ class MovieModel {
     List<Reservation> temp = [];
 
     var data = await _getData(
-      // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
-      url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
-    );
-    print("tab aho" + token.toString());
+        // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
+        url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
+        token: token);
     for (var item in data["data"]) {
       temp.add(
         Reservation(
@@ -62,11 +65,12 @@ class MovieModel {
     return Future.value(temp);
   }
 
-  Future<dynamic> deleteReservation(String? movieID, String? ticketID) async {
+  Future<dynamic> deleteReservation(
+      String? movieID, String? ticketID, String? token) async {
     var data = await _deleteReservations(
-      url: 'https://immense-beyond-51451.herokuapp.com/ticket/$ticketID',
-      movieID: movieID,
-    );
+        url: 'https://immense-beyond-51451.herokuapp.com/ticket/$ticketID',
+        movieID: movieID,
+        token: token);
     return data;
   }
 
@@ -128,9 +132,6 @@ class MovieModel {
     );
 
     for (var item in data["data"]) {
-      print(item["title"]);
-      print(item["date"].toString());
-      print(item["_id"]);
       temp.add(
         MovieCard(
           moviePreview: MoviePreview(
@@ -152,12 +153,15 @@ class MovieModel {
     return Future.value(temp);
   }
 
-  Future<String> reserveSeats(List<int> seatsReserved, String movieID) async {
+  Future<String> reserveSeats(List<int> seatsReserved, String movieID,
+      String? userID, String? token) async {
     var data = await _postReserveSeat(
         // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
         url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
         seatsReserved: seatsReserved,
-        movieID: movieID);
+        movieID: movieID,
+        userID: userID,
+        token: token);
     return data;
   }
 

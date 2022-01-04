@@ -59,7 +59,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final user = Provider.of<MyModel>(context, listen: false);
     if (user.getToken() != null) {
       token = user.getToken();
-      print("el token ahe" + token.toString());
+      print("el token ahe " + token.toString());
       if (user.getPerson().role == "manager")
         isManager = true;
       else if (user.getPerson().role == "customer") isCustomer = true;
@@ -70,7 +70,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<void> deleteReservation(
       String movieID, String ticketID, String? token) async {
     MovieModel movieModel = MovieModel();
-    await movieModel.deleteReservation(movieID, ticketID);
+    await movieModel.deleteReservation(movieID, ticketID, token);
   }
 
   Future<void> loadData() async {
@@ -80,7 +80,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       themeColor: themeColor!,
     );
     _userReservations = await movieModel.getUserReservations(token);
-    print(_userReservations);
     setState(() {
       scrollTop.scrollToTop(_scrollController!);
       showBackToTopButton = false;
@@ -208,6 +207,14 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               .id,
                                                           token);
                                                       loadData();
+                                                      print(_userReservations![
+                                                              index]
+                                                          .movieDetails!
+                                                          .id);
+                                                      print(_userReservations![
+                                                              index]
+                                                          .id);
+                                                      print(token);
                                                       pageSwitcher(1);
                                                     },
                                                     child: SizedBox(

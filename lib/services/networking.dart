@@ -5,12 +5,11 @@ class NetworkHelper {
   NetworkHelper(this.url);
   final Uri url;
 
-  Future<dynamic> getData() async {
+  Future<dynamic> getData(String? token) async {
     http.Response response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxY2UyYjZiYTYwNTc0NGU4ODdkNmI1YiIsImlhdCI6MTY0MDkwMTQ4NCwiZXhwIjoxNjQ4Njc3NDg0fQ.4yWnV7Y1lciSXs9hIBvYYFnV3KX0oq9bTrVtPNsQ5Mw',
+      'Authorization': 'Bearer $token',
     });
 
     if (response.statusCode == 200) {
@@ -20,13 +19,12 @@ class NetworkHelper {
     }
   }
 
-  Future<dynamic> deleteReservation(String? movieID) async {
+  Future<dynamic> deleteReservation(String? movieID, String? token) async {
     http.Response response = await http.delete(url,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxY2UyYjZiYTYwNTc0NGU4ODdkNmI1YiIsImlhdCI6MTY0MDkwMTQ4NCwiZXhwIjoxNjQ4Njc3NDg0fQ.4yWnV7Y1lciSXs9hIBvYYFnV3KX0oq9bTrVtPNsQ5Mw',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(<String, dynamic>{
           "id": movieID,
@@ -39,22 +37,21 @@ class NetworkHelper {
     }
   }
 
-  Future<dynamic> postReserveSeat(
-      List<int> seatsReserved, String movieID) async {
+  Future<dynamic> postReserveSeat(List<int> seatsReserved, String movieID,
+      String? userID, String? token) async {
     http.Response response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxY2UyYjZiYTYwNTc0NGU4ODdkNmI1YiIsImlhdCI6MTY0MDkwMTQ4NCwiZXhwIjoxNjQ4Njc3NDg0fQ.4yWnV7Y1lciSXs9hIBvYYFnV3KX0oq9bTrVtPNsQ5Mw',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(<String, dynamic>{
-          "userId": "61c6f53f6268cc489cefb199",
+          "userId": userID,
           "movieId": movieID,
           "seat": seatsReserved,
         }));
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       print("yaaaaaaaaaaaaaaaaaaaay");
       return jsonDecode(response.body);
     } else {
