@@ -363,6 +363,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     placeholder: "Enter Movie Description",
                                     isShadow: false,
                                     obscureText: false,
+                                    decoration:
+                                        InputDecoration(errorText: null),
                                     prefixIcon:
                                         Icon(Icons.description), //REQUIRED
                                     onTap: () {
