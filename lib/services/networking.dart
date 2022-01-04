@@ -6,7 +6,31 @@ class NetworkHelper {
   final Uri url;
 
   Future<dynamic> getData() async {
-    http.Response response = await http.get(url);
+    http.Response response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization':
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxY2UyYjZiYTYwNTc0NGU4ODdkNmI1YiIsImlhdCI6MTY0MDkwMTQ4NCwiZXhwIjoxNjQ4Njc3NDg0fQ.4yWnV7Y1lciSXs9hIBvYYFnV3KX0oq9bTrVtPNsQ5Mw',
+    });
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      print(response.statusCode);
+    }
+  }
+
+  Future<dynamic> deleteReservation(String? movieID) async {
+    http.Response response = await http.delete(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxY2UyYjZiYTYwNTc0NGU4ODdkNmI1YiIsImlhdCI6MTY0MDkwMTQ4NCwiZXhwIjoxNjQ4Njc3NDg0fQ.4yWnV7Y1lciSXs9hIBvYYFnV3KX0oq9bTrVtPNsQ5Mw',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "id": movieID,
+        }));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);

@@ -1,9 +1,12 @@
 import 'package:movies_app_flutter/model/movie_details.dart';
 import 'package:movies_app_flutter/model/movie_preview.dart';
+import 'package:movies_app_flutter/model/user.dart';
 import 'package:movies_app_flutter/secret/themoviedb_api.dart' as secret;
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart';
 import 'package:movies_app_flutter/widgets/movie_card.dart';
+import 'package:movies_app_flutter/model/reservation_details.dart';
+
 import 'package:flutter/material.dart';
 import 'networking.dart';
 
@@ -26,6 +29,44 @@ class MovieModel {
       required String movieID}) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
     var data = await networkHelper.postReserveSeat(seatsReserved, movieID);
+    return data;
+  }
+
+  Future _deleteReservations({required String url, String? movieID}) async {
+    NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
+    var data = await networkHelper.deleteReservation(movieID);
+    return data;
+  }
+
+  Future<List<Reservation>> getUserReservations(String? token) async {
+    List<Reservation> temp = [];
+
+    var data = await _getData(
+      // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
+      url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
+    );
+    print("tab aho" + token.toString());
+    for (var item in data["data"]) {
+      temp.add(
+        Reservation(
+          id: item["_id"],
+          seats: item["seat"].cast<int>(),
+          movieDetails: item["movieId"] != null
+              ? MoviePreview.fromJson(item["movieId"])
+              : null,
+          userDetails:
+              item["userId"] != null ? User.fromJson2(item["userId"]) : null,
+        ),
+      );
+    }
+    return Future.value(temp);
+  }
+
+  Future<dynamic> deleteReservation(String? movieID, String? ticketID) async {
+    var data = await _deleteReservations(
+      url: 'https://immense-beyond-51451.herokuapp.com/ticket/$ticketID',
+      movieID: movieID,
+    );
     return data;
   }
 

@@ -12,11 +12,22 @@ class MoviePreview {
   MoviePreview(
       {required this.id,
       required this.title,
-      required this.imageUrl,
+      this.imageUrl,
       required this.year,
       required this.overview,
       required this.startDate,
       required this.endDate,
       required this.seats,
       required this.screeningRoom});
+
+  MoviePreview.fromJson(Map<String, dynamic> json)
+      : this(
+            id: json["_id"],
+            seats: [],
+            startDate: json["startTime"],
+            endDate: json["endTime"],
+            year: " ",
+            overview: " ",
+            screeningRoom: " ",
+            title: json["title"]);
 }

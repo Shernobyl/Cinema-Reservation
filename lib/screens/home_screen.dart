@@ -1,5 +1,6 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app_flutter/model/reservation_details.dart';
 import 'package:movies_app_flutter/screens/drawer_screen.dart';
 import 'package:movies_app_flutter/screens/finder_screen.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
@@ -33,12 +34,16 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //for scroll upping
   bool isManager = false;
+  bool isCustomer = false;
+  String? token = "";
   bool checked = false;
   ScrollController? _scrollController;
   bool showBackToTopButton = false;
   Color? themeColor;
   int? activeInnerPageIndex;
   List<MovieCard>? _movieCards;
+  List<Reservation>? _userReservations;
+
   bool showSlider = true;
   String title = kHomeScreenTitleText;
   int bottomBarIndex = 1;
@@ -53,19 +58,29 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void getManager() {
     final user = Provider.of<MyModel>(context, listen: false);
     if (user.getToken() != null) {
-      if (user.getPerson().role == "manager") {
+      token = user.getToken();
+      print("el token ahe" + token.toString());
+      if (user.getPerson().role == "manager")
         isManager = true;
-      }
+      else if (user.getPerson().role == "customer") isCustomer = true;
     }
     checked = true;
+  }
+
+  Future<void> deleteReservation(
+      String movieID, String ticketID, String? token) async {
+    MovieModel movieModel = MovieModel();
+    await movieModel.deleteReservation(movieID, ticketID);
   }
 
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
     _movieCards = await movieModel.getMovies(
-        moviesType: MoviePageType.values[activeInnerPageIndex!],
-        themeColor: themeColor!);
-
+      moviesType: MoviePageType.values[activeInnerPageIndex!],
+      themeColor: themeColor!,
+    );
+    _userReservations = await movieModel.getUserReservations(token);
+    print(_userReservations);
     setState(() {
       scrollTop.scrollToTop(_scrollController!);
       showBackToTopButton = false;
@@ -163,259 +178,324 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             themeColor: themeColor!,
                             movieCards: _movieCards!,
                           )
-                    : Center(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              BeautyTextfield(
-                                width: 180.0.w, //REQUIRED
-                                height: 5.h, //REQUIRED
-                                accentColor:
-                                    kBackgroundShadowColor, // On Focus Color
-                                textColor: Colors.white, //Text Color
-                                backgroundColor:
-                                    themeColor!, //Not Focused Color
-                                textBaseline: TextBaseline.alphabetic,
-                                autocorrect: false,
-                                autofocus: false,
-                                enabled: true, // Textfield enabled
-                                focusNode: FocusNode(),
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w200,
-                                maxLength: 50,
-                                minLines: 1,
-                                maxLines: 2,
-                                wordSpacing: 2,
-                                controller: movieName,
-                                margin: EdgeInsets.all(10),
-                                cornerRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                duration: Duration(milliseconds: 300),
-                                inputType: TextInputType.text, //REQUIRED
-                                placeholder: "Enter Movie Name",
-                                isShadow: false,
-                                obscureText: false,
-                                prefixIcon: Icon(
-                                    Icons.movie_creation_outlined), //REQUIRED
-                                onTap: () {
-                                  print('Click');
-                                },
-                                onChanged: (text) {
-                                  print(text);
-                                },
-                                onSubmitted: (data) {
-                                  print(data.length);
-                                },
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              BeautyTextfield(
-                                width: 180.0.w, //REQUIRED
-                                height: 5.h, //REQUIRED
-                                accentColor:
-                                    kBackgroundShadowColor, // On Focus Color
-                                textColor: Colors.white, //Text Color
-                                backgroundColor:
-                                    themeColor!, //Not Focused Color
-                                textBaseline: TextBaseline.alphabetic,
-                                autocorrect: false,
-                                autofocus: false,
-                                enabled: true, // Textfield enabled
-                                focusNode: FocusNode(),
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w200,
-                                maxLength: 100,
-                                minLines: 1,
-                                maxLines: 2,
-                                wordSpacing: 2,
-                                controller: movieImage,
-                                margin: EdgeInsets.all(10),
-                                cornerRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                duration: Duration(milliseconds: 300),
-                                inputType: TextInputType.text, //REQUIRED
-                                placeholder: "Enter Movie Image Link",
-                                isShadow: false,
-                                obscureText: false,
-                                prefixIcon:
-                                    Icon(Icons.image_outlined), //REQUIRED
-                                onTap: () {
-                                  print('Click');
-                                },
-                                onChanged: (text) {
-                                  print(text);
-                                },
-                                onSubmitted: (data) {
-                                  print(data.length);
-                                },
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              BeautyTextfield(
-                                width: 180.0.w, //REQUIRED
-                                height: 8.0.h, //REQUIRED
-                                accentColor:
-                                    kBackgroundShadowColor, // On Focus Color
-                                textColor: Colors.white, //Text Color
-                                backgroundColor:
-                                    themeColor!, //Not Focused Color
-                                textBaseline: TextBaseline.alphabetic,
-                                autocorrect: false,
-                                autofocus: false,
-                                enabled: true, // Textfield enabled
-                                focusNode: FocusNode(),
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w200,
-                                maxLength: 500,
-                                minLines: 1,
-                                maxLines: 8,
-                                wordSpacing: 2,
-                                controller: movieDescription,
-                                margin: EdgeInsets.all(10),
-                                cornerRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                duration: Duration(milliseconds: 300),
-                                inputType: TextInputType.text, //REQUIRED
-                                placeholder: "Enter Movie Description",
-                                isShadow: false,
-                                obscureText: false,
-                                prefixIcon: Icon(Icons.description), //REQUIRED
-                                onTap: () {
-                                  print('Click');
-                                },
-                                onChanged: (text) {
-                                  // print(text);
-                                },
-                                onSubmitted: (data) {
-                                  print(data.length);
-                                },
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              SizedBox(
-                                width: 20.h,
-                                child: DateTimePicker(
-                                  type: DateTimePickerType.date,
-                                  dateMask: 'd MMM, yyyy',
-                                  initialValue: DateTime.now().toString(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2100),
-                                  icon: Icon(Icons.event),
-                                  dateLabelText: 'Movie Date',
-                                  selectableDayPredicate: (date) {
-                                    // Disable weekend days to select from the calendar
-                                    if (date.weekday == 6 ||
-                                        date.weekday == 7) {
-                                      return false;
-                                    }
+                    : (isCustomer)
+                        ? (_userReservations![0].movieDetails != null)
+                            ? Padding(
+                                padding: const EdgeInsets.all(50.0),
+                                child: SizedBox(
+                                  height: 200.h,
+                                  child: Center(
+                                    child: ListView.builder(
+                                      itemCount: _userReservations!.length,
+                                      itemBuilder: (context, index) {
+                                        return (_userReservations![index]
+                                                    .movieDetails !=
+                                                null)
+                                            ? Card(
+                                                //                           <-- Card widget
+                                                child: ListTile(
+                                                  leading: InkWell(
+                                                    splashColor: Colors
+                                                        .red, // Splash color
+                                                    onTap: () {
+                                                      deleteReservation(
+                                                          _userReservations![
+                                                                  index]
+                                                              .movieDetails!
+                                                              .id,
+                                                          _userReservations![
+                                                                  index]
+                                                              .id,
+                                                          token);
+                                                      loadData();
+                                                      pageSwitcher(1);
+                                                    },
+                                                    child: SizedBox(
+                                                      width: 56,
+                                                      height: 56,
+                                                      child: Icon(
+                                                          Icons.delete_forever),
+                                                    ),
+                                                  ),
+                                                  title: Text(
+                                                      _userReservations![index]
+                                                          .movieDetails!
+                                                          .title),
+                                                  subtitle: Text("Start Date:" +
+                                                      _userReservations![index]
+                                                          .movieDetails!
+                                                          .startDate),
+                                                ),
+                                              )
+                                            : Container();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text("No Reservations")
+                        : Center(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  BeautyTextfield(
+                                    width: 180.0.w, //REQUIRED
+                                    height: 5.h, //REQUIRED
+                                    accentColor:
+                                        kBackgroundShadowColor, // On Focus Color
+                                    textColor: Colors.white, //Text Color
+                                    backgroundColor:
+                                        themeColor!, //Not Focused Color
+                                    textBaseline: TextBaseline.alphabetic,
+                                    autocorrect: false,
+                                    autofocus: false,
+                                    enabled: true, // Textfield enabled
+                                    focusNode: FocusNode(),
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w200,
+                                    maxLength: 50,
+                                    minLines: 1,
+                                    maxLines: 2,
+                                    wordSpacing: 2,
+                                    controller: movieName,
+                                    margin: EdgeInsets.all(10),
+                                    cornerRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    duration: Duration(milliseconds: 300),
+                                    inputType: TextInputType.text, //REQUIRED
+                                    placeholder: "Enter Movie Name",
+                                    isShadow: false,
+                                    obscureText: false,
+                                    prefixIcon: Icon(Icons
+                                        .movie_creation_outlined), //REQUIRED
+                                    onTap: () {
+                                      print('Click');
+                                    },
+                                    onChanged: (text) {
+                                      print(text);
+                                    },
+                                    onSubmitted: (data) {
+                                      print(data.length);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  BeautyTextfield(
+                                    width: 180.0.w, //REQUIRED
+                                    height: 5.h, //REQUIRED
+                                    accentColor:
+                                        kBackgroundShadowColor, // On Focus Color
+                                    textColor: Colors.white, //Text Color
+                                    backgroundColor:
+                                        themeColor!, //Not Focused Color
+                                    textBaseline: TextBaseline.alphabetic,
+                                    autocorrect: false,
+                                    autofocus: false,
+                                    enabled: true, // Textfield enabled
+                                    focusNode: FocusNode(),
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w200,
+                                    maxLength: 100,
+                                    minLines: 1,
+                                    maxLines: 2,
+                                    wordSpacing: 2,
+                                    controller: movieImage,
+                                    margin: EdgeInsets.all(10),
+                                    cornerRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    duration: Duration(milliseconds: 300),
+                                    inputType: TextInputType.text, //REQUIRED
+                                    placeholder: "Enter Movie Image Link",
+                                    isShadow: false,
+                                    obscureText: false,
+                                    prefixIcon:
+                                        Icon(Icons.image_outlined), //REQUIRED
+                                    onTap: () {
+                                      print('Click');
+                                    },
+                                    onChanged: (text) {
+                                      print(text);
+                                    },
+                                    onSubmitted: (data) {
+                                      print(data.length);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  BeautyTextfield(
+                                    width: 180.0.w, //REQUIRED
+                                    height: 8.0.h, //REQUIRED
+                                    accentColor:
+                                        kBackgroundShadowColor, // On Focus Color
+                                    textColor: Colors.white, //Text Color
+                                    backgroundColor:
+                                        themeColor!, //Not Focused Color
+                                    textBaseline: TextBaseline.alphabetic,
+                                    autocorrect: false,
+                                    autofocus: false,
+                                    enabled: true, // Textfield enabled
+                                    focusNode: FocusNode(),
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w200,
+                                    maxLength: 500,
+                                    minLines: 1,
+                                    maxLines: 8,
+                                    wordSpacing: 2,
+                                    controller: movieDescription,
+                                    margin: EdgeInsets.all(10),
+                                    cornerRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    duration: Duration(milliseconds: 300),
+                                    inputType: TextInputType.text, //REQUIRED
+                                    placeholder: "Enter Movie Description",
+                                    isShadow: false,
+                                    obscureText: false,
+                                    prefixIcon:
+                                        Icon(Icons.description), //REQUIRED
+                                    onTap: () {
+                                      print('Click');
+                                    },
+                                    onChanged: (text) {
+                                      // print(text);
+                                    },
+                                    onSubmitted: (data) {
+                                      print(data.length);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  SizedBox(
+                                    width: 20.h,
+                                    child: DateTimePicker(
+                                      type: DateTimePickerType.date,
+                                      dateMask: 'd MMM, yyyy',
+                                      initialValue: DateTime.now().toString(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                      icon: Icon(Icons.event),
+                                      dateLabelText: 'Movie Date',
+                                      selectableDayPredicate: (date) {
+                                        // Disable weekend days to select from the calendar
+                                        if (date.weekday == 6 ||
+                                            date.weekday == 7) {
+                                          return false;
+                                        }
 
-                                    return true;
-                                  },
-                                  onChanged: (val) {
-                                    movieDate = val;
-                                    print(movieDate);
-                                  },
-                                  validator: (val) {
-                                    print(val);
-                                    return null;
-                                  },
-                                  onSaved: (val) {},
-                                ),
+                                        return true;
+                                      },
+                                      onChanged: (val) {
+                                        movieDate = val;
+                                        print(movieDate);
+                                      },
+                                      validator: (val) {
+                                        print(val);
+                                        return null;
+                                      },
+                                      onSaved: (val) {},
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  SizedBox(
+                                    width: 20.h,
+                                    child: DateTimePicker(
+                                      type: DateTimePickerType.time,
+                                      initialTime: TimeOfDay.now(),
+                                      icon: Icon(Icons.timelapse),
+                                      timeLabelText: "Start Hour",
+                                      onChanged: (val) {
+                                        DateTime dateToday = new DateTime.now();
+                                        String date = dateToday
+                                            .toString()
+                                            .substring(0, 10);
+                                        startDate = date.toString() +
+                                            "T" +
+                                            val +
+                                            ":00.00Z";
+                                        print(startDate);
+                                      },
+                                      validator: (val) {
+                                        //print(val);
+                                        return null;
+                                      },
+                                      onSaved: (val) {},
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  SizedBox(
+                                    width: 20.h,
+                                    child: DateTimePicker(
+                                      type: DateTimePickerType.time,
+                                      initialTime: TimeOfDay.now(),
+                                      icon: Icon(Icons.timelapse),
+                                      timeLabelText: "End Hour",
+                                      onChanged: (val) {
+                                        DateTime dateToday = new DateTime.now();
+                                        String date = dateToday
+                                            .toString()
+                                            .substring(0, 10);
+                                        endDate = date.toString() +
+                                            "T" +
+                                            val +
+                                            ":00.00Z";
+                                        print(endDate);
+                                      },
+                                      validator: (val) {
+                                        print(val);
+                                        return null;
+                                      },
+                                      onSaved: (val) {},
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Text("Screening Room"),
+                                  DropdownButton<int>(
+                                    value: dropdownValue,
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                    elevation: 16,
+                                    style: const TextStyle(color: Colors.white),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    onChanged: (int? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue!;
+                                      });
+                                    },
+                                    items: <int>[
+                                      1,
+                                      2
+                                    ].map<DropdownMenuItem<int>>((int value) {
+                                      return DropdownMenuItem<int>(
+                                        value: value,
+                                        child: Text(value.toString()),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  RedRoundedActionButton(
+                                    text: 'ADD MOVIE',
+                                    callback: () {
+                                      print(movieDescription.text);
+                                      addMovie();
+                                      pageSwitcher(1);
+                                    },
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              SizedBox(
-                                width: 20.h,
-                                child: DateTimePicker(
-                                  type: DateTimePickerType.time,
-                                  initialTime: TimeOfDay.now(),
-                                  icon: Icon(Icons.timelapse),
-                                  timeLabelText: "Start Hour",
-                                  onChanged: (val) {
-                                    DateTime dateToday = new DateTime.now();
-                                    String date =
-                                        dateToday.toString().substring(0, 10);
-                                    startDate =
-                                        date.toString() + "T" + val + ":00.00Z";
-                                    print(startDate);
-                                  },
-                                  validator: (val) {
-                                    //print(val);
-                                    return null;
-                                  },
-                                  onSaved: (val) {},
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              SizedBox(
-                                width: 20.h,
-                                child: DateTimePicker(
-                                  type: DateTimePickerType.time,
-                                  initialTime: TimeOfDay.now(),
-                                  icon: Icon(Icons.timelapse),
-                                  timeLabelText: "End Hour",
-                                  onChanged: (val) {
-                                    DateTime dateToday = new DateTime.now();
-                                    String date =
-                                        dateToday.toString().substring(0, 10);
-                                    endDate =
-                                        date.toString() + "T" + val + ":00.00Z";
-                                    print(endDate);
-                                  },
-                                  validator: (val) {
-                                    print(val);
-                                    return null;
-                                  },
-                                  onSaved: (val) {},
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              Text("Screening Room"),
-                              DropdownButton<int>(
-                                value: dropdownValue,
-                                icon: const Icon(Icons.arrow_drop_down),
-                                elevation: 16,
-                                style: const TextStyle(color: Colors.white),
-                                underline: Container(
-                                  height: 2,
-                                  color: Colors.deepPurpleAccent,
-                                ),
-                                onChanged: (int? newValue) {
-                                  setState(() {
-                                    dropdownValue = newValue!;
-                                  });
-                                },
-                                items: <int>[1, 2]
-                                    .map<DropdownMenuItem<int>>((int value) {
-                                  return DropdownMenuItem<int>(
-                                    value: value,
-                                    child: Text(value.toString()),
-                                  );
-                                }).toList(),
-                              ),
-                              RedRoundedActionButton(
-                                text: 'ADD MOVIE',
-                                callback: () {
-                                  print(movieDescription.text);
-                                  addMovie();
-                                  pageSwitcher(1);
-                                },
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
             bottomNavigationBar: BottomNavigation(
               activeColor: themeColor!,
               index: bottomBarIndex,
@@ -442,7 +522,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     : BottomNavigationItem(
                         icon: Icon(Icons.reset_tv_rounded),
                         iconSize: 15.sp,
-                        onPressed: () {}),
+                        onPressed: () {
+                          pageSwitcher(2);
+                        }),
               ],
             ),
             drawerEnableOpenDragGesture: false,
