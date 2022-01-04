@@ -8,6 +8,8 @@ import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 import 'package:movies_app_flutter/utils/navi.dart' as navi;
 
+enum EnumError { show, hide }
+
 class EditMovie extends StatefulWidget {
   final String id;
   final String name;
@@ -36,6 +38,21 @@ class EditMovie extends StatefulWidget {
 class _EditMovieState extends State<EditMovie> {
   //for custom drawer opening
   //for scroll upping
+  EnumError errorMovieName = EnumError.hide;
+  EnumError errorMovieImage = EnumError.hide;
+  EnumError errorMovieDescription = EnumError.hide;
+
+  // String movieName = "";
+  // String movieImage = "";
+  // String movieDescription = "";
+
+  // ignore: non_constant_identifier_names
+  String err_movieName = "";
+  // ignore: non_constant_identifier_names
+  String err_movieImage = "";
+  // ignore: non_constant_identifier_names
+  String err_movieDescription = "";
+
   bool isManager = false;
   bool checked = false;
   bool showBackToTopButton = false;
@@ -66,6 +83,85 @@ class _EditMovieState extends State<EditMovie> {
 
   goBack() async {
     await navi.newScreen(context: context, newScreen: () => HomeScreen());
+  }
+
+  void movienameChecking() {
+    if (movieName.text?.isNotEmpty ?? false) {
+      if (movieName.text.startsWith(" ")) {
+        setState(
+          () {
+            errorMovieName = EnumError.show;
+            err_movieName = "Movie name should not start with space";
+          },
+        );
+      } else {
+        setState(
+          () {
+            errorMovieName = EnumError.hide;
+          },
+        );
+      }
+    } else if (movieName.text?.isEmpty ?? true) {
+      setState(
+        () {
+          errorMovieName = EnumError.show;
+          err_movieName = "Required";
+        },
+      );
+    }
+  }
+
+  void movieimageChecking() {
+    if (movieImage.text?.isNotEmpty ?? false) {
+      if (movieImage.text.contains(" ")) {
+        setState(
+          () {
+            errorMovieImage = EnumError.show;
+            err_movieImage = "Movie Image should not include space";
+          },
+        );
+      } else {
+        setState(
+          () {
+            errorMovieImage = EnumError.hide;
+          },
+        );
+      }
+    } else if (movieImage.text?.isEmpty ?? true) {
+      setState(
+        () {
+          errorMovieImage = EnumError.show;
+          err_movieImage = "Required";
+        },
+      );
+    }
+  }
+
+
+    void moviedescChecking() {
+    if (movieDescription.text?.isNotEmpty ?? false) {
+      if (movieDescription.text.startsWith(" ")) {
+        setState(
+          () {
+            errorMovieDescription = EnumError.show;
+            err_movieDescription = "Movie name should not start with space";
+          },
+        );
+      } else {
+        setState(
+          () {
+            errorMovieDescription = EnumError.hide;
+          },
+        );
+      }
+    } else if (movieDescription.text?.isEmpty ?? true) {
+      setState(
+        () {
+          errorMovieDescription = EnumError.show;
+          err_movieDescription = "Required";
+        },
+      );
+    }
   }
 
   @override
@@ -103,6 +199,7 @@ class _EditMovieState extends State<EditMovie> {
                 height: 2.h,
               ),
               BeautyTextfield(
+                decoration: InputDecoration(errorText: (errorMovieName==EnumError.show) ? err_movieName:null),
                 width: 180.0.w, //REQUIRED
                 height: 5.h, //REQUIRED
                 accentColor: kBackgroundShadowColor, // On Focus Color
@@ -142,6 +239,7 @@ class _EditMovieState extends State<EditMovie> {
                 height: 2.h,
               ),
               BeautyTextfield(
+                decoration: InputDecoration(errorText: (errorMovieImage==EnumError.show) ? err_movieImage:null),
                 width: 180.0.w, //REQUIRED
                 height: 5.h, //REQUIRED
                 accentColor: kBackgroundShadowColor, // On Focus Color
@@ -181,6 +279,9 @@ class _EditMovieState extends State<EditMovie> {
                 height: 2.h,
               ),
               BeautyTextfield(
+                
+                decoration: InputDecoration(errorText: (errorMovieDescription==EnumError.show) ? err_movieDescription:null),
+
                 width: 180.0.w, //REQUIRED
                 height: 8.0.h, //REQUIRED
                 accentColor: kBackgroundShadowColor, // On Focus Color
@@ -322,9 +423,17 @@ class _EditMovieState extends State<EditMovie> {
               RedRoundedActionButton(
                 text: 'EDIT MOVIE',
                 callback: () {
-                  print(movieDescription.text);
-                  editMovie();
-                  goBack();
+                  movienameChecking();
+
+                  movieimageChecking();
+
+                  moviedescChecking();
+
+                  if (errorMovieName == EnumError.hide && errorMovieImage==EnumError.hide && errorMovieDescription==EnumError.hide) {
+                    print(movieDescription.text);
+                    editMovie();
+                    goBack();
+                  }
                 },
               ),
             ],

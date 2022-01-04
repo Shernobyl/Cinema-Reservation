@@ -22,6 +22,7 @@ import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 import 'package:provider/provider.dart';
 import '../model/usermodel.dart';
+import 'signup_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -54,6 +55,95 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String startDate = "2021-12-31T09:00:00.00Z";
   String endDate = "2021-12-31T09:00:00.00Z";
   int dropdownValue = 1;
+
+  EnumError errorMovieName = EnumError.hide;
+  EnumError errorMovieImage = EnumError.hide;
+  EnumError errorMovieDescription = EnumError.hide;
+
+  // ignore: non_constant_identifier_names
+  String err_movieName = "";
+  // ignore: non_constant_identifier_names
+  String err_movieImage = "";
+  // ignore: non_constant_identifier_names
+  String err_movieDescription = "";
+
+  void movienameChecking() {
+    if (movieName.text?.isNotEmpty ?? false) {
+      if (movieName.text.startsWith(" ")) {
+        setState(
+          () {
+            errorMovieName = EnumError.show;
+            err_movieName = "Movie name should not start with space";
+          },
+        );
+      } else {
+        setState(
+          () {
+            errorMovieName = EnumError.hide;
+          },
+        );
+      }
+    } else if (movieName.text?.isEmpty ?? true) {
+      setState(
+        () {
+          errorMovieName = EnumError.show;
+          err_movieName = "Required";
+        },
+      );
+    }
+  }
+
+  void movieimageChecking() {
+    if (movieImage.text?.isNotEmpty ?? false) {
+      if (movieImage.text.contains(" ")) {
+        setState(
+          () {
+            errorMovieImage = EnumError.show;
+            err_movieImage = "Movie Image should not include space";
+          },
+        );
+      } else {
+        setState(
+          () {
+            errorMovieImage = EnumError.hide;
+          },
+        );
+      }
+    } else if (movieImage.text?.isEmpty ?? true) {
+      setState(
+        () {
+          errorMovieImage = EnumError.show;
+          err_movieImage = "Required";
+        },
+      );
+    }
+  }
+
+  void moviedescChecking() {
+    if (movieDescription.text?.isNotEmpty ?? false) {
+      if (movieDescription.text.startsWith(" ")) {
+        setState(
+          () {
+            errorMovieDescription = EnumError.show;
+            err_movieDescription = "Movie name should not start with space";
+          },
+        );
+      } else {
+        setState(
+          () {
+            errorMovieDescription = EnumError.hide;
+          },
+        );
+      }
+    } else if (movieDescription.text?.isEmpty ?? true) {
+      setState(
+        () {
+          errorMovieDescription = EnumError.show;
+          err_movieDescription = "Required";
+        },
+      );
+    }
+  }
 
   void getManager() {
     final user = Provider.of<MyModel>(context, listen: false);
@@ -250,6 +340,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     height: 2.h,
                                   ),
                                   BeautyTextfield(
+                                    decoration: InputDecoration(
+                                        errorText:
+                                            (errorMovieName == EnumError.show)
+                                                ? err_movieName
+                                                : null),
+
                                     width: 180.0.w, //REQUIRED
                                     height: 5.h, //REQUIRED
                                     accentColor:
@@ -293,6 +389,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     height: 2.h,
                                   ),
                                   BeautyTextfield(
+                                    decoration: InputDecoration(
+                                        errorText:
+                                            (errorMovieImage == EnumError.show)
+                                                ? err_movieImage
+                                                : null),
+
                                     width: 180.0.w, //REQUIRED
                                     height: 5.h, //REQUIRED
                                     accentColor:
@@ -336,6 +438,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     height: 2.h,
                                   ),
                                   BeautyTextfield(
+                                    decoration: InputDecoration(
+                                        errorText: (errorMovieDescription ==
+                                                EnumError.show)
+                                            ? err_movieDescription
+                                            : null),
+
                                     width: 180.0.w, //REQUIRED
                                     height: 8.0.h, //REQUIRED
                                     accentColor:
@@ -363,8 +471,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     placeholder: "Enter Movie Description",
                                     isShadow: false,
                                     obscureText: false,
-                                    decoration:
-                                        InputDecoration(errorText: null),
                                     prefixIcon:
                                         Icon(Icons.description), //REQUIRED
                                     onTap: () {
@@ -497,9 +603,20 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   RedRoundedActionButton(
                                     text: 'ADD MOVIE',
                                     callback: () {
-                                      print(movieDescription.text);
-                                      addMovie();
-                                      pageSwitcher(1);
+                                      movienameChecking();
+
+                                      movieimageChecking();
+
+                                      moviedescChecking();
+
+                                      if (errorMovieName == EnumError.hide &&
+                                          errorMovieImage == EnumError.hide &&
+                                          errorMovieDescription ==
+                                              EnumError.hide) {
+                                        print(movieDescription.text);
+                                        addMovie();
+                                        pageSwitcher(1);
+                                      }
                                     },
                                   ),
                                 ],
