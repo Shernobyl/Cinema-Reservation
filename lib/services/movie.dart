@@ -46,7 +46,6 @@ class MovieModel {
     List<Reservation> temp = [];
 
     var data = await _getData(
-        // url: '$kThemoviedbURL/$mTypString?api_key=${secret.themoviedbApi}',
         url: 'https://immense-beyond-51451.herokuapp.com/ticket/',
         token: token);
     for (var item in data["data"]) {

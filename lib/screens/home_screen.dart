@@ -75,11 +75,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
+    if (!isManager)
+      _userReservations = await movieModel.getUserReservations(token);
     _movieCards = await movieModel.getMovies(
       moviesType: MoviePageType.values[activeInnerPageIndex!],
       themeColor: themeColor!,
     );
-    _userReservations = await movieModel.getUserReservations(token);
     setState(() {
       scrollTop.scrollToTop(_scrollController!);
       showBackToTopButton = false;
