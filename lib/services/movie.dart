@@ -131,12 +131,13 @@ class MovieModel {
     );
 
     for (var item in data["data"]) {
+      print(item["title"]);
+      print(item["posterImage"]);
       temp.add(
         MovieCard(
           moviePreview: MoviePreview(
             year: item["date"].toString(),
-            imageUrl:
-                "https://lumiere-a.akamaihd.net/v1/images/usa_spider-man_fgt_ironspider_n_2754fed6.jpeg?region=0%2C0%2C634%2C357",
+            imageUrl: item["posterImage"],
             title: item["title"],
             id: item["_id"],
             startDate: item["startTime"],

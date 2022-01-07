@@ -68,7 +68,15 @@ class DrawerScreen extends StatelessWidget {
                 ),
                 DrawerItem(
                   title: kDrawerTitleSecondText,
-                  desc: kDrawerAboutDescText,
+                  desc: Provider.of<MyModel>(context, listen: false)
+                          .getPerson()
+                          .firstName
+                          .toString() +
+                      " " +
+                      Provider.of<MyModel>(context, listen: false)
+                          .getPerson()
+                          .lastName
+                          .toString(),
                 ),
                 SizedBox(
                   height: 3.h,
@@ -85,14 +93,12 @@ class DrawerScreen extends StatelessWidget {
                     icon: const Icon(Icons.logout_outlined),
                     color: Colors.white,
                     onPressed: () {
-                     
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
                         return Login();
                       }));
 
-                       Provider.of<MyModel>(context, listen: false).removeAll();
-
+                      Provider.of<MyModel>(context, listen: false).removeAll();
                     },
                   ),
                 )

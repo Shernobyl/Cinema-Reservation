@@ -41,6 +41,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   ScrollController? _scrollController;
   bool showBackToTopButton = false;
   Color? themeColor;
+  Color borderColor = kBackgroundShadowColor;
+
   int? activeInnerPageIndex;
   List<MovieCard>? _movieCards;
   List<Reservation>? _userReservations;
@@ -66,6 +68,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String err_movieImage = "";
   // ignore: non_constant_identifier_names
   String err_movieDescription = "";
+  String err_movieDate = "";
+
+  bool loaded = false;
 
   void movienameChecking() {
     if (movieName.text?.isNotEmpty ?? false) {
@@ -74,12 +79,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           () {
             errorMovieName = EnumError.show;
             err_movieName = "Movie name should not start with space";
+            borderColor = Colors.red;
           },
         );
       } else {
         setState(
           () {
             errorMovieName = EnumError.hide;
+            borderColor = kBackgroundShadowColor;
+            err_movieName = "";
           },
         );
       }
@@ -88,6 +96,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         () {
           errorMovieName = EnumError.show;
           err_movieName = "Required";
+          borderColor = Colors.red;
         },
       );
     }
@@ -100,12 +109,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           () {
             errorMovieImage = EnumError.show;
             err_movieImage = "Movie Image should not include space";
+            borderColor = Colors.red;
           },
         );
       } else {
         setState(
           () {
             errorMovieImage = EnumError.hide;
+            borderColor = kBackgroundShadowColor;
+            err_movieImage = "";
           },
         );
       }
@@ -114,6 +126,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         () {
           errorMovieImage = EnumError.show;
           err_movieImage = "Required";
+          borderColor = Colors.red;
         },
       );
     }
@@ -126,12 +139,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           () {
             errorMovieDescription = EnumError.show;
             err_movieDescription = "Movie name should not start with space";
+            borderColor = Colors.red;
           },
         );
       } else {
         setState(
           () {
             errorMovieDescription = EnumError.hide;
+            borderColor = kBackgroundShadowColor;
+            err_movieDescription = "";
           },
         );
       }
@@ -140,9 +156,43 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         () {
           errorMovieDescription = EnumError.show;
           err_movieDescription = "Required";
+          borderColor = Colors.red;
         },
       );
     }
+  }
+
+  bool movieDateCheck() {
+    for (MovieCard movie in _movieCards!) {
+      DateTime start_date = DateTime.parse(startDate);
+      DateTime end_date = DateTime.parse(endDate);
+      if (int.parse(movie.moviePreview.screeningRoom) == dropdownValue) {
+        //if they are the same room
+        if (end_date.isBefore(start_date) || //if E     S
+            start_date.isBefore(DateTime.now()) || //if creating in the past
+            (start_date.isAfter(DateTime.parse(
+                    movie.moviePreview.startDate)) && //if S   New_S   E
+                start_date.isBefore(DateTime.parse(
+                    movie.moviePreview.endDate))) || //or if S   New_E    E
+            (end_date.isAfter(DateTime.parse(movie.moviePreview.startDate)) &&
+                end_date.isBefore(DateTime.parse(
+                    movie.moviePreview.endDate))) || //or if S == New_S
+            start_date.isAtSameMomentAs(DateTime.parse(
+                movie.moviePreview.startDate)) || //or if E == New_E
+            end_date
+                .isAtSameMomentAs(DateTime.parse(movie.moviePreview.endDate))) {
+          setState(() {
+            err_movieDate =
+                "Overlapping times in same room, please pick another date or another room";
+          });
+          return false;
+        }
+      }
+    }
+    setState(() {
+      err_movieDate = "";
+    });
+    return true;
   }
 
   void getManager() {
@@ -171,9 +221,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       moviesType: MoviePageType.values[activeInnerPageIndex!],
       themeColor: themeColor!,
     );
+    print(_movieCards);
     setState(() {
       scrollTop.scrollToTop(_scrollController!);
       showBackToTopButton = false;
+      loaded = true;
     });
   }
 
@@ -185,11 +237,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void pageSwitcher(int index) {
     setState(() {
+      loaded = false;
+      loadData();
       bottomBarIndex = (index == 2) ? 2 : 1;
       title = (index == 2) ? kFavoriteScreenTitleText : kHomeScreenTitleText;
       showSlider = !(index == 2);
       _movieCards = null;
-      loadData();
     });
   }
 
@@ -229,7 +282,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return (themeColor == null && checked == false)
+    return (themeColor == null && checked == false && loaded == true)
         ? CustomLoadingSpinKitRing(loadingColor: themeColor)
         : Scaffold(
             key: _scaffoldKey,
@@ -341,10 +394,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ),
                                   BeautyTextfield(
                                     decoration: InputDecoration(
-                                        errorText:
-                                            (errorMovieName == EnumError.show)
-                                                ? err_movieName
-                                                : null),
+                                      errorText:
+                                          (errorMovieName == EnumError.show)
+                                              ? err_movieName
+                                              : null,
+                                    ),
 
                                     width: 180.0.w, //REQUIRED
                                     height: 5.h, //REQUIRED
@@ -387,13 +441,18 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ),
                                   SizedBox(
                                     height: 2.h,
+                                    child: Text(
+                                      err_movieName,
+                                      style: TextStyle(color: Colors.red),
+                                    ),
                                   ),
                                   BeautyTextfield(
                                     decoration: InputDecoration(
-                                        errorText:
-                                            (errorMovieImage == EnumError.show)
-                                                ? err_movieImage
-                                                : null),
+                                      errorText:
+                                          (errorMovieImage == EnumError.show)
+                                              ? err_movieImage
+                                              : null,
+                                    ),
 
                                     width: 180.0.w, //REQUIRED
                                     height: 5.h, //REQUIRED
@@ -409,7 +468,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     focusNode: FocusNode(),
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w200,
-                                    maxLength: 100,
+                                    maxLength: 500,
                                     minLines: 1,
                                     maxLines: 2,
                                     wordSpacing: 2,
@@ -435,14 +494,18 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     },
                                   ),
                                   SizedBox(
-                                    height: 2.h,
-                                  ),
+                                      height: 2.h,
+                                      child: Text(
+                                        err_movieImage,
+                                        style: TextStyle(color: Colors.red),
+                                      )),
                                   BeautyTextfield(
                                     decoration: InputDecoration(
-                                        errorText: (errorMovieDescription ==
-                                                EnumError.show)
-                                            ? err_movieDescription
-                                            : null),
+                                      errorText: (errorMovieDescription ==
+                                              EnumError.show)
+                                          ? err_movieDescription
+                                          : null,
+                                    ),
 
                                     width: 180.0.w, //REQUIRED
                                     height: 8.0.h, //REQUIRED
@@ -484,8 +547,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     },
                                   ),
                                   SizedBox(
-                                    height: 2.h,
-                                  ),
+                                      height: 2.h,
+                                      child: Text(
+                                        err_movieDescription,
+                                        style: TextStyle(color: Colors.red),
+                                      )),
                                   SizedBox(
                                     width: 20.h,
                                     child: DateTimePicker(
@@ -506,7 +572,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         return true;
                                       },
                                       onChanged: (val) {
-                                        movieDate = val;
+                                        setState(() {
+                                          movieDate = val;
+                                        });
                                         print(movieDate);
                                       },
                                       validator: (val) {
@@ -527,8 +595,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       icon: Icon(Icons.timelapse),
                                       timeLabelText: "Start Hour",
                                       onChanged: (val) {
-                                        DateTime dateToday = new DateTime.now();
-                                        String date = dateToday
+                                        String date = movieDate
                                             .toString()
                                             .substring(0, 10);
                                         startDate = date.toString() +
@@ -555,8 +622,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       icon: Icon(Icons.timelapse),
                                       timeLabelText: "End Hour",
                                       onChanged: (val) {
-                                        DateTime dateToday = new DateTime.now();
-                                        String date = dateToday
+                                        String date = movieDate
                                             .toString()
                                             .substring(0, 10);
                                         endDate = date.toString() +
@@ -573,8 +639,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 2.h,
-                                  ),
+                                      height: 2.h,
+                                      child: Text(
+                                        err_movieDate,
+                                        style: TextStyle(color: Colors.red),
+                                      )),
                                   Text("Screening Room"),
                                   DropdownButton<int>(
                                     value: dropdownValue,
@@ -612,7 +681,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       if (errorMovieName == EnumError.hide &&
                                           errorMovieImage == EnumError.hide &&
                                           errorMovieDescription ==
-                                              EnumError.hide) {
+                                              EnumError.hide &&
+                                          movieDateCheck()) {
                                         print(movieDescription.text);
                                         addMovie();
                                         pageSwitcher(1);

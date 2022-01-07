@@ -30,7 +30,9 @@ class MovieCard extends StatelessWidget {
                   overview: moviePreview.overview,
                   startDate: moviePreview.startDate,
                   endDate: moviePreview.endDate,
-                  imgurl: moviePreview.imageUrl,
+                  imgurl: (moviePreview.imageUrl != null)
+                      ? moviePreview.imageUrl
+                      : "https://lumiere-a.akamaihd.net/v1/images/usa_spider-man_fgt_ironspider_n_2754fed6.jpeg?region=0%2C0%2C634%2C357",
                   seats: moviePreview.seats,
                   screeningRoom: moviePreview.screeningRoom,
                   themeColor: themeColor,
@@ -59,7 +61,9 @@ class MovieCard extends StatelessWidget {
                               )
                             ],
                           ),
-                      imageUrl: moviePreview.imageUrl!,
+                      imageUrl: (moviePreview.imageUrl != null)
+                          ? moviePreview.imageUrl!
+                          : "https://lumiere-a.akamaihd.net/v1/images/usa_spider-man_fgt_ironspider_n_2754fed6.jpeg?region=0%2C0%2C634%2C357",
                       errorWidget: (context, url, error) => Column(
                             children: [
                               Container(
@@ -72,7 +76,7 @@ class MovieCard extends StatelessWidget {
                 ),
               ),
               height: 30.h,
-              width: 41.5.w,
+              width: 44.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.w),
                 color: Colors.black,
@@ -100,27 +104,26 @@ class MovieCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              child: Wrap(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 18.0),
-                                    child: Text("${moviePreview.title} ",
-                                        style: kBoldTitleTextStyle),
-                                  ),
+                                  Text("${moviePreview.title} ",
+                                      style: kBoldTitleTextStyle),
                                   Text(
                                       (moviePreview.year == "")
                                           ? ""
-                                          : "${moviePreview.year}",
+                                          : "Year: ${moviePreview.year.substring(0, 10)}",
                                       style: kDateTextStyle),
                                   Text(
                                       (moviePreview.startDate == "")
                                           ? ""
-                                          : "Start Date:${moviePreview.startDate}",
+                                          : "Start Time: ${moviePreview.startDate.substring(11, 19)}",
                                       style: kDateTextStyle),
                                   Text(
                                       (moviePreview.endDate == "")
                                           ? ""
-                                          : "End Date:${moviePreview.endDate}",
+                                          : "End Time: ${moviePreview.endDate.substring(11, 19)}",
                                       style: kDateTextStyle),
                                 ],
                               ),

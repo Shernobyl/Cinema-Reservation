@@ -136,10 +136,10 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
                       },
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
-                          errorText: null,
-                          hintStyle: TextStyle(color: kBackgroundShadowColor),
-                          hintText: widget.placeholder,
-                          border: InputBorder.none),
+                        errorText: null,
+                        hintStyle: TextStyle(color: kBackgroundShadowColor),
+                        hintText: widget.placeholder,
+                      ),
                       cursorColor:
                           isFocus ? Colors.white70 : widget.backgroundColor,
                     ),

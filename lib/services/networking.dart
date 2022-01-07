@@ -52,7 +52,7 @@ class NetworkHelper {
         }));
 
     if (response.statusCode == 201) {
-      print("yaaaaaaaaaaaaaaaaaaaay");
+      print("Seat reserved");
       return jsonDecode(response.body);
     } else {
       print(response.statusCode);
@@ -84,8 +84,8 @@ class NetworkHelper {
           "overview": movieOverview,
         }));
 
-    if (response.statusCode == 200) {
-      print("yaaaaaaaaaaaaaaaaaaaay");
+    if (response.statusCode == 201) {
+      print("Movie Created Successfuly");
       return jsonDecode(response.body);
     } else {
       print(response.statusCode);
