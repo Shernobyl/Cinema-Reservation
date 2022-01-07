@@ -28,6 +28,7 @@ class MoviePreview {
             endDate: json["endTime"],
             year: " ",
             overview: " ",
+            imageUrl:json["posterImage"],
             screeningRoom: " ",
             title: json["title"]);
 }
