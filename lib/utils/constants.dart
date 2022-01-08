@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 
 final GlobalKey<HomeScreenState> kHomeScreenKey = GlobalKey();
 
-const kBaseUrl="https://immense-beyond-51451.herokuapp.com";
+const kBaseUrl = "https://immense-beyond-51451.herokuapp.com";
 const kThemoviedbURL = "https://api.themoviedb.org/3/movie";
 const kThemoviedbSearchURL = "https://api.themoviedb.org/3/search/movie";
 const kThemoviedbImageURL = "https://image.tmdb.org/t/p/w300";
@@ -20,6 +20,8 @@ const kStoryLineTitleText = "Storyline";
 const kSplashScreenTitleText = "loading..";
 const kFinderScreenTitleText = "Finder";
 const kFavoriteScreenTitleText = "Add a Movie";
+const kFavoriteScreenTitleText2 = "Your Reservations";
+
 const kDrawerTitleFirstText = "THEME";
 const kDrawerTitleSecondText = "ABOUT";
 const kDrawerTitleThirdText = "DEPENDENCIES";

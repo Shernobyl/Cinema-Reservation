@@ -245,7 +245,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     setState(() {
       loaded = false;
       bottomBarIndex = (index == 2) ? 2 : 1;
-      title = (index == 2) ? kFavoriteScreenTitleText : kHomeScreenTitleText;
+      title = (index == 2)
+          ? (isCustomer)
+              ? kFavoriteScreenTitleText2
+              : kFavoriteScreenTitleText
+          : kHomeScreenTitleText;
       showSlider = !(index == 2);
       _movieCards = null;
       loadData();
