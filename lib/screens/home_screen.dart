@@ -40,10 +40,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool checked = false;
   ScrollController? _scrollController;
   bool showBackToTopButton = false;
-  Color? themeColor;
   Color borderColor = kBackgroundShadowColor;
 
   int? activeInnerPageIndex;
+  Color? themeColor;
   List<MovieCard>? _movieCards;
   List<Reservation>? _userReservations;
 
@@ -215,10 +215,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
-    if (!isManager)
+    if (isCustomer)
       _userReservations = await movieModel.getUserReservations(token);
     _movieCards = await movieModel.getMovies(
-      moviesType: MoviePageType.values[activeInnerPageIndex!],
       themeColor: themeColor!,
     );
     print(_movieCards);
@@ -231,18 +230,25 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> addMovie() async {
     MovieModel movieModel = MovieModel();
-    await movieModel.addMovie(movieName.text, movieDate, movieImage.text,
-        movieDescription.text, startDate, endDate, dropdownValue.toString());
+    await movieModel.addMovie(
+        movieName.text,
+        movieDate,
+        movieImage.text,
+        movieDescription.text,
+        startDate,
+        endDate,
+        dropdownValue.toString(),
+        token.toString());
   }
 
   void pageSwitcher(int index) {
     setState(() {
       loaded = false;
-      loadData();
       bottomBarIndex = (index == 2) ? 2 : 1;
       title = (index == 2) ? kFavoriteScreenTitleText : kHomeScreenTitleText;
       showSlider = !(index == 2);
       _movieCards = null;
+      loadData();
     });
   }
 
@@ -322,7 +328,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             movieCards: _movieCards!,
                           )
                     : (isCustomer)
-                        ? (_userReservations![0].movieDetails != null)
+                        ? (_userReservations!.length != 0)
                             ? Padding(
                                 padding: const EdgeInsets.all(50.0),
                                 child: SizedBox(
@@ -563,11 +569,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       icon: Icon(Icons.event),
                                       dateLabelText: 'Movie Date',
                                       selectableDayPredicate: (date) {
-                                        // Disable weekend days to select from the calendar
-                                        if (date.weekday == 6 ||
-                                            date.weekday == 7) {
-                                          return false;
-                                        }
+                                        // // Disable weekend days to select from the calendar
+                                        // if (date.weekday == 6 ||
+                                        //     date.weekday == 7) {
+                                        //   return false;
+                                        // }
 
                                         return true;
                                       },
@@ -657,6 +663,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     onChanged: (int? newValue) {
                                       setState(() {
                                         dropdownValue = newValue!;
+                                        print(dropdownValue);
                                       });
                                     },
                                     items: <int>[
@@ -685,7 +692,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           movieDateCheck()) {
                                         print(movieDescription.text);
                                         addMovie();
-                                        pageSwitcher(1);
+                                        loadData();
+                                        Future.delayed(
+                                            const Duration(milliseconds: 1300),
+                                            () {
+                                          setState(() {
+                                            // Here you can write your code for open new view
+                                            pageSwitcher(1);
+                                          });
+                                        });
                                       }
                                     },
                                   ),

@@ -5,19 +5,23 @@ import 'package:movies_app_flutter/components/calendar_day.dart';
 import 'package:movies_app_flutter/components/cienma_seat.dart';
 import 'package:movies_app_flutter/components/show_time.dart';
 import 'package:movies_app_flutter/screens/home_screen.dart';
+import 'package:movies_app_flutter/screens/payout.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 import 'package:movies_app_flutter/utils/navi.dart' as navi;
 import 'package:provider/provider.dart';
 import '../model/usermodel.dart';
+import 'package:intl/intl.dart';
 
 class BuyTicket extends StatefulWidget {
   final title;
   final List<bool> seats;
   final int screeningRoom;
   final String movieID;
+  final String startDate;
 
-  const BuyTicket(this.title, this.screeningRoom, this.seats, this.movieID,
+  const BuyTicket(
+      this.title, this.screeningRoom, this.seats, this.movieID, this.startDate,
       {Key? key})
       : super(key: key);
 
@@ -29,6 +33,7 @@ class _BuyTicketState extends State<BuyTicket> {
   int price = 0;
   String? userID = "";
   String? token = "";
+  DateTime date = DateTime.now();
   List<int> pickedItems = [];
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
@@ -59,13 +64,21 @@ class _BuyTicketState extends State<BuyTicket> {
   }
 
   goBack() async {
-    await navi.newScreen(context: context, newScreen: () => HomeScreen());
+    await navi.newScreen(
+        context: context,
+        newScreen: () => PayoutScreen(
+            pickedItems: pickedItems,
+            movieID: widget.movieID,
+            userID: userID.toString(),
+            token: token.toString(),
+            price: price));
   }
 
   @override
   void initState() {
     super.initState();
     getCustomer();
+    date = DateTime.parse(widget.startDate);
     if (widget.screeningRoom == 2) roomSeats = 6;
   }
 
@@ -125,27 +138,35 @@ class _BuyTicketState extends State<BuyTicket> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: const <Widget>[
+                        children: <Widget>[
                           CalendarDay(
-                            dayNumber: '9',
-                            dayAbbreviation: 'TH',
-                          ),
-                          CalendarDay(
-                            dayNumber: '10',
-                            dayAbbreviation: 'FR',
-                          ),
-                          CalendarDay(
-                            dayNumber: '11',
-                            dayAbbreviation: 'SA',
-                          ),
-                          CalendarDay(
-                            dayNumber: '12',
-                            dayAbbreviation: 'SU',
+                            dayNumber: DateFormat('d').format(date),
+                            dayAbbreviation: DateFormat('E').format(date),
                             isActive: true,
                           ),
                           CalendarDay(
-                            dayNumber: '13',
-                            dayAbbreviation: 'MO',
+                            dayNumber: DateFormat('d')
+                                .format(date.add(Duration(days: 1))),
+                            dayAbbreviation: DateFormat('E')
+                                .format(date.add(Duration(days: 1))),
+                          ),
+                          CalendarDay(
+                            dayNumber: DateFormat('d')
+                                .format(date.add(Duration(days: 2))),
+                            dayAbbreviation: DateFormat('E')
+                                .format(date.add(Duration(days: 2))),
+                          ),
+                          CalendarDay(
+                            dayNumber: DateFormat('d')
+                                .format(date.add(Duration(days: 3))),
+                            dayAbbreviation: DateFormat('E')
+                                .format(date.add(Duration(days: 3))),
+                          ),
+                          CalendarDay(
+                            dayNumber: DateFormat('d')
+                                .format(date.add(Duration(days: 4))),
+                            dayAbbreviation: DateFormat('E')
+                                .format(date.add(Duration(days: 4))),
                           ),
                         ],
                       ),
@@ -160,27 +181,7 @@ class _BuyTicketState extends State<BuyTicket> {
                   child: Row(
                     children: <Widget>[
                       ShowTime(
-                        time: '11:00',
-                        price: 5,
-                        isActive: false,
-                      ),
-                      ShowTime(
-                        time: '12:30',
-                        price: 10,
-                        isActive: true,
-                      ),
-                      ShowTime(
-                        time: '12:30',
-                        price: 10,
-                        isActive: false,
-                      ),
-                      ShowTime(
-                        time: '12:30',
-                        price: 10,
-                        isActive: false,
-                      ),
-                      ShowTime(
-                        time: '12:30',
+                        time: DateFormat('jm').format(DateTime.now()),
                         price: 10,
                         isActive: false,
                       ),
@@ -333,7 +334,7 @@ class _BuyTicketState extends State<BuyTicket> {
                   Padding(
                     padding: EdgeInsets.only(left: 25.0),
                     child: Text(
-                      '$price',
+                      '',
                       style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -350,9 +351,9 @@ class _BuyTicketState extends State<BuyTicket> {
                     child: (isCustomer)
                         ? InkWell(
                             onTap: () {
-                              loadData();
+                              // loadData();
                               //Navigator.popUntil(context, ModalRoute.withName('/'));
-                              goBack();
+                              if (price > 0) goBack();
                             },
                             child: Text('Pay',
                                 style: TextStyle(

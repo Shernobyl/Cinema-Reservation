@@ -10,12 +10,6 @@ import 'package:movies_app_flutter/model/reservation_details.dart';
 import 'package:flutter/material.dart';
 import 'networking.dart';
 
-enum MoviePageType {
-  popular,
-  upcoming,
-  top_rated,
-}
-
 class MovieModel {
   Future _getData({required String url, String? token}) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
@@ -73,16 +67,16 @@ class MovieModel {
     return data;
   }
 
-  Future _postAddMovie({
-    required String url,
-    required String movieTitle,
-    required String movieDate,
-    required String movieImgUrl,
-    required String movieOverview,
-    required String movieStartdate,
-    required String movieEnddate,
-    required String screeningRoom,
-  }) async {
+  Future _postAddMovie(
+      {required String url,
+      required String movieTitle,
+      required String movieDate,
+      required String movieImgUrl,
+      required String movieOverview,
+      required String movieStartdate,
+      required String movieEnddate,
+      required String screeningRoom,
+      required String token}) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
     var data = await networkHelper.postAddMovie(
         movieTitle,
@@ -91,7 +85,8 @@ class MovieModel {
         movieOverview,
         movieStartdate,
         movieEnddate,
-        screeningRoom);
+        screeningRoom,
+        token);
     return data;
   }
 
@@ -105,6 +100,7 @@ class MovieModel {
     required String movieStartdate,
     required String movieEnddate,
     required String screeningRoom,
+    required String token,
   }) async {
     NetworkHelper networkHelper = NetworkHelper(Uri.parse(url));
     var data = await networkHelper.putUpdateMovie(
@@ -115,12 +111,12 @@ class MovieModel {
         movieOverview,
         movieStartdate,
         movieEnddate,
-        screeningRoom);
+        screeningRoom,
+        token);
     return data;
   }
 
   Future<List<MovieCard>> getMovies({
-    required MoviePageType moviesType,
     required Color themeColor,
   }) async {
     List<MovieCard> temp = [];
@@ -166,14 +162,14 @@ class MovieModel {
   }
 
   Future<String> addMovie(
-    String movieTitle,
-    String movieDate,
-    String movieImgUrl,
-    String movieOverview,
-    String movieStartdate,
-    String movieEnddate,
-    String screeningRoom,
-  ) async {
+      String movieTitle,
+      String movieDate,
+      String movieImgUrl,
+      String movieOverview,
+      String movieStartdate,
+      String movieEnddate,
+      String screeningRoom,
+      String token) async {
     var data = await _postAddMovie(
         url: 'https://immense-beyond-51451.herokuapp.com/movie/',
         movieTitle: movieTitle,
@@ -182,21 +178,22 @@ class MovieModel {
         movieOverview: movieOverview,
         movieStartdate: movieStartdate,
         movieEnddate: movieEnddate,
-        screeningRoom: screeningRoom);
+        screeningRoom: screeningRoom,
+        token: token);
 
     return data;
   }
 
   Future<String> editMovie(
-    String movieID,
-    String movieTitle,
-    String movieDate,
-    String movieImgUrl,
-    String movieOverview,
-    String movieStartdate,
-    String movieEnddate,
-    String screeningRoom,
-  ) async {
+      String movieID,
+      String movieTitle,
+      String movieDate,
+      String movieImgUrl,
+      String movieOverview,
+      String movieStartdate,
+      String movieEnddate,
+      String screeningRoom,
+      String token) async {
     var data = await _putUpdateMovie(
         url: 'https://immense-beyond-51451.herokuapp.com/movie/$movieID',
         movieID: movieID,
@@ -206,7 +203,8 @@ class MovieModel {
         movieOverview: movieOverview,
         movieStartdate: movieStartdate,
         movieEnddate: movieEnddate,
-        screeningRoom: screeningRoom);
+        screeningRoom: screeningRoom,
+        token: token);
 
     return data;
   }

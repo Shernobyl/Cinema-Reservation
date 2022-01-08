@@ -66,13 +66,13 @@ class NetworkHelper {
       String movieOverview,
       String movieStartdate,
       String movieEnddate,
-      String screeningRoom) async {
+      String screeningRoom,
+      String token) async {
     http.Response response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZDJmOTU3NzYzZGYwMTY3YzMxM2MyOSIsImlhdCI6MTY0MTIyMTkzMCwiZXhwIjoxNjQ4OTk3OTMwfQ.VqVnfbCoA6KKJLHc8CFoaj7bSQZvmhz4PTb6d7iYlCA',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(<String, dynamic>{
           "posterImage": movieImgUrl,
@@ -100,13 +100,13 @@ class NetworkHelper {
       String movieOverview,
       String movieStartdate,
       String movieEnddate,
-      String screeningRoom) async {
+      String screeningRoom,
+      String token) async {
     http.Response response = await http.patch(url,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZDJmOTU3NzYzZGYwMTY3YzMxM2MyOSIsImlhdCI6MTY0MTIyMTkzMCwiZXhwIjoxNjQ4OTk3OTMwfQ.VqVnfbCoA6KKJLHc8CFoaj7bSQZvmhz4PTb6d7iYlCA',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(<String, dynamic>{
           "id": movieID,

@@ -76,7 +76,7 @@ class MovieCard extends StatelessWidget {
                 ),
               ),
               height: 30.h,
-              width: 44.w,
+              width: 41.5.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.w),
                 color: Colors.black,

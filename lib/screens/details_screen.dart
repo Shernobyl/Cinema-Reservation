@@ -39,9 +39,11 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   bool isManager = false;
+  String token = "";
   void getManager() {
     final user = Provider.of<MyModel>(context, listen: false);
     if (user.getToken() != null) {
+      token = user.getToken().toString();
       if (user.getPerson().role == "manager") {
         isManager = true;
       }
@@ -96,6 +98,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                           overview: widget.overview,
                                           imgurl: widget.imgurl,
                                           themeColor: widget.themeColor,
+                                          token: token,
                                         ));
                               },
                               icon: Icon(Icons.edit),
@@ -152,7 +155,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         widget.name,
                                         int.parse(widget.screeningRoom),
                                         widget.seats,
-                                        widget.id));
+                                        widget.id,
+                                        widget.startDate));
                               },
                             ),
                           ],
@@ -179,7 +183,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.h),
                         child: Text(
-                          "Start Time: " + widget.startDate.toString(),
+                          "Start Time: " + widget.startDate.substring(11, 16),
                           style: TextStyle(
                               fontSize: 16.sp, color: Color(0xFFC9C9C9)),
                         ),
@@ -187,7 +191,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.h),
                         child: Text(
-                          "End Time: " + widget.endDate.toString(),
+                          "End Time: " + widget.endDate.substring(11, 16),
                           style: TextStyle(
                               fontSize: 16.sp, color: Color(0xFFC9C9C9)),
                         ),

@@ -69,7 +69,7 @@ class _LoginState extends State<Login> {
     setState(() {
       userGetdata(context);
     });
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       setState(() {
         // Here you can write your code for open new view
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
